@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | Sweety Masala</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#fff8ed;
+    color:#333;
+    min-height:100vh;
+}
+
+header{
+    background:#8b0000;
+    color:white;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+header h1{
+    font-size:24px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:15px;
+}
+
+.login-box{
+    max-width:430px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.login-box h2{
+    text-align:center;
+    color:#8b0000;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:16px;
+}
+
+.btn{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:#8b0000;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#a50000;
+}
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.dashboard{
+    display:none;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+    text-align:center;
+}
+
+.stat-box h3{
+    color:#8b0000;
+    margin-bottom:8px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+}
+
+.box h2{
+    color:#8b0000;
+    margin-bottom:18px;
+}
+
+.product-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.product-info{
+    flex:1;
+}
+
+.product-name{
+    font-weight:bold;
+    font-size:17px;
+}
+
+.product-id{
+    color:#666;
+    margin-top:4px;
+    font-size:13px;
+}
+
+.stock-btn{
+    min-width:140px;
+    padding:10px;
+    border:none;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.in-stock{
+    background:#d8f5dc;
+    color:#16752b;
+}
+
+.out-stock{
+    background:#ffdede;
+    color:#a00000;
+}
+
+.price-editor{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:9px;
+    flex-wrap:wrap;
+}
+
+.price-input{
+    width:120px;
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+}
+
+.price-save-btn{
+    padding:9px 12px;
+    border:none;
+    border-radius:7px;
+    background:#8b0000;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.price-save-btn:hover{
+    background:#a50000;
+}
+
+.current-price{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.logout-btn{
+    padding:9px 14px;
+    border:none;
+    border-radius:7px;
+    background:#f4b400;
+    color:#222;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.home-btn{
+    display:block;
+    padding:10px 15px;
+    background:#555;
+    color:white;
+    text-decoration:none;
+    border-radius:7px;
+    text-align:center;
+}
+
+.order-item{
+    padding:18px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-item:last-child{
+    border-bottom:none;
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.order-id{
+    font-weight:bold;
+    color:#8b0000;
+    word-break:break-all;
+}
+
+.order-date{
+    color:#666;
+    font-size:13px;
+}
+
+.customer-box{
+    background:#fff8ed;
+    padding:12px;
+    border-radius:8px;
+    margin-top:12px;
+    line-height:1.7;
+}
+
+.order-products{
+    margin-top:12px;
+    background:#f8f8f8;
+    padding:12px;
+    border-radius:8px;
+}
+
+.order-product{
+    padding:7px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-product:last-child{
+    border-bottom:none;
+}
+
+.order-total{
+    margin-top:12px;
+    font-size:18px;
+    font-weight:bold;
+    color:#8b0000;
+}
+
+.status-box{
+    margin-top:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.status-label{
+    font-weight:bold;
+}
+
+.status-select{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+    min-width:180px;
+    background:white;
+}
+
+.status-save-btn{
+    padding:10px 14px;
+    border:none;
+    border-radius:7px;
+    background:#16852d;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.status-save-btn:hover{
+    background:#126b24;
+}
+
+.status-message{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.no-orders{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+.size-editor{
+    margin-top:12px;
+    padding:12px;
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    border-radius:9px;
+}
+
+.size-title{
+    font-weight:bold;
+    color:#8b0000;
+    margin-bottom:8px;
+}
+
+.size-add-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.size-input{
+    flex:1;
+    min-width:170px;
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.size-add-btn,
+.size-save-btn{
+    border:none;
+    border-radius:7px;
+    padding:9px 12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.size-add-btn{
+    background:#16852d;
+    color:white;
+}
+
+.size-save-btn{
+    background:#f4b400;
+    color:#222;
+    margin-top:8px;
+}
+
+.size-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+
+.size-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:18px;
+    padding:6px 9px;
+    font-size:13px;
+}
+
+.size-remove-btn{
+    border:0;
+    background:#d00000;
+    color:white;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.size-help{
+    color:#666;
+    font-size:12px;
+    margin-top:7px;
+}
+
+.refresh-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#555;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+.refresh-btn:hover{
+    background:#333;
+}
+
+@media(max-width:700px){
+
+    header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .product-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .stock-btn{
+        width:100%;
+    }
+
+    .price-editor{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .price-input{
+        width:100%;
+    }
+
+    .price-save-btn{
+        width:100%;
+    }
+
+    .size-add-row{
+        flex-direction:column;
+    }
+
+    .size-input{
+        width:100%;
+    }
+
+    .size-add-btn{
+        width:100%;
+    }
+
+    .status-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .status-select{
+        width:100%;
+    }
+
+    .status-save-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ADMIN LOGIN
+===================================================== -->
+
+<div id="loginSection">
+
+    <div class="login-box">
+
+        <div style="text-align:center;font-size:45px;">
+            🌶️
+        </div>
+
+        <h2>
+            Sweety Masala
+            <br>
+            Admin Panel
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Admin Email
+            </label>
+
+            <input
+                type="email"
+                id="adminEmail"
+                value="sapnasingh79304@gmail.com"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Firebase password"
+            >
+
+        </div>
+
+
+        <button
+            class="btn"
+            id="adminLoginButton"
+            type="button"
+        >
+            🔐 Admin Login
+        </button>
+
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
+
+        <a
+            href="index.html"
+            class="home-btn"
+            style="margin-top:20px;"
+        >
+            ← Website par wapas
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div
+    id="dashboard"
+    class="dashboard"
+>
+
+
+<header>
+
+    <div>
+
+        <h1>
+            🌶️ Sweety Masala
+        </h1>
+
+        <div>
+            Admin Panel
+        </div>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        id="logoutButton"
+        type="button"
+    >
+        🚪 Logout
+    </button>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+
+        <div class="stat-box">
+
+            <h3>
+                Products
+            </h3>
+
+            <div
+                class="stat-number"
+                id="totalProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <h3>
+                In Stock
+            </h3>
+
+            <div
+                class="stat-number"
+                id="inStockProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <h3>
+                Out of Stock
+            </h3>
+
+            <div
+                class="stat-number"
+                id="outStockProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- PRODUCT MANAGEMENT -->
+
+    <div class="box">
+
+        <h2>
+            📦 Product Stock & Price Management
+        </h2>
+
+
+        <button
+            id="refreshProductsButton"
+            class="refresh-btn"
+            type="button"
+        >
+            🔄 Refresh Products
+        </button>
+
+
+        <div id="productList"></div>
+
+    </div>
+
+
+
+    <!-- ORDERS -->
+
+    <div class="box">
+
+        <h2>
+            🛒 Customer Orders
+        </h2>
+
+
+        <button
+            id="refreshOrdersButton"
+            class="refresh-btn"
+            type="button"
+        >
+            🔄 Refresh Orders
+        </button>
+
+
+        <div id="ordersList">
+
+            <div class="no-orders">
+                Orders yahan dikhenge.
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <a
+        href="index.html"
+        class="home-btn"
+    >
+        🏠 Website Open Karein
+    </a>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+
+/* =====================================================
+   IMPORT FIREBASE APP
+===================================================== */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+
+/* =====================================================
+   FIREBASE AUTH
+===================================================== */
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
+/* =====================================================
+   FIRESTORE
+===================================================== */
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
+};
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+const app =
+initializeApp(
+    firebaseConfig
+);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+
+/* =====================================================
+   ADMIN EMAIL
+===================================================== */
+
+const ADMIN_EMAIL =
+"sapnasingh79304@gmail.com";
+
+
+
+/* =====================================================
+   PRODUCT LIST
+===================================================== */
+
+const products = [
+
+    {
+        id:"haldi",
+        name:"Haldi Powder"
+    },
+
+    {
+        id:"dhaniya",
+        name:"Dhaniya Powder"
+    },
+
+    {
+        id:"lal-mirch",
+        name:"Lal Mirch Powder"
+    },
+
+    {
+        id:"sattu",
+        name:"Chana Sattu"
+    },
+
+    {
+        id:"besan",
+        name:"Chana Besan"
+    },
+
+    {
+        id:"mix-masala",
+        name:"Mix Masala"
+    },
+
+    {
+        id:"sabji-masala",
+        name:"Sabji Masala"
+    },
+
+    {
+        id:"kali-mirch-powder",
+        name:"Kali Mirch Powder"
+    },
+
+    {
+        id:"jeera-powder",
+        name:"Jeera Powder"
+    },
+
+    {
+        id:"garam-masala",
+        name:"Garam Masala"
+    },
+
+    {
+        id:"chicken-masala",
+        name:"Chicken Masala"
+    },
+
+    {
+        id:"chat-masala",
+        name:"Chat Masala"
+    },
+
+    {
+        id:"machali-masala",
+        name:"Machali Masala"
+    },
+
+    {
+        id:"meat-masala",
+        name:"Meat Masala"
+    },
+
+    {
+        id:"aamchur-powder",
+        name:"Aamchur Powder"
+    },
+
+    {
+        id:"hing",
+        name:"Hing"
+    },
+
+    {
+        id:"chhola-masala",
+        name:"Chhola Masala"
+    },
+
+    {
+        id:"pav-bhaji-masala",
+        name:"Pav Bhaji Masala"
+    },
+
+    {
+        id:"sambhar-masala",
+        name:"Sambhar Masala"
+    },
+
+    {
+        id:"kasuri-methi",
+        name:"Kasuri Methi"
+    },
+
+    {
+        id:"biryani-masala",
+        name:"Biryani Masala"
+    },
+
+    {
+        id:"kashmiri-lal-mirch",
+        name:"Kashmiri Lal Mirch"
+    },
+
+    {
+        id:"kala-namak-powder",
+        name:"Kala Namak Powder"
+    },
+
+    {
+        id:"sendha-namak-powder",
+        name:"Sendha Namak Powder"
+    },
+
+    {
+        id:"lahsun-powder",
+        name:"Lahsun Powder"
+    },
+
+    {
+        id:"payz-powder",
+        name:"Payz Powder"
+    },
+
+    {
+        id:"maggi-masala-powder",
+        name:"Maggi Masala Powder"
+    },
+
+    {
+        id:"tandoori-masala-powder",
+        name:"Tandoori Masala Powder"
+    },
+
+    {
+        id:"jaljeer-powder",
+        name:"Jaljeer Powder"
+    },
+
+    {
+        id:"mix-aata",
+        name:"Mix Aata"
+    },
+
+    {
+        id:"ragi-aata",
+        name:"Ragi Aata"
+    },
+
+    {
+        id:"makka-aata",
+        name:"Makka Aata"
+    },
+
+    {
+        id:"jowar-aata",
+        name:"Jowar Aata"
+    },
+
+    {
+        id:"bajara-aata",
+        name:"Bajara Aata"
+    },
+
+    {
+        id:"jo-aata",
+        name:"Jo Aata"
+    },
+
+    {
+        id:"gehun-aata",
+        name:"Gehun Aata"
+    },
+
+    {
+        id:"makka-sattu",
+        name:"Makka Sattu"
+    },
+
+    {
+        id:"jeera",
+        name:"Jeera"
+    },
+
+    {
+        id:"shah-jeera",
+        name:"Shah Jeera"
+    },
+
+    {
+        id:"laung",
+        name:"Laung"
+    },
+
+    {
+        id:"badi-elaichi",
+        name:"Badi Elaichi"
+    },
+
+    {
+        id:"chhoti-elaichi",
+        name:"Chhoti Elaichi"
+    },
+
+    {
+        id:"dalchini",
+        name:"Dalchini"
+    },
+
+    {
+        id:"kali-mirch",
+        name:"Kali Mirch"
+    },
+
+    {
+        id:"safed-mirch",
+        name:"Safed Mirch"
+    },
+
+    {
+        id:"tejpatta",
+        name:"Tejpatta"
+    },
+
+    {
+        id:"chakraphool",
+        name:"Chakraphool"
+    },
+
+    {
+        id:"javitri",
+        name:"Javitri"
+    },
+
+    {
+        id:"jaiphal",
+        name:"Jaiphal"
+    },
+
+    {
+        id:"kabab-chini",
+        name:"Kabab Chini"
+    },
+
+    {
+        id:"sabut-dhaniya",
+        name:"Sabut Dhaniya"
+    },
+
+    {
+        id:"sabut-lal-mirch",
+        name:"Sabut Lal Mirch"
+    },
+
+    {
+        id:"rai",
+        name:"Rai"
+    },
+
+    {
+        id:"pili-sarson",
+        name:"Pili Sarson"
+    },
+
+    {
+        id:"methi-dana",
+        name:"Methi Dana"
+    },
+
+    {
+        id:"saunf",
+        name:"Saunf"
+    },
+
+    {
+        id:"ajwain",
+        name:"Ajwain"
+    },
+
+    {
+        id:"kalonji",
+        name:"Kalonji"
+    },
+
+    {
+        id:"dagad-phool",
+        name:"Dagad Phool"
+    },
+
+    {
+        id:"anardana",
+        name:"Anardana"
+    },
+
+    {
+        id:"nagkesar",
+        name:"Nagkesar"
+    }
+
+];
+
+
+
+/* =====================================================
+   ORDER STATUS
+===================================================== */
+
+const ORDER_STATUSES = [
+
+    "New",
+
+    "Accepted",
+
+    "Preparing",
+
+    "Shipped",
+
+    "Delivered",
+
+    "Cancelled"
+
+];
+
+
+
+/* =====================================================
+   DEFAULT SIZES
+===================================================== */
+
+function getDefaultSizes(
+    productId
+){
+
+    const largeIds = [
+
+        "haldi",
+
+        "dhaniya",
+
+        "lal-mirch",
+
+        "sattu",
+
+        "besan"
+
+    ];
+
+
+    if(
+        largeIds.includes(
+            productId
+        )
+    ){
+
+        return [
+
+            "1 KG",
+
+            "5 KG",
+
+            "10 KG",
+
+            "15 KG",
+
+            "20 KG",
+
+            "25 KG",
+
+            "30 KG"
+
+        ];
+
+    }
+
+
+    return [
+
+        "250 GM",
+
+        "500 GM",
+
+        "1 KG"
+
+    ];
+
+}
+
+
+
+/* =====================================================
+   NORMALIZE SIZES
+===================================================== */
+
+function normalizeSizes(
+    value,
+    productId
+){
+
+    if(
+        Array.isArray(value) &&
+        value.length
+    ){
+
+        return value
+
+            .map(
+                function(size){
+
+                    return String(
+                        size
+                    ).trim();
+
+                }
+            )
+
+            .filter(
+                Boolean
+            );
+
+    }
+
+
+    return getDefaultSizes(
+        productId
+    );
+
+}
+
+
+
+/* =====================================================
+   RENDER SIZE LIST
+===================================================== */
+
+function renderSizeList(
+    container,
+    sizes
+){
+
+    container.innerHTML =
+    "";
+
+
+    if(
+        !sizes.length
+    ){
+
+        container.innerHTML =
+        '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+
+        return;
+
+    }
+
+
+    sizes.forEach(
+        function(
+            size,
+            index
+        ){
+
+            const chip =
+            document.createElement(
+                "span"
+            );
+
+
+            chip.className =
+            "size-chip";
+
+
+            const text =
+            document.createElement(
+                "span"
+            );
+
+
+            text.textContent =
+            size;
+
+
+            const remove =
+            document.createElement(
+                "button"
+            );
+
+
+            remove.type =
+            "button";
+
+
+            remove.className =
+            "size-remove-btn";
+
+
+            remove.textContent =
+            "×";
+
+
+            remove.title =
+            "Remove " +
+            size;
+
+
+            remove.addEventListener(
+                "click",
+                function(){
+
+                    sizes.splice(
+                        index,
+                        1
+                    );
+
+
+                    renderSizeList(
+                        container,
+                        sizes
+                    );
+
+                }
+            );
+
+
+            chip.appendChild(
+                text
+            );
+
+
+            chip.appendChild(
+                remove
+            );
+
+
+            container.appendChild(
+                chip
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+.getElementById(
+    "adminLoginButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        const password =
+        document
+        .getElementById(
+            "adminPassword"
+        )
+        .value;
+
+
+        const message =
+        document
+        .getElementById(
+            "loginMessage"
+        );
+
+
+        if(
+            !password
+        ){
+
+            message.textContent =
+            "Password likhein.";
+
+            message.style.color =
+            "#a00000";
+
+            return;
+
+        }
+
+
+        try{
+
+            await signInWithEmailAndPassword(
+
+                auth,
+
+                ADMIN_EMAIL,
+
+                password
+
+            );
+
+
+            message.textContent =
+            "✅ Login successful!";
+
+
+            message.style.color =
+            "#16752b";
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            message.textContent =
+            getErrorMessage(
+                error.code
+            );
+
+
+            message.style.color =
+            "#a00000";
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   ENTER KEY LOGIN
+===================================================== */
+
+document
+.getElementById(
+    "adminPassword"
+)
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key ===
+            "Enter"
+        ){
+
+            document
+            .getElementById(
+                "adminLoginButton"
+            )
+            .click();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(
+
+            user &&
+
+            user.email &&
+
+            user.email.toLowerCase() ===
+            ADMIN_EMAIL.toLowerCase()
+
+        ){
+
+            document
+            .getElementById(
+                "loginSection"
+            )
+            .style.display =
+            "none";
+
+
+            document
+            .getElementById(
+                "dashboard"
+            )
+            .style.display =
+            "block";
+
+
+            loadProducts();
+
+            loadOrders();
+
+        }
+
+        else{
+
+            document
+            .getElementById(
+                "loginSection"
+            )
+            .style.display =
+            "block";
+
+
+            document
+            .getElementById(
+                "dashboard"
+            )
+            .style.display =
+            "none";
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+async function loadProducts(){
+
+    const list =
+    document.getElementById(
+        "productList"
+    );
+
+
+    list.innerHTML =
+    "<p style='text-align:center;'>⏳ Products loading...</p>";
+
+
+    let inStock =
+    0;
+
+
+    let outStock =
+    0;
+
+
+    for(
+        const product of products
+    ){
+
+        let stock =
+        true;
+
+
+        let productData =
+        null;
+
+
+        try{
+
+            const snap =
+            await getDoc(
+
+                doc(
+                    db,
+                    "products",
+                    product.id
+                )
+
+            );
+
+
+            if(
+                snap.exists()
+            ){
+
+                productData =
+                snap.data();
+
+
+                stock =
+                productData.inStock !== false;
+
+            }
+
+        }
+
+        catch(error){
+
+            console.error(
+                "Product read error:",
+                error
+            );
+
+        }
+
+
+        if(
+            stock
+        ){
+
+            inStock++;
+
+        }
+
+        else{
+
+            outStock++;
+
+        }
+
+    }
+
+
+
+    /* ==============================================
+       RESET LIST
+    ============================================== */
+
+    list.innerHTML =
+    "";
+
+
+
+    /* ==============================================
+       RENDER PRODUCTS
+    ============================================== */
+
+    for(
+        const product of products
+    ){
+
+        let stock =
+        true;
+
+
+        let data =
+        null;
+
+
+        try{
+
+            const snap =
+            await getDoc(
+
+                doc(
+                    db,
+                    "products",
+                    product.id
+                )
+
+            );
+
+
+            if(
+                snap.exists()
+            ){
+
+                data =
+                snap.data();
+
+
+                stock =
+                data.inStock !== false;
+
+            }
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+
+
+
+        const row =
+        document.createElement(
+            "div"
+        );
+
+
+        row.className =
+        "product-row";
+
+
+
+        row.innerHTML = `
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    ${product.name}
+                </div>
+
+                <div class="product-id">
+                    Product ID: ${product.id}
+                </div>
+
+
+                <div class="price-editor">
+
+                    <span class="current-price">
+
+                        Current Price: ₹
+
+                        <span class="price-value">
+                            Loading...
+                        </span>
+
+                    </span>
+
+
+                    <input
+                        type="number"
+                        class="price-input"
+                        min="0"
+                        step="1"
+                        placeholder="New price"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="price-save-btn"
+                    >
+                        💾 Save Price
+                    </button>
+
+                </div>
+
+
+
+                <div class="size-editor">
+
+                    <div class="size-title">
+                        📦 Product Sizes
+                    </div>
+
+
+                    <div class="size-add-row">
+
+                        <input
+                            type="text"
+                            class="size-input"
+                            placeholder="Example: 750 GM"
+                        >
+
+
+                        <button
+                            type="button"
+                            class="size-add-btn"
+                        >
+                            ➕ Add Size
+                        </button>
+
+                    </div>
+
+
+                    <div class="size-list">
+
+                        <span style="color:#777;font-size:13px;">
+                            Sizes loading...
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="size-save-btn"
+                    >
+                        💾 Save Sizes
+                    </button>
+
+
+                    <div class="size-help">
+                        Size add/remove karke Save Sizes dabayein.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="stock-btn
+                ${stock ? "in-stock" : "out-stock"}"
+            >
+
+                ${
+                    stock
+                    ? "✅ In Stock"
+                    : "❌ Out of Stock"
+                }
+
+            </button>
+
+        `;
+
+
+
+        /* ==============================================
+           ELEMENTS
+        ============================================== */
+
+        const priceValue =
+        row.querySelector(
+            ".price-value"
+        );
+
+
+        const priceInput =
+        row.querySelector(
+            ".price-input"
+        );
+
+
+        const priceSaveButton =
+        row.querySelector(
+            ".price-save-btn"
+        );
+
+
+        const sizeInput =
+        row.querySelector(
+            ".size-input"
+        );
+
+
+        const sizeAddButton =
+        row.querySelector(
+            ".size-add-btn"
+        );
+
+
+        const sizeSaveButton =
+        row.querySelector(
+            ".size-save-btn"
+        );
+
+
+        const sizeList =
+        row.querySelector(
+            ".size-list"
+        );
+
+
+        const stockButton =
+        row.querySelector(
+            ".stock-btn"
+        );
+
+
+
+        /* ==============================================
+           CURRENT PRICE
+        ============================================== */
+
+        if(
+            data &&
+            data.price !== undefined &&
+            data.price !== null
+        ){
+
+            const currentPrice =
+            Number(
+                data.price
+            );
+
+
+            if(
+                Number.isFinite(
+                    currentPrice
+                )
+            ){
+
+                priceValue.textContent =
+                Math.round(
+                    currentPrice
+                );
+
+            }
+
+            else{
+
+                priceValue.textContent =
+                "Not set";
+
+            }
+
+        }
+
+        else{
+
+            priceValue.textContent =
+            "Not set";
+
+        }
+
+
+
+        /* ==============================================
+           SIZES
+        ============================================== */
+
+        let productSizes =
+        normalizeSizes(
+
+            data
+            ? data.sizes
+            : null,
+
+            product.id
+
+        );
+
+
+        renderSizeList(
+            sizeList,
+            productSizes
+        );
+
+
+
+        /* ==============================================
+           ADD SIZE
+        ============================================== */
+
+        sizeAddButton.addEventListener(
+            "click",
+            function(){
+
+                const value =
+                sizeInput.value.trim();
+
+
+                if(
+                    !value
+                ){
+
+                    alert(
+                        "Pehle size likhein. Example: 750 GM"
+                    );
+
+                    return;
+
+                }
+
+
+                const duplicate =
+                productSizes.some(
+                    function(size){
+
+                        return (
+
+                            size.toLowerCase() ===
+                            value.toLowerCase()
+
+                        );
+
+                    }
+                );
+
+
+                if(
+                    duplicate
+                ){
+
+                    alert(
+                        "Ye size already added hai."
+                    );
+
+                    return;
+
+                }
+
+
+                productSizes.push(
+                    value
+                );
+
+
+                sizeInput.value =
+                "";
+
+
+                renderSizeList(
+                    sizeList,
+                    productSizes
+                );
+
+            }
+        );
+
+
+
+        /* ==============================================
+           ENTER = ADD SIZE
+        ============================================== */
+
+        sizeInput.addEventListener(
+            "keydown",
+            function(event){
+
+                if(
+                    event.key ===
+                    "Enter"
+                ){
+
+                    event.preventDefault();
+
+                    sizeAddButton.click();
+
+                }
+
+            }
+        );
+
+
+
+        /* ==============================================
+           SAVE SIZES
+        ============================================== */
+
+        sizeSaveButton.addEventListener(
+            "click",
+            async function(){
+
+                if(
+                    !productSizes.length
+                ){
+
+                    alert(
+                        "Kam se kam ek size hona chahiye."
+                    );
+
+                    return;
+
+                }
+
+
+                sizeSaveButton.disabled =
+                true;
+
+
+                sizeSaveButton.textContent =
+                "⏳ Saving...";
+
+
+                try{
+
+                    await setDoc(
+
+                        doc(
+                            db,
+                            "products",
+                            product.id
+                        ),
+
+                        {
+
+                            name:
+                            product.name,
+
+                            sizes:
+                            productSizes
+
+                        },
+
+                        {
+
+                            merge:true
+
+                        }
+
+                    );
+
+
+                    alert(
+
+                        "✅ " +
+                        product.name +
+                        " ke sizes successfully save ho gaye."
+
+                    );
+
+                }
+
+                catch(error){
+
+                    console.error(
+                        "Size update error:",
+                        error
+                    );
+
+
+                    alert(
+                        "❌ Size save nahi hua. Firebase Firestore Rules check karein."
+                    );
+
+                }
+
+
+                sizeSaveButton.disabled =
+                false;
+
+
+                sizeSaveButton.textContent =
+                "💾 Save Sizes";
+
+            }
+        );
+
+
+
+        /* ==============================================
+           SAVE PRICE
+        ============================================== */
+
+        priceSaveButton.addEventListener(
+            "click",
+            async function(){
+
+                const newPrice =
+                Number(
+                    priceInput.value
+                );
+
+
+                if(
+                    !Number.isFinite(
+                        newPrice
+                    ) ||
+                    newPrice < 0
+                ){
+
+                    alert(
+                        "Please valid price likhein."
+                    );
+
+                    return;
+
+                }
+
+
+                priceSaveButton.disabled =
+                true;
+
+
+                priceSaveButton.textContent =
+                "⏳ Saving...";
+
+
+                try{
+
+                    await setDoc(
+
+                        doc(
+                            db,
+                            "products",
+                            product.id
+                        ),
+
+                        {
+
+                            name:
+                            product.name,
+
+                            price:
+                            newPrice
+
+                        },
+
+                        {
+
+                            merge:true
+
+                        }
+
+                    );
+
+
+                    priceValue.textContent =
+                    Math.round(
+                        newPrice
+                    );
+
+
+                    priceInput.value =
+                    "";
+
+
+                    alert(
+                        "✅ Price successfully update ho gaya."
+                    );
+
+                }
+
+                catch(error){
+
+                    console.error(
+                        "Price update error:",
+                        error
+                    );
+
+
+                    alert(
+                        "❌ Price update nahi hua. Firebase Firestore Rules check karein."
+                    );
+
+                }
+
+
+                priceSaveButton.disabled =
+                false;
+
+
+                priceSaveButton.textContent =
+                "💾 Save Price";
+
+            }
+        );
+
+
+
+        /* ==============================================
+           STOCK
+        ============================================== */
+
+        stockButton.addEventListener(
+            "click",
+            async function(){
+
+                await toggleStock(
+
+                    product,
+
+                    !stock
+
+                );
+
+            }
+        );
+
+
+
+        list.appendChild(
+            row
+        );
+
+    }
+
+
+
+    /* ==============================================
+       STATISTICS
+    ============================================== */
+
+    document
+    .getElementById(
+        "totalProducts"
+    )
+    .textContent =
+    products.length;
+
+
+    document
+    .getElementById(
+        "inStockProducts"
+    )
+    .textContent =
+    inStock;
+
+
+    document
+    .getElementById(
+        "outStockProducts"
+    )
+    .textContent =
+    outStock;
+
+}
+
+
+
+/* =====================================================
+   TOGGLE STOCK
+===================================================== */
+
+async function toggleStock(
+    product,
+    newStock
+){
+
+    try{
+
+        await setDoc(
+
+            doc(
+                db,
+                "products",
+                product.id
+            ),
+
+            {
+
+                name:
+                product.name,
+
+                inStock:
+                newStock
+
+            },
+
+            {
+
+                merge:true
+
+            }
+
+        );
+
+
+        await loadProducts();
+
+
+        alert(
+
+            newStock
+
+            ? "✅ " +
+              product.name +
+              " In Stock ho gaya."
+
+            : "❌ " +
+              product.name +
+              " Out of Stock ho gaya."
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Stock update error:",
+            error
+        );
+
+
+        alert(
+            "❌ Stock update nahi hua. Firebase Firestore Rules check karein."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD ORDERS
+===================================================== */
+
+async function loadOrders(){
+
+    const ordersList =
+    document.getElementById(
+        "ordersList"
+    );
+
+
+    ordersList.innerHTML =
+    `
+
+        <div class="no-orders">
+
+            ⏳ Orders loading...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        const snapshot =
+        await getDocs(
+
+            collection(
+                db,
+                "orders"
+            )
+
+        );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            ordersList.innerHTML =
+            `
+
+                <div class="no-orders">
+
+                    Abhi koi Firebase order nahi mila.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        ordersList.innerHTML =
+        "";
+
+
+
+        snapshot.forEach(
+            function(order){
+
+                const data =
+                order.data();
+
+
+                const div =
+                document.createElement(
+                    "div"
+                );
+
+
+                div.className =
+                "order-item";
+
+
+
+                /* ======================================
+                   DATE
+                ====================================== */
+
+                let orderDate =
+                "Date unavailable";
+
+
+                if(
+                    data.createdAt &&
+                    typeof data.createdAt.toDate ===
+                    "function"
+                ){
+
+                    orderDate =
+                    data.createdAt
+                    .toDate()
+                    .toLocaleString(
+                        "en-IN"
+                    );
+
+                }
+
+
+
+                /* ======================================
+                   STATUS
+                ====================================== */
+
+                const currentStatus =
+                ORDER_STATUSES.includes(
+                    data.status
+                )
+
+                ? data.status
+
+                : "New";
+
+
+
+                /* ======================================
+                   ITEMS
+                ====================================== */
+
+                let itemsHTML =
+                "";
+
+
+                if(
+                    Array.isArray(
+                        data.items
+                    ) &&
+                    data.items.length
+                ){
+
+                    data.items.forEach(
+                        function(item){
+
+                            const itemName =
+                            item.name ||
+                            "Product";
+
+
+                            const itemSize =
+                            item.size ||
+                            "-";
+
+
+                            const quantity =
+                            Number(
+                                item.quantity
+                            ) || 1;
+
+
+                            const price =
+                            Number(
+                                item.price
+                            ) || 0;
+
+
+                            const itemTotal =
+                            price *
+                            quantity;
+
+
+                            itemsHTML += `
+
+                                <div class="order-product">
+
+                                    <strong>
+                                        ${escapeHTML(itemName)}
+                                    </strong>
+
+                                    <br>
+
+                                    Size:
+                                    ${escapeHTML(itemSize)}
+
+                                    |
+
+                                    Qty:
+                                    ${quantity}
+
+                                    |
+
+                                    ₹${Math.round(itemTotal)}
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+                }
+
+                else{
+
+                    itemsHTML =
+
+                    `
+
+                        <div class="order-product">
+
+                            Order items available nahi hain.
+
+                        </div>
+
+                    `;
+
+                }
+
+
+
+                /* ======================================
+                   ORDER HTML
+                ====================================== */
+
+                div.innerHTML = `
+
+                    <div class="order-header">
+
+                        <div class="order-id">
+
+                            🧾 Order ID:
+                            ${escapeHTML(order.id)}
+
+                        </div>
+
+
+                        <div class="order-date">
+
+                            ${escapeHTML(orderDate)}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="customer-box">
+
+                        <strong>
+                            👤 Customer Details
+                        </strong>
+
+                        <br>
+
+                        Name:
+                        ${escapeHTML(
+                            data.customerName ||
+                            data.name ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        Mobile:
+                        ${escapeHTML(
+                            data.customerPhone ||
+                            data.phone ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        Address:
+                        ${escapeHTML(
+                            data.customerAddress ||
+                            data.address ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        City:
+                        ${escapeHTML(
+                            data.customerCity ||
+                            data.city ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        PIN:
+                        ${escapeHTML(
+                            data.customerPin ||
+                            data.pin ||
+                            "-"
+                        )}
+
+                        <br>
+
+                        Payment:
+                        ${escapeHTML(
+                            data.paymentMethod ||
+                            "Cash on Delivery"
+                        )}
+
+                    </div>
+
+
+
+                    <div class="order-products">
+
+                        <strong>
+                            🛒 Order Items
+                        </strong>
+
+                        <br><br>
+
+                        ${itemsHTML}
+
+                    </div>
+
+
+
+                    <div class="order-total">
+
+                        Total:
+                        ₹${Math.round(
+                            Number(
+                                data.total
+                            ) || 0
+                        )}
+
+                    </div>
+
+
+
+                    <div class="status-box">
+
+                        <span class="status-label">
+
+                            📌 Order Status:
+
+                        </span>
+
+
+                        <select
+                            class="status-select"
+                        >
+
+                            ${ORDER_STATUSES.map(
+                                function(status){
+
+                                    return `
+
+                                        <option
+                                            value="${status}"
+                                            ${
+                                                status ===
+                                                currentStatus
+                                                ? "selected"
+                                                : ""
+                                            }
+                                        >
+
+                                            ${status}
+
+                                        </option>
+
+                                    `;
+
+                                }
+                            ).join("")}
+
+                        </select>
+
+
+                        <button
+                            type="button"
+                            class="status-save-btn"
+                        >
+
+                            💾 Save Status
+
+                        </button>
+
+
+                        <span
+                            class="status-message"
+                        ></span>
+
+                    </div>
+
+                `;
+
+
+
+                /* ======================================
+                   STATUS ELEMENTS
+                ====================================== */
+
+                const statusSelect =
+                div.querySelector(
+                    ".status-select"
+                );
+
+
+                const statusSaveButton =
+                div.querySelector(
+                    ".status-save-btn"
+                );
+
+
+                const statusMessage =
+                div.querySelector(
+                    ".status-message"
+                );
+
+
+
+                /* ======================================
+                   SAVE STATUS
+                ====================================== */
+
+                statusSaveButton.addEventListener(
+                    "click",
+                    async function(){
+
+                        const newStatus =
+                        statusSelect.value;
+
+
+                        statusSaveButton.disabled =
+                        true;
+
+
+                        statusSaveButton.textContent =
+                        "⏳ Saving...";
+
+
+                        statusMessage.textContent =
+                        "";
+
+
+                        try{
+
+                            await setDoc(
+
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+
+                                {
+
+                                    status:
+                                    newStatus
+
+                                },
+
+                                {
+
+                                    merge:true
+
+                                }
+
+                            );
+
+
+                            statusMessage.textContent =
+                            "✅ Status saved";
+
+
+                            statusMessage.style.color =
+                            "#16752b";
+
+
+                            setTimeout(
+                                function(){
+
+                                    statusMessage.textContent =
+                                    "";
+
+                                },
+                                2500
+                            );
+
+                        }
+
+                        catch(error){
+
+                            console.error(
+                                "Order status error:",
+                                error
+                            );
+
+
+                            statusMessage.textContent =
+                            "❌ Save nahi hua";
+
+
+                            statusMessage.style.color =
+                            "#a00000";
+
+
+                            alert(
+
+                                "Order status update nahi hua. Firebase Firestore Rules check karein."
+
+                            );
+
+                        }
+
+
+                        statusSaveButton.disabled =
+                        false;
+
+
+                        statusSaveButton.textContent =
+                        "💾 Save Status";
+
+                    }
+                );
+
+
+
+                ordersList.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Orders error:",
+            error
+        );
+
+
+        ordersList.innerHTML =
+        `
+
+            <div class="no-orders">
+
+                ❌ Orders load nahi ho pa rahe.
+
+                <br><br>
+
+                Firebase Firestore Rules check karein.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(
+    value
+){
+
+    const div =
+    document.createElement(
+        "div"
+    );
+
+
+    div.textContent =
+    String(
+        value ?? ""
+    );
+
+
+    return div.innerHTML;
+
+}
+
+
+
+/* =====================================================
+   REFRESH PRODUCTS
+===================================================== */
+
+document
+.getElementById(
+    "refreshProductsButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        const button =
+        this;
+
+
+        button.disabled =
+        true;
+
+
+        button.textContent =
+        "⏳ Refreshing...";
+
+
+        try{
+
+            await loadProducts();
+
+        }
+
+        finally{
+
+            button.disabled =
+            false;
+
+
+            button.textContent =
+            "🔄 Refresh Products";
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   REFRESH ORDERS
+===================================================== */
+
+document
+.getElementById(
+    "refreshOrdersButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        const button =
+        this;
+
+
+        button.disabled =
+        true;
+
+
+        button.textContent =
+        "⏳ Refreshing...";
+
+
+        try{
+
+            await loadOrders();
+
+        }
+
+        finally{
+
+            button.disabled =
+            false;
+
+
+            button.textContent =
+            "🔄 Refresh Orders";
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById(
+    "logoutButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            await signOut(
+                auth
+            );
+
+
+            window.location.href =
+            "admin.html";
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            alert(
+                "Logout nahi ho paya."
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+function getErrorMessage(
+    code
+){
+
+    if(
+        code ===
+        "auth/invalid-credential"
+    ){
+
+        return
+        "Password galat hai ya admin account nahi mila.";
+
+    }
+
+
+    if(
+        code ===
+        "auth/user-not-found"
+    ){
+
+        return
+        "Admin account nahi mila.";
+
+    }
+
+
+    if(
+        code ===
+        "auth/wrong-password"
+    ){
+
+        return
+        "Password galat hai.";
+
+    }
+
+
+    if(
+        code ===
+        "auth/invalid-email"
+    ){
+
+        return
+        "Admin email galat hai.";
+
+    }
+
+
+    if(
+        code ===
+        "auth/too-many-requests"
+    ){
+
+        return
+        "Bahut baar try hua. Thodi der baad try karein.";
+
+    }
+
+
+    if(
+        code ===
+        "auth/network-request-failed"
+    ){
+
+        return
+        "Internet connection check karein.";
+
+    }
+
+
+    return
+    "Login nahi hua. Dobara try karein.";
+
+}
+
+
+
+console.log(
+    "✅ Sweety Masala Admin Panel loaded."
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Products | Sweety Masala</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#fff8ed;
+    color:#333;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background:#8b0000;
+    color:white;
+    padding:18px;
+    text-align:center;
+}
+
+header h1{
+    margin-bottom:5px;
+}
+
+nav{
+    margin-top:15px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+    font-weight:bold;
+}
+
+/* ================= TITLE ================= */
+
+.title{
+    text-align:center;
+    padding:35px 15px 20px;
+}
+
+.title h2{
+    color:#8b0000;
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.title p{
+    color:#666;
+}
+
+/* ================= CATEGORY ================= */
+
+.category-title{
+    max-width:1200px;
+    margin:30px auto 15px;
+    padding:0 15px;
+}
+
+.category-title h2{
+    color:#8b0000;
+    border-left:6px solid #8b0000;
+    padding-left:10px;
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
+    max-width:1200px;
+    margin:auto;
+    padding:10px 15px 30px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+
+    gap:20px;
+}
+
+/* ================= CARD ================= */
+
+.product-card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+
+    box-shadow:
+    0 4px 14px rgba(0,0,0,.12);
+
+    transition:.2s;
+}
+
+.product-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 7px 20px rgba(0,0,0,.18);
+}
+
+/* ================= IMAGE ================= */
+
+.product-image{
+    width:100%;
+    height:180px;
+
+    object-fit:contain;
+
+    border-radius:10px;
+
+    margin-bottom:12px;
+
+    background:#fff8ed;
+}
+
+.product-icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+/* ================= NAME ================= */
+
+.product-card h3{
+    color:#8b0000;
+    margin-bottom:5px;
+    font-size:20px;
+}
+
+/* ================= DESCRIPTION ================= */
+
+.product-card p{
+    color:#666;
+    margin-bottom:10px;
+    min-height:20px;
+}
+
+/* ================= PRICE ================= */
+
+.price{
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+    color:#333;
+}
+
+.old-price{
+    text-decoration:line-through;
+    color:#999;
+    font-size:15px;
+    margin-right:7px;
+}
+
+.discount-price{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.discount-badge{
+    display:inline-block;
+
+    background:#198754;
+    color:white;
+
+    padding:4px 8px;
+
+    border-radius:5px;
+
+    font-size:12px;
+
+    margin-top:5px;
+}
+
+/* ================= STOCK ================= */
+
+.stock-text{
+    font-size:14px;
+    font-weight:bold;
+    margin:8px 0;
+}
+
+.in-stock{
+    color:#198754;
+}
+
+.out-stock{
+    color:#dc3545;
+}
+
+/* ================= SELECT ================= */
+
+label{
+    display:block;
+    margin:10px 0 5px;
+    font-weight:bold;
+}
+
+select{
+    width:100%;
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    border-radius:7px;
+
+    margin-bottom:12px;
+
+    background:white;
+}
+
+/* ================= BUTTON ================= */
+
+.add-btn{
+    width:100%;
+
+    padding:12px;
+
+    background:#8b0000;
+
+    color:white;
+
+    border:none;
+
+    border-radius:7px;
+
+    font-size:16px;
+
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#a50000;
+}
+
+.out-of-stock-btn{
+    width:100%;
+
+    padding:12px;
+
+    background:#777;
+
+    color:white;
+
+    border:none;
+
+    border-radius:7px;
+
+    font-size:16px;
+
+    cursor:not-allowed;
+
+    font-weight:bold;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+
+    padding:30px;
+
+    font-size:18px;
+
+    color:#8b0000;
+}
+
+/* ================= ERROR ================= */
+
+.error{
+    text-align:center;
+
+    padding:30px;
+
+    color:#dc3545;
+
+    font-weight:bold;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#8b0000;
+
+    color:white;
+
+    text-align:center;
+
+    padding:25px 10px;
+
+    margin-top:30px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    .title h2{
+        font-size:26px;
+    }
+
+    nav a{
+        display:inline-block;
+        margin:5px;
+    }
+
+    .product-image{
+        height:150px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<h1>🌶️ Sweety Masala</h1>
+
+<p>Quality • Taste • Trust</p>
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="products.html">
+Products
+</a>
+
+<a href="cart.html">
+🛒 Cart
+</a>
+
+</nav>
+
+</header>
+
+
+<!-- ================= TITLE ================= -->
+
+<section class="title">
+
+<h2>
+Our Products
+</h2>
+
+<p>
+अपने पसंदीदा मसाले और आटा चुनें
+</p>
+
+</section>
+
+
+<!-- ================= MAIN POWDER ================= -->
+
+<div class="category-title">
+
+<h2>
+🌶️ Main Powder Products
+</h2>
+
+</div>
+
+<div
+class="products"
+id="largeProducts">
+
+<div class="loading">
+Products loading...
+</div>
+
+</div>
+
+
+<!-- ================= MASALA POWDER ================= -->
+
+<div class="category-title">
+
+<h2>
+🥘 Masala Powder
+</h2>
+
+</div>
+
+<div
+class="products"
+id="powderProducts">
+
+<div class="loading">
+Products loading...
+</div>
+
+</div>
+
+
+<!-- ================= AATA & SATTU ================= -->
+
+<div class="category-title">
+
+<h2>
+🌾 Aata & Sattu
+</h2>
+
+</div>
+
+<div
+class="products"
+id="attaProducts">
+
+<div class="loading">
+Products loading...
+</div>
+
+</div>
+
+
+<!-- ================= WHOLE SPICES ================= -->
+
+<div class="category-title">
+
+<h2>
+🌿 Khade Masale (Whole Spices)
+</h2>
+
+</div>
+
+<div
+class="products"
+id="wholeProducts">
+
+<div class="loading">
+Products loading...
+</div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<p>
+© 2026 Sweety Masala
+</p>
+
+<p>
+📞 7488130373 |
+📞 7870349173
+</p>
+
+</footer>
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    onSnapshot
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
+};
+
+
+/* =====================================================
+   FIREBASE START
+===================================================== */
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+
+/* =====================================================
+   DISCOUNT
+===================================================== */
+
+let discountEnabled = false;
+
+let discountPercent = 0;
+
+
+/* =====================================================
+   EXACT FIREBASE PRODUCT IDs
+   THESE MATCH ADMIN PANEL
+===================================================== */
+
+const products = [
+
+    /* MAIN POWDER */
+
+    {
+        id:"haldi",
+        name:"Haldi",
+        description:"Turmeric Powder",
+        fallbackPrice:260,
+        sizes:[
+            "1 KG",
+            "5 KG",
+            "10 KG",
+            "15 KG",
+            "20 KG",
+            "25 KG",
+            "30 KG"
+        ],
+        category:"large",
+        icon:"🌶️"
+    },
+
+    {
+        id:"dhaniya",
+        name:"Dhaniya",
+        description:"Coriander Powder",
+        fallbackPrice:200,
+        sizes:[
+            "1 KG",
+            "5 KG",
+            "10 KG",
+            "15 KG",
+            "20 KG",
+            "25 KG",
+            "30 KG"
+        ],
+        category:"large",
+        icon:"🌶️"
+    },
+
+    {
+        id:"lal-mirch",
+        name:"Lal Mirch",
+        description:"Red Chilli Powder",
+        fallbackPrice:300,
+        sizes:[
+            "1 KG",
+            "5 KG",
+            "10 KG",
+            "15 KG",
+            "20 KG",
+            "25 KG",
+            "30 KG"
+        ],
+        category:"large",
+        icon:"🌶️"
+    },
+
+    {
+        id:"sattu",
+        name:"Chana Sattu",
+        description:"Chana Sattu",
+        fallbackPrice:140,
+        sizes:[
+            "1 KG",
+            "5 KG",
+            "10 KG",
+            "15 KG",
+            "20 KG",
+            "25 KG",
+            "30 KG"
+        ],
+        category:"large",
+        icon:"🌾"
+    },
+
+    {
+        id:"besan",
+        name:"Chana Besan",
+        description:"Chana Besan",
+        fallbackPrice:120,
+        sizes:[
+            "1 KG",
+            "5 KG",
+            "10 KG",
+            "15 KG",
+            "20 KG",
+            "25 KG",
+            "30 KG"
+        ],
+        category:"large",
+        icon:"🌾"
+    },
+
+
+    /* MASALA POWDER */
+
+    {
+        id:"mix-masala",
+        name:"Mix Masala",
+        description:"Mix Masala",
+        fallbackPrice:500,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"sabji-masala",
+        name:"Sabji Masala",
+        description:"Sabji Masala",
+        fallbackPrice:450,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"kali-mirch-powder",
+        name:"Kali Mirch Powder",
+        description:"Black Pepper Powder",
+        fallbackPrice:1000,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"jeera-powder",
+        name:"Jeera Powder",
+        description:"Cumin Powder",
+        fallbackPrice:400,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"garam-masala",
+        name:"Garam Masala",
+        description:"Garam Masala",
+        fallbackPrice:1200,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"chicken-masala",
+        name:"Chicken Masala",
+        description:"Chicken Masala",
+        fallbackPrice:700,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"chat-masala",
+        name:"Chat Masala",
+        description:"Chaat Masala",
+        fallbackPrice:400,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"machali-masala",
+        name:"Machali Masala",
+        description:"Fish Masala",
+        fallbackPrice:700,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"meat-masala",
+        name:"Meat Masala",
+        description:"Meat Masala",
+        fallbackPrice:700,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"aamchur-powder",
+        name:"Aamchur Powder",
+        description:"Dry Mango Powder",
+        fallbackPrice:350,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"hing",
+        name:"Hing",
+        description:"Asafoetida",
+        fallbackPrice:1500,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"chhola-masala",
+        name:"Chhola Masala",
+        description:"Chhole Masala",
+        fallbackPrice:400,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"pav-bhaji-masala",
+        name:"Pav Bhaji Masala",
+        description:"Pav Bhaji Masala",
+        fallbackPrice:450,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"sambhar-masala",
+        name:"Sambhar Masala",
+        description:"Sambar Masala",
+        fallbackPrice:450,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"kasuri-methi",
+        name:"Kasuri Methi",
+        description:"Kasuri Methi",
+        fallbackPrice:300,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"biryani-masala",
+        name:"Biryani Masala",
+        description:"Biryani Masala",
+        fallbackPrice:550,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"kashmiri-lal-mirch",
+        name:"Kashmiri Lal Mirch",
+        description:"Kashmiri Red Chilli",
+        fallbackPrice:450,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"kala-namak-powder",
+        name:"Kala Namak Powder",
+        description:"Black Salt Powder",
+        fallbackPrice:120,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"sendha-namak-powder",
+        name:"Sendha Namak Powder",
+        description:"Rock Salt Powder",
+        fallbackPrice:120,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"lahsun-powder",
+        name:"Lahsun Powder",
+        description:"Garlic Powder",
+        fallbackPrice:400,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"payz-powder",
+        name:"Payz Powder",
+        description:"Payz Powder",
+        fallbackPrice:300,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"maggi-masala-powder",
+        name:"Maggi Masala Powder",
+        description:"Maggi Masala Powder",
+        fallbackPrice:350,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"tandoori-masala-powder",
+        name:"Tandoori Masala Powder",
+        description:"Tandoori Masala",
+        fallbackPrice:500,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+    {
+        id:"jaljeer-powder",
+        name:"Jaljeer Powder",
+        description:"Jaljeera Powder",
+        fallbackPrice:300,
+        sizes:["250 GM","500 GM","1 KG"],
+        category:"powder",
+        icon:"🥘"
+    },
+
+
+    /* AATA */
+
+    {
+        id:"mix-aata",
+        name:"Mix Aata",
+        description:"Multigrain Flour",
+        fallbackPrice:70,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"ragi-aata",
+        name:"Ragi Aata",
+        description:"Ragi Flour",
+        fallbackPrice:70,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"makka-aata",
+        name:"Makka Aata",
+        description:"Maize Flour",
+        fallbackPrice:60,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"jowar-aata",
+        name:"Jowar Aata",
+        description:"Sorghum Flour",
+        fallbackPrice:60,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"bajara-aata",
+        name:"Bajara Aata",
+        description:"Pearl Millet Flour",
+        fallbackPrice:60,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"jo-aata",
+        name:"Jo Aata",
+        description:"Barley Flour",
+        fallbackPrice:60,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"gehun-aata",
+        name:"Gehun Aata",
+        description:"Wheat Flour",
+        fallbackPrice:45,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+    {
+        id:"makka-sattu",
+        name:"Makka Sattu",
+        description:"Makka Sattu",
+        fallbackPrice:80,
+        sizes:["1 KG","2 KG","3 KG","4 KG","5 KG"],
+        category:"atta",
+        icon:"🌾"
+    },
+
+
+    /* WHOLE SPICES */
+
+    {
+        id:"jeera",
+        name:"Jeera",
+        description:"Cumin Seeds",
+        fallbackPrice:250,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"shah-jeera",
+        name:"Shah Jeera",
+        description:"Black Cumin",
+        fallbackPrice:350,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"laung",
+        name:"Laung",
+        description:"Clove",
+        fallbackPrice:800,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"badi-elaichi",
+        name:"Badi Elaichi",
+        description:"Black Cardamom",
+        fallbackPrice:900,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"chhoti-elaichi",
+        name:"Chhoti Elaichi",
+        description:"Green Cardamom",
+        fallbackPrice:2200,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"dalchini",
+        name:"Dalchini",
+        description:"Cinnamon Stick",
+        fallbackPrice:500,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"kali-mirch",
+        name:"Kali Mirch",
+        description:"Black Peppercorns",
+        fallbackPrice:700,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"safed-mirch",
+        name:"Safed Mirch",
+        description:"White Peppercorns",
+        fallbackPrice:900,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"tejpatta",
+        name:"Tejpatta",
+        description:"Bay Leaf",
+        fallbackPrice:200,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"chakraphool",
+        name:"Chakraphool",
+        description:"Star Anise",
+        fallbackPrice:700,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"javitri",
+        name:"Javitri",
+        description:"Mace",
+        fallbackPrice:1800,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"jaiphal",
+        name:"Jaiphal",
+        description:"Nutmeg",
+        fallbackPrice:1200,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"kabab-chini",
+        name:"Kabab Chini",
+        description:"Cubeb Pepper",
+        fallbackPrice:900,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"sabut-dhaniya",
+        name:"Sabut Dhaniya",
+        description:"Whole Coriander",
+        fallbackPrice:200,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"sabut-lal-mirch",
+        name:"Sabut Lal Mirch",
+        description:"Whole Red Chili",
+        fallbackPrice:350,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"rai",
+        name:"Rai",
+        description:"Black/Brown Mustard",
+        fallbackPrice:150,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"pili-sarson",
+        name:"Pili Sarson",
+        description:"Yellow Mustard",
+        fallbackPrice:150,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"methi-dana",
+        name:"Methi Dana",
+        description:"Fenugreek Seeds",
+        fallbackPrice:180,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"saunf",
+        name:"Saunf",
+        description:"Fennel Seeds",
+        fallbackPrice:300,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"ajwain",
+        name:"Ajwain",
+        description:"Carom Seeds",
+        fallbackPrice:350,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"kalonji",
+        name:"Kalonji",
+        description:"Nigella Seeds",
+        fallbackPrice:400,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"dagad-phool",
+        name:"Dagad Phool",
+        description:"Black Stone Flower",
+        fallbackPrice:800,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"anardana",
+        name:"Anardana",
+        description:"Dried Pomegranate",
+        fallbackPrice:600,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    },
+
+    {
+        id:"nagkesar",
+        name:"Nagkesar",
+        description:"Nagkesar",
+        fallbackPrice:1200,
+        sizes:["50 GM","100 GM","250 GM"],
+        category:"whole",
+        icon:"🌿"
+    }
+
+];
+
+
+/* =====================================================
+   PRICE FORMAT
+===================================================== */
+
+function formatPrice(price){
+
+    return Number(price || 0)
+    .toLocaleString("en-IN");
+
+}
+
+
+/* =====================================================
+   SIZE TO KG
+===================================================== */
+
+function sizeToKg(size){
+
+    const s =
+    String(size)
+    .toUpperCase()
+    .trim();
+
+
+    if(s.includes("50 GM"))
+        return 0.05;
+
+    if(s.includes("100 GM"))
+        return 0.10;
+
+    if(s.includes("250 GM"))
+        return 0.25;
+
+    if(s.includes("500 GM"))
+        return 0.50;
+
+    if(s.includes("1 KG"))
+        return 1;
+
+    if(s.includes("2 KG"))
+        return 2;
+
+    if(s.includes("3 KG"))
+        return 3;
+
+    if(s.includes("4 KG"))
+        return 4;
+
+    if(s.includes("5 KG"))
+        return 5;
+
+    if(s.includes("10 KG"))
+        return 10;
+
+    if(s.includes("15 KG"))
+        return 15;
+
+    if(s.includes("20 KG"))
+        return 20;
+
+    if(s.includes("25 KG"))
+        return 25;
+
+    if(s.includes("30 KG"))
+        return 30;
+
+
+    return 1;
+
+}
+
+
+/* =====================================================
+   FINAL PRICE
+===================================================== */
+
+function calculatePrice(
+    basePrice,
+    size
+){
+
+    /*
+       Firebase ka price = 1 KG/base price.
+
+       Example:
+       Haldi = ₹200
+
+       1 KG = ₹200
+       5 KG = ₹1000
+       10 KG = ₹2000
+    */
+
+    const kg =
+    sizeToKg(size);
+
+
+    const normalPrice =
+    Number(basePrice) * kg;
+
+
+    if(
+        discountEnabled &&
+        discountPercent > 0
+    ){
+
+        return Math.round(
+            normalPrice -
+            (
+                normalPrice *
+                discountPercent /
+                100
+            )
+        );
+
+    }
+
+
+    return Math.round(
+        normalPrice
+    );
+
+}
+
+
+/* =====================================================
+   LOAD DISCOUNT
+===================================================== */
+
+async function loadDiscount(){
+
+    try{
+
+        const snap =
+        await getDoc(
+            doc(
+                db,
+                "settings",
+                "discount"
+            )
+        );
+
+
+        if(snap.exists()){
+
+            const data =
+            snap.data();
+
+
+            discountEnabled =
+            data.enabled === true;
+
+
+            discountPercent =
+            Number(data.percent) || 0;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Discount error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD ONE PRODUCT
+===================================================== */
+
+async function loadProduct(product){
+
+    try{
+
+        const productRef =
+        doc(
+            db,
+            "products",
+            product.id
+        );
+
+
+        const snap =
+        await getDoc(productRef);
+
+
+        /*
+           Firebase document DOES NOT EXIST
+
+           Fallback data use hoga.
+        */
+
+        if(!snap.exists()){
+
+            return {
+
+                ...product,
+
+                price:
+                product.fallbackPrice,
+
+                inStock:true,
+
+                image:""
+
+            };
+
+        }
+
+
+        const data =
+        snap.data();
+
+
+        /*
+           IMPORTANT:
+
+           Admin Panel se price
+           directly Firebase se.
+
+           Admin Panel:
+           price: 250
+
+           Website:
+           ₹250
+        */
+
+        const firebasePrice =
+        data.price !== undefined &&
+        data.price !== null
+
+        ?
+
+        Number(data.price)
+
+        :
+
+        Number(product.fallbackPrice);
+
+
+        /*
+           IMPORTANT:
+
+           Admin Panel:
+           inStock:false
+
+           Website:
+           OUT OF STOCK
+        */
+
+        const firebaseStock =
+        data.inStock !== false;
+
+
+        /*
+           Admin Panel agar sizes
+           save kare to wahi sizes.
+        */
+
+        const firebaseSizes =
+        Array.isArray(data.sizes) &&
+        data.sizes.length > 0
+
+        ?
+
+        data.sizes
+
+        :
+
+        product.sizes;
+
+
+        return {
+
+            ...product,
+
+            price:
+            firebasePrice,
+
+            inStock:
+            firebaseStock,
+
+            sizes:
+            firebaseSizes,
+
+            description:
+            data.description ||
+            product.description,
+
+            image:
+            data.image ||
+            data.imageUrl ||
+            ""
+
+        };
+
+    }
+
+    catch(error){
+
+        console.error(
+            "PRODUCT FIREBASE ERROR:",
+            product.id,
+            error
+        );
+
+
+        return {
+
+            ...product,
+
+            price:
+            product.fallbackPrice,
+
+            inStock:true,
+
+            sizes:
+            product.sizes,
+
+            image:""
+
+        };
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createCard(product){
+
+    const card =
+    document.createElement("div");
+
+
+    card.className =
+    "product-card";
+
+
+    /*
+       IMAGE
+    */
+
+    let imageHTML;
+
+
+    if(product.image){
+
+        imageHTML = `
+
+            <img
+                class="product-image"
+                src="${product.image}"
+                alt="${product.name}"
+                onerror="this.style.display='none'"
+            >
+
+        `;
+
+    }
+
+    else{
+
+        imageHTML = `
+
+            <div class="product-icon">
+
+                ${product.icon}
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+       STOCK
+    */
+
+    const stockHTML =
+    product.inStock
+
+    ?
+
+    `
+
+        <div class="stock-text in-stock">
+
+            ✅ In Stock
+
+        </div>
+
+    `
+
+    :
+
+    `
+
+        <div class="stock-text out-stock">
+
+            ❌ Out of Stock
+
+        </div>
+
+    `;
+
+
+    /*
+       BUTTON
+    */
+
+    const buttonHTML =
+    product.inStock
+
+    ?
+
+    `
+
+        <button
+            class="add-btn"
+        >
+
+            🛒 Add to Cart
+
+        </button>
+
+    `
+
+    :
+
+    `
+
+        <button
+            class="out-of-stock-btn"
+            disabled
+        >
+
+            ❌ Out of Stock
+
+        </button>
+
+    `;
+
+
+    /*
+       CARD
+    */
+
+    card.innerHTML = `
+
+        ${imageHTML}
+
+
+        <h3>
+            ${product.name}
+        </h3>
+
+
+        <p>
+            ${product.description}
+        </p>
+
+
+        <div
+            class="price"
+            data-price
+        >
+            ₹${formatPrice(product.price)}
+        </div>
+
+
+        ${stockHTML}
+
+
+        <label>
+            Size
+        </label>
+
+
+        <select
+            class="size-select"
+            ${!product.inStock ? "disabled" : ""}
+        >
+
+            ${
+                product.sizes
+                .map(
+                    size =>
+                    `
+                    <option value="${size}">
+                        ${size}
+                    </option>
+                    `
+                )
+                .join("")
+            }
+
+        </select>
+
+
+        ${buttonHTML}
+
+    `;
+
+
+    const select =
+    card.querySelector(
+        ".size-select"
+    );
+
+
+    const priceElement =
+    card.querySelector(
+        "[data-price]"
+    );
+
+
+    /*
+       PRICE UPDATE
+       WHEN SIZE CHANGES
+    */
+
+    function updateCardPrice(){
+
+        if(!product.inStock){
+
+            return;
+
+        }
+
+
+        const price =
+        calculatePrice(
+            product.price,
+            select.value
+        );
+
+
+        priceElement.innerText =
+        "₹" +
+        formatPrice(price);
+
+    }
+
+
+    select.addEventListener(
+        "change",
+        updateCardPrice
+    );
+
+
+    /*
+       INITIAL PRICE
+    */
+
+    updateCardPrice();
+
+
+    /*
+       ADD CART
+    */
+
+    if(product.inStock){
+
+        const addButton =
+        card.querySelector(
+            ".add-btn"
+        );
+
+
+        addButton.addEventListener(
+            "click",
+            function(){
+
+                const size =
+                select.value;
+
+
+                const price =
+                calculatePrice(
+                    product.price,
+                    size
+                );
+
+
+                addToCart(
+
+                    product,
+
+                    size,
+
+                    price
+
+                );
+
+            }
+        );
+
+    }
+
+
+    return card;
+
+}
+
+
+/* =====================================================
+   ADD TO CART
+===================================================== */
+
+function addToCart(
+    product,
+    size,
+    price
+){
+
+    let cart = [];
+
+
+    try{
+
+        cart =
+        JSON.parse(
+            localStorage.getItem(
+                "sweetyCart"
+            )
+        ) || [];
+
+    }
+
+    catch(error){
+
+        cart = [];
+
+    }
+
+
+    /*
+       Same product + same size
+       = same cart item
+    */
+
+    const existing =
+    cart.find(
+        item =>
+
+        item.productId === product.id &&
+
+        item.size === size
+
+    );
+
+
+    if(existing){
+
+        existing.quantity =
+        Number(
+            existing.quantity || 1
+        ) + 1;
+
+
+        /*
+           Always use CURRENT Firebase
+           price.
+        */
+
+        existing.price =
+        price;
+
+    }
+
+    else{
+
+        cart.push({
+
+            productId:
+            product.id,
+
+            name:
+            product.name,
+
+            description:
+            product.description,
+
+            image:
+            product.image || "",
+
+            size:
+            size,
+
+            price:
+            price,
+
+            quantity:
+            1
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+
+        "sweetyCart",
+
+        JSON.stringify(cart)
+
+    );
+
+
+    alert(
+
+        "✅ " +
+        product.name +
+        " (" +
+        size +
+        ") cart me add ho gaya!"
+
+    );
+
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS
+===================================================== */
+
+async function renderProducts(){
+
+    const largeContainer =
+    document.getElementById(
+        "largeProducts"
+    );
+
+
+    const powderContainer =
+    document.getElementById(
+        "powderProducts"
+    );
+
+
+    const attaContainer =
+    document.getElementById(
+        "attaProducts"
+    );
+
+
+    const wholeContainer =
+    document.getElementById(
+        "wholeProducts"
+    );
+
+
+    /*
+       CLEAR
+    */
+
+    largeContainer.innerHTML =
+    "";
+
+    powderContainer.innerHTML =
+    "";
+
+    attaContainer.innerHTML =
+    "";
+
+    wholeContainer.innerHTML =
+    "";
+
+
+    /*
+       LOAD ALL PRODUCTS
+    */
+
+    for(
+        const product
+        of products
+    ){
+
+        const firebaseProduct =
+        await loadProduct(product);
+
+
+        const card =
+        createCard(
+            firebaseProduct
+        );
+
+
+        if(
+            product.category ===
+            "large"
+        ){
+
+            largeContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            product.category ===
+            "powder"
+        ){
+
+            powderContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            product.category ===
+            "atta"
+        ){
+
+            attaContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            product.category ===
+            "whole"
+        ){
+
+            wholeContainer.appendChild(
+                card
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   REAL-TIME LISTENER
+=====================================================
+
+   YE SABSE IMPORTANT PART HAI.
+
+   Admin Panel me:
+
+   price change
+   stock change
+   description change
+   image change
+   sizes change
+
+   => Firebase document change
+   => onSnapshot chalega
+   => products.html dobara load hoga
+===================================================== */
+
+let renderTimer = null;
+
+
+function scheduleRender(){
+
+    clearTimeout(
+        renderTimer
+    );
+
+
+    renderTimer =
+    setTimeout(
+        function(){
+
+            renderProducts();
+
+        },
+        300
+    );
+
+}
+
+
+/*
+   Har exact Firebase product ID
+   par listener.
+*/
+
+products.forEach(
+    function(product){
+
+        onSnapshot(
+
+            doc(
+                db,
+                "products",
+                product.id
+            ),
+
+            function(snapshot){
+
+                /*
+                   Sirf Firebase change par
+                   complete product list refresh.
+                */
+
+                scheduleRender();
+
+            },
+
+            function(error){
+
+                console.error(
+
+                    "Realtime Firebase error:",
+
+                    product.id,
+
+                    error
+
+                );
+
+            }
+
+        );
+
+    }
+);
+
+
+/*
+   Discount listener
+*/
+
+onSnapshot(
+
+    doc(
+        db,
+        "settings",
+        "discount"
+    ),
+
+    function(){
+
+        scheduleRender();
+
+    },
+
+    function(error){
+
+        console.error(
+            "Discount listener error:",
+            error
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   FIRST LOAD
+===================================================== */
+
+async function start(){
+
+    await loadDiscount();
+
+    await renderProducts();
+
+}
+
+
+start();
+
+</script>
+
+</body>
+
+</html>

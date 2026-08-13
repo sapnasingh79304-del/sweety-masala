@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Sweety Masala | Home</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#fff8ed;
+    color:#333;
+}
+
+/* HEADER */
+
+header{
+    background:#8b0000;
+    color:white;
+    padding:18px;
+    text-align:center;
+}
+
+header h1{
+    margin-bottom:5px;
+}
+
+nav{
+    margin-top:15px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 8px;
+    font-weight:bold;
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:6px;
+}
+
+nav a:hover{
+    background:#a50000;
+}
+
+.login-link{
+    background:white;
+    color:#8b0000 !important;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1200px;
+    margin:25px auto;
+    padding:45px 20px;
+    text-align:center;
+    background:#fff0d0;
+    border-radius:15px;
+}
+
+.hero h2{
+    color:#8b0000;
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.hero p{
+    color:#555;
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+.shop-btn{
+    display:inline-block;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    padding:13px 24px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+/* SECTION */
+
+.section-title{
+    max-width:1200px;
+    margin:30px auto 15px;
+    padding:0 15px;
+}
+
+.section-title h2{
+    color:#8b0000;
+    border-left:6px solid #8b0000;
+    padding-left:10px;
+}
+
+/* PRODUCTS */
+
+.products{
+    max-width:1200px;
+    margin:auto;
+    padding:10px 15px 30px;
+
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+
+    gap:20px;
+}
+
+.product-card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+
+    box-shadow:
+    0 4px 14px rgba(0,0,0,.12);
+}
+
+.product-icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.product-card h3{
+    color:#8b0000;
+    margin-bottom:5px;
+}
+
+.product-card p{
+    color:#666;
+    margin-bottom:10px;
+}
+
+.price{
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.old-price{
+    text-decoration:line-through;
+    color:#999;
+    font-size:15px;
+    margin-right:7px;
+}
+
+.discount-price{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.discount-badge{
+    display:inline-block;
+    background:#198754;
+    color:white;
+    padding:4px 8px;
+    border-radius:5px;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+label{
+    display:block;
+    margin:10px 0 5px;
+    font-weight:bold;
+}
+
+select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    margin-bottom:12px;
+}
+
+.add-btn{
+    width:100%;
+    padding:12px;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:7px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#a50000;
+}
+
+.out-of-stock-btn{
+    width:100%;
+    padding:12px;
+    background:#777;
+    color:white;
+    border:none;
+    border-radius:7px;
+    font-size:16px;
+    cursor:not-allowed;
+    font-weight:bold;
+}
+
+/* FOOTER */
+
+.footer{
+    background:#8b0000;
+    color:white;
+    text-align:center;
+    padding:25px 10px;
+    margin-top:30px;
+}
+
+.footer p{
+    margin:7px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .hero h2{
+        font-size:27px;
+    }
+
+    nav a{
+        margin:5px 3px;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* ==========================================
+   FIREBASE LOGIN / LOGOUT
+========================================== */
+
+#userArea{
+    display:inline-block;
+}
+
+.user-area{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
+
+.user-email{
+    color:#8b0000;
+    background:white;
+    padding:8px 12px;
+    border-radius:6px;
+    font-weight:bold;
+    display:inline-block;
+    max-width:220px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    vertical-align:middle;
+}
+
+.logout-btn{
+    padding:8px 12px;
+    border:none;
+    border-radius:6px;
+    background:#f4b400;
+    color:#222;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.logout-btn:hover{
+    background:#ffc928;
+}
+
+@media(max-width:600px){
+    .user-area{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .user-email{
+        max-width:180px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+<h1>
+🌶️ Sweety Masala
+</h1>
+
+<p>
+Quality • Taste • Trust
+</p>
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="products.html">
+Products
+</a>
+
+<a href="cart.html">
+🛒 Cart
+</a>
+
+<div id="userArea">
+<a
+href="login.html"
+class="login-link"
+>
+👤 Login
+</a>
+</div>
+
+</nav>
+
+</header>
+
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h2>
+🌶️ Sweety Masala
+</h2>
+
+<p>
+Shuddh Masale, Behtareen Quality aur
+Ghar Jaisa Swad
+</p>
+
+<a
+href="products.html"
+class="shop-btn"
+>
+View All Products
+</a>
+
+</section>
+
+
+
+<!-- MAIN PRODUCTS -->
+
+<div class="section-title">
+
+<h2>
+🌶️ Main Powder Products
+</h2>
+
+</div>
+
+<div
+class="products"
+id="largeProducts"
+>
+</div>
+
+
+
+<!-- MASALA POWDER -->
+
+<div class="section-title">
+
+<h2>
+🥘 Masala Powder
+</h2>
+
+</div>
+
+<div
+class="products"
+id="powderProducts"
+>
+</div>
+
+
+
+<!-- AATA -->
+
+<div class="section-title">
+
+<h2>
+🌾 Aata & Sattu
+</h2>
+
+</div>
+
+<div
+class="products"
+id="attaProducts"
+>
+</div>
+
+
+
+<!-- WHOLE SPICES -->
+
+<div class="section-title">
+
+<h2>
+🌿 Khade Masale
+</h2>
+
+</div>
+
+<div
+class="products"
+id="wholeProducts"
+>
+</div>
+
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<p>
+© 2026 Sweety Masala
+</p>
+
+<p>
+📞 7488130373 |
+📞 7870349173
+</p>
+
+</footer>
+
+
+
+<script type="module">
+/* =====================================================
+   SWEETY MASALA - FIREBASE PRODUCT SYNC
+   Admin Panel is the single source for:
+   PRICE + SIZE + STOCK + DISCOUNT
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+/* =====================================================
+   PRODUCT LIST
+   Existing product names/prices are kept only as
+   fallback values if Firebase has no document yet.
+===================================================== */
+
+const largeProducts = [
+    {
+        name:"Haldi",
+        description:"Turmeric Powder",
+        price:260,
+        sizes:["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"]
+    },
+    {
+        name:"Dhaniya",
+        description:"Coriander Powder",
+        price:200,
+        sizes:["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"]
+    },
+    {
+        name:"Lal Mirch",
+        description:"Red Chilli Powder",
+        price:300,
+        sizes:["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"]
+    },
+    {
+        name:"Chana Sattu",
+        description:"Chana Sattu",
+        price:140,
+        sizes:["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"]
+    },
+    {
+        name:"Chana Besan",
+        description:"Chana Besan",
+        price:120,
+        sizes:["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"]
+    }
+];
+
+
+const powderProducts = [
+    ["Mix Masala","Mix Masala",500],
+    ["Sabji Masala","Sabji Masala",450],
+    ["Kali Mirch Powder","Black Pepper Powder",1000],
+    ["Jeera Powder","Cumin Powder",400],
+    ["Garam Masala","Garam Masala",1200],
+    ["Chicken Masala","Chicken Masala",700],
+    ["Chat Masala","Chaat Masala",400],
+    ["Machali Masala","Fish Masala",700],
+    ["Meat Masala","Meat Masala",700],
+    ["Aamchur Powder","Dry Mango Powder",350],
+    ["Hing","Asafoetida",1500],
+    ["Chhola Masala","Chhole Masala",400],
+    ["Pav Bhaji Masala","Pav Bhaji Masala",450],
+    ["Sambhar Masala","Sambar Masala",450],
+    ["Kasuri Methi","Kasuri Methi",300],
+    ["Biryani Masala","Biryani Masala",550],
+    ["Kashmiri Lal Mirch","Kashmiri Red Chilli",450],
+    ["Kala Namak Powder","Black Salt Powder",120],
+    ["Sendha Namak Powder","Rock Salt Powder",120],
+    ["Lahsun Powder","Garlic Powder",400],
+    ["Payz Powder","Payz Powder",300],
+    ["Maggi Masala Powder","Maggi Masala Powder",350],
+    ["Tandoori Masala Powder","Tandoori Masala",500],
+    ["Jaljeer Powder","Jaljeera Powder",300]
+];
+
+
+const attaProducts = [
+    ["Mix Aata","Multigrain Flour",70],
+    ["Ragi Aata","Ragi Flour",70],
+    ["Makka Aata","Maize Flour",60],
+    ["Jowar Aata","Sorghum Flour",60],
+    ["Bajara Aata","Pearl Millet Flour",60],
+    ["Jo Aata","Barley Flour",60],
+    ["Gehun Aata","Wheat Flour",45],
+    ["Makka Sattu","Makka Sattu",80]
+];
+
+
+const wholeSpices = [
+    ["Jeera","Cumin Seeds",250],
+    ["Shah Jeera","Black Cumin",350],
+    ["Laung","Clove",800],
+    ["Badi Elaichi","Black Cardamom",900],
+    ["Chhoti Elaichi","Green Cardamom",2200],
+    ["Dalchini","Cinnamon Stick",500],
+    ["Kali Mirch","Black Peppercorns",700],
+    ["Safed Mirch","White Peppercorns",900],
+    ["Tejpatta","Bay Leaf",200],
+    ["Chakraphool","Star Anise",700],
+    ["Javitri","Mace",1800],
+    ["Jaiphal","Nutmeg",1200],
+    ["Kabab Chini","Cubeb Pepper",900],
+    ["Sabut Dhaniya","Whole Coriander",200],
+    ["Sabut Lal Mirch","Whole Red Chili",350],
+    ["Rai","Black/Brown Mustard",150],
+    ["Pili Sarson","Yellow Mustard",150],
+    ["Methi Dana","Fenugreek Seeds",180],
+    ["Saunf","Fennel Seeds",300],
+    ["Ajwain","Carom Seeds",350],
+    ["Kalonji","Nigella Seeds",400],
+    ["Dagad Phool","Black Stone Flower",800],
+    ["Anardana","Dried Pomegranate",600],
+    ["Nagkesar","Nagkesar",1200]
+];
+
+
+/* =====================================================
+   FIREBASE DOCUMENT IDs
+   Admin Panel saves products using IDs such as:
+   haldi, dhaniya, lal-mirch, etc.
+===================================================== */
+
+function productIds(name){
+
+    const ids = [];
+
+    const raw = String(name).trim();
+
+    const slug = raw
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g,"-")
+        .replace(/^-|-$/g,"");
+
+    ids.push(slug);
+
+    if(raw !== slug){
+        ids.push(raw);
+    }
+
+    /* Known Admin IDs */
+    const aliases = {
+        "Chana Sattu":"sattu",
+        "Chana Besan":"besan"
+    };
+
+    if(aliases[raw]){
+        ids.unshift(aliases[raw]);
+    }
+
+    return [...new Set(ids)];
+}
+
+
+/* =====================================================
+   SIZE CONVERSION
+===================================================== */
+
+function sizeToKg(size){
+
+    const value =
+        String(size || "")
+        .toUpperCase()
+        .trim();
+
+    const gm = value.match(/^([\d.]+)\s*GM$/);
+
+    if(gm){
+        return Number(gm[1]) / 1000;
+    }
+
+    const kg = value.match(/^([\d.]+)\s*KG$/);
+
+    if(kg){
+        return Number(kg[1]);
+    }
+
+    return 1;
+}
+
+
+/* =====================================================
+   DISCOUNT
+   Read from Firestore settings/discount.
+===================================================== */
+
+let discountEnabled = false;
+let discountPercent = 0;
+
+
+async function loadDiscount(){
+
+    try{
+
+        const snap =
+            await getDoc(
+                doc(db,"settings","discount")
+            );
+
+        if(snap.exists()){
+
+            const data = snap.data();
+
+            discountEnabled =
+                data.enabled === true;
+
+            discountPercent =
+                Number(data.percent) || 0;
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Discount read error:",
+            error
+        );
+
+    }
+}
+
+
+function getFinalPrice(price){
+
+    const value =
+        Number(price) || 0;
+
+    if(!discountEnabled){
+        return value;
+    }
+
+    return value -
+        (value * discountPercent / 100);
+}
+
+
+function formatPrice(price){
+
+    return Math.round(
+        Number(price) || 0
+    );
+
+}
+
+
+/* =====================================================
+   GET PRODUCT FROM FIRESTORE
+===================================================== */
+
+async function getProductData(
+    name,
+    fallbackPrice,
+    fallbackSizes
+){
+
+    try{
+
+        const ids =
+            productIds(name);
+
+        for(const id of ids){
+
+            const snap =
+                await getDoc(
+                    doc(db,"products",id)
+                );
+
+            if(snap.exists()){
+
+                const data =
+                    snap.data();
+
+                return {
+
+                    price:
+                        data.price !== undefined &&
+                        data.price !== null
+                            ? Number(data.price)
+                            : fallbackPrice,
+
+                    sizes:
+                        Array.isArray(data.sizes) &&
+                        data.sizes.length > 0
+                            ? data.sizes
+                            : fallbackSizes,
+
+                    inStock:
+                        data.inStock !== false
+
+                };
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Product Firebase read error:",
+            name,
+            error
+        );
+
+    }
+
+
+    return {
+
+        price:fallbackPrice,
+
+        sizes:fallbackSizes,
+
+        inStock:true
+
+    };
+
+}
+
+
+/* =====================================================
+   ADD TO CART
+===================================================== */
+
+function addToCart(
+    name,
+    size,
+    price
+){
+
+    let cart = [];
+
+    try{
+
+        cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "sweetyCart"
+                )
+            ) || [];
+
+    }
+    catch(error){
+
+        cart = [];
+
+    }
+
+
+    if(!Array.isArray(cart)){
+        cart = [];
+    }
+
+
+    const existing =
+        cart.find(function(item){
+
+            return(
+                item.name === name &&
+                item.size === size
+            );
+
+        });
+
+
+    if(existing){
+
+        existing.quantity =
+            (Number(existing.quantity) || 1) + 1;
+
+        /* Always keep the latest Admin price */
+        existing.price = price;
+
+    }
+    else{
+
+        cart.push({
+
+            name:name,
+
+            size:size,
+
+            price:price,
+
+            quantity:1
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "sweetyCart",
+        JSON.stringify(cart)
+    );
+
+
+    alert(
+        name +
+        " (" +
+        size +
+        ") cart me add ho gaya! 🛒"
+    );
+
+}
+
+
+/* =====================================================
+   CREATE PRODUCT CARD
+===================================================== */
+
+function createProductCard(
+    name,
+    description,
+    basePrice,
+    sizes,
+    icon,
+    inStock
+){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "product-card";
+
+
+    const safeSizes =
+        Array.isArray(sizes) &&
+        sizes.length
+            ? sizes
+            : ["1 KG"];
+
+
+    card.innerHTML = `
+
+        <div class="product-icon">
+            ${icon}
+        </div>
+
+        <h3>
+            ${name}
+        </h3>
+
+        <p>
+            ${description}
+        </p>
+
+        <div class="price">
+
+            <span class="price-old"></span>
+
+            <span class="price-current">
+                ₹0
+            </span>
+
+            <br>
+
+            <span
+                class="discount-badge"
+                style="display:none;"
+            >
+                0% OFF
+            </span>
+
+        </div>
+
+
+        <label>
+            Size
+        </label>
+
+
+        <select
+            class="size-select"
+            ${!inStock ? "disabled" : ""}
+        >
+
+            ${
+                safeSizes
+                .map(function(size){
+
+                    return `
+                        <option value="${String(size)}">
+                            ${String(size)}
+                        </option>
+                    `;
+
+                })
+                .join("")
+            }
+
+        </select>
+
+
+        ${
+            inStock
+
+            ?
+
+            `
+                <button
+                    class="add-btn"
+                    type="button"
+                >
+                    🛒 Add to Cart
+                </button>
+            `
+
+            :
+
+            `
+                <button
+                    class="out-of-stock-btn"
+                    disabled
+                    type="button"
+                >
+                    ❌ Out of Stock
+                </button>
+            `
+
+        }
+
+    `;
+
+
+    const select =
+        card.querySelector(
+            ".size-select"
+        );
+
+
+    const currentPrice =
+        card.querySelector(
+            ".price-current"
+        );
+
+
+    const oldPrice =
+        card.querySelector(
+            ".price-old"
+        );
+
+
+    const discountBadge =
+        card.querySelector(
+            ".discount-badge"
+        );
+
+
+    function updatePrice(){
+
+        const selectedSize =
+            select.value;
+
+        const kg =
+            sizeToKg(
+                selectedSize
+            );
+
+
+        const normalPrice =
+            Number(basePrice) * kg;
+
+
+        const finalPrice =
+            getFinalPrice(
+                normalPrice
+            );
+
+
+        currentPrice.textContent =
+            "₹" +
+            formatPrice(
+                finalPrice
+            );
+
+
+        if(discountEnabled){
+
+            oldPrice.textContent =
+                "₹" +
+                formatPrice(
+                    normalPrice
+                );
+
+            oldPrice.style.display =
+                "inline";
+
+            discountBadge.textContent =
+                discountPercent +
+                "% OFF";
+
+            discountBadge.style.display =
+                "inline-block";
+
+        }
+        else{
+
+            oldPrice.textContent = "";
+
+            oldPrice.style.display =
+                "none";
+
+            discountBadge.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    updatePrice();
+
+
+    select.addEventListener(
+        "change",
+        updatePrice
+    );
+
+
+    if(inStock){
+
+        const button =
+            card.querySelector(
+                ".add-btn"
+            );
+
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                const size =
+                    select.value;
+
+                const kg =
+                    sizeToKg(
+                        size
+                    );
+
+                const normalPrice =
+                    Number(basePrice) * kg;
+
+                const finalPrice =
+                    getFinalPrice(
+                        normalPrice
+                    );
+
+
+                addToCart(
+                    name,
+                    size,
+                    formatPrice(
+                        finalPrice
+                    )
+                );
+
+            }
+        );
+
+    }
+
+
+    return card;
+
+}
+
+
+/* =====================================================
+   BUILD ALL PRODUCTS
+   IMPORTANT: containers are cleared FIRST so a
+   Firebase update can NEVER create duplicates.
+===================================================== */
+
+async function renderAllProducts(){
+
+    const largeContainer =
+        document.getElementById(
+            "largeProducts"
+        );
+
+    const powderContainer =
+        document.getElementById(
+            "powderProducts"
+        );
+
+    const attaContainer =
+        document.getElementById(
+            "attaProducts"
+        );
+
+    const wholeContainer =
+        document.getElementById(
+            "wholeProducts"
+        );
+
+
+    largeContainer.innerHTML = "";
+    powderContainer.innerHTML = "";
+    attaContainer.innerHTML = "";
+    wholeContainer.innerHTML = "";
+
+
+    await loadDiscount();
+
+
+    /* MAIN PRODUCTS */
+
+    for(const product of largeProducts){
+
+        const data =
+            await getProductData(
+                product.name,
+                product.price,
+                product.sizes
+            );
+
+
+        largeContainer.appendChild(
+
+            createProductCard(
+
+                product.name,
+
+                product.description,
+
+                data.price,
+
+                data.sizes,
+
+                "🌶️",
+
+                data.inStock
+
+            )
+
+        );
+
+    }
+
+
+    /* POWDER PRODUCTS */
+
+    for(const product of powderProducts){
+
+        const data =
+            await getProductData(
+                product[0],
+                product[2],
+                ["250 GM","500 GM","1 KG"]
+            );
+
+
+        powderContainer.appendChild(
+
+            createProductCard(
+
+                product[0],
+
+                product[1],
+
+                data.price,
+
+                data.sizes,
+
+                "🥘",
+
+                data.inStock
+
+            )
+
+        );
+
+    }
+
+
+    /* AATA PRODUCTS */
+
+    for(const product of attaProducts){
+
+        const data =
+            await getProductData(
+                product[0],
+                product[2],
+                ["1 KG","2 KG","3 KG","4 KG","5 KG"]
+            );
+
+
+        attaContainer.appendChild(
+
+            createProductCard(
+
+                product[0],
+
+                product[1],
+
+                data.price,
+
+                data.sizes,
+
+                "🌾",
+
+                data.inStock
+
+            )
+
+        );
+
+    }
+
+
+    /* WHOLE SPICES */
+
+    for(const product of wholeSpices){
+
+        const data =
+            await getProductData(
+                product[0],
+                product[2],
+                ["50 GM","100 GM","250 GM"]
+            );
+
+
+        wholeContainer.appendChild(
+
+            createProductCard(
+
+                product[0],
+
+                product[1],
+
+                data.price,
+
+                data.sizes,
+
+                "🌿",
+
+                data.inStock
+
+            )
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   REALTIME SYNC
+   Every Admin price/size/stock change updates the
+   customer page automatically.
+===================================================== */
+
+const allProducts = [
+
+    ...largeProducts.map(
+        p => p.name
+    ),
+
+    ...powderProducts.map(
+        p => p[0]
+    ),
+
+    ...attaProducts.map(
+        p => p[0]
+    ),
+
+    ...wholeSpices.map(
+        p => p[0]
+    )
+
+];
+
+
+let renderTimer = null;
+let renderRunning = false;
+let renderAgain = false;
+
+
+function scheduleRender(){
+
+    clearTimeout(
+        renderTimer
+    );
+
+
+    renderTimer =
+        setTimeout(
+            async function(){
+
+                if(renderRunning){
+
+                    renderAgain = true;
+
+                    return;
+
+                }
+
+
+                renderRunning = true;
+
+
+                try{
+
+                    await renderAllProducts();
+
+                }
+                finally{
+
+                    renderRunning = false;
+
+
+                    if(renderAgain){
+
+                        renderAgain = false;
+
+                        scheduleRender();
+
+                    }
+
+                }
+
+            },
+            250
+        );
+
+}
+
+
+/* Listen to exact Admin document IDs */
+for(const name of allProducts){
+
+    const ids =
+        productIds(name);
+
+
+    for(const id of ids){
+
+        onSnapshot(
+
+            doc(
+                db,
+                "products",
+                id
+            ),
+
+            function(){
+
+                scheduleRender();
+
+            }
+
+        );
+
+    }
+
+}
+
+
+/* Discount realtime sync */
+
+onSnapshot(
+
+    doc(
+        db,
+        "settings",
+        "discount"
+    ),
+
+    function(){
+
+        scheduleRender();
+
+    }
+
+);
+
+
+/* FIRST LOAD */
+
+renderAllProducts();
+
+</script>
+
+
+
+<script type="module">
+
+/* ==========================================
+   FIREBASE AUTH - LOGIN / LOGOUT
+========================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
+};
+
+
+const firebaseApp =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(firebaseApp);
+
+
+onAuthStateChanged(auth, function(user){
+
+    const userArea =
+    document.getElementById("userArea");
+
+    if(!userArea){
+        return;
+    }
+
+
+    if(user){
+
+        userArea.innerHTML = `
+
+            <div class="user-area">
+
+                <span class="user-email">
+                    👤 ${user.email}
+                </span>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutButton"
+                >
+                    🚪 Logout
+                </button>
+
+            </div>
+
+        `;
+
+
+        document
+        .getElementById("logoutButton")
+        .addEventListener("click", async function(){
+
+            try{
+
+                await signOut(auth);
+
+                alert("✅ Logout successful!");
+
+                window.location.href = "index.html";
+
+            }
+            catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Logout nahi ho paya. Dobara try karein."
+                );
+
+            }
+
+        });
+
+    }
+    else{
+
+        userArea.innerHTML = `
+
+            <a
+                href="login.html"
+                class="login-link"
+            >
+                👤 Login
+            </a>
+
+        `;
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

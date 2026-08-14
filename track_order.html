@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="hi">
 
@@ -25,8 +24,6 @@ body{
     color:#333;
 }
 
-/* HEADER */
-
 header{
     background:#8b0000;
     color:white;
@@ -42,17 +39,11 @@ header p{
     font-size:15px;
 }
 
-
-/* CONTAINER */
-
 .container{
     max-width:1000px;
     margin:25px auto;
     padding:10px 15px 40px;
 }
-
-
-/* BOX */
 
 .box{
     background:white;
@@ -66,9 +57,6 @@ header p{
     color:#8b0000;
     margin-bottom:16px;
 }
-
-
-/* MESSAGES */
 
 .message{
     display:none;
@@ -94,9 +82,6 @@ header p{
     color:#8b0000;
 }
 
-
-/* LOGIN */
-
 .login-required{
     text-align:center;
     padding:35px 15px;
@@ -118,9 +103,6 @@ header p{
     font-weight:bold;
 }
 
-
-/* USER INFO */
-
 .user-info{
     background:#fff4d6;
     border:1px solid #e2c766;
@@ -132,9 +114,6 @@ header p{
 .user-info strong{
     color:#8b0000;
 }
-
-
-/* REFRESH */
 
 .refresh-btn{
     width:100%;
@@ -152,9 +131,6 @@ header p{
     background:#a50000;
 }
 
-
-/* ORDER CARD */
-
 .order-card{
     background:white;
     border:2px solid #ead8bd;
@@ -170,9 +146,6 @@ header p{
 .order-card.returned{
     border-color:#16852d;
 }
-
-
-/* ORDER HEADER */
 
 .order-header{
     display:flex;
@@ -192,9 +165,6 @@ header p{
 .order-id strong{
     color:#8b0000;
 }
-
-
-/* STATUS */
 
 .status-badge{
     display:inline-block;
@@ -238,9 +208,6 @@ header p{
     color:#9b5900;
 }
 
-
-/* CUSTOMER DETAILS */
-
 .customer-details{
     background:#fafafa;
     border:1px solid #eee;
@@ -262,9 +229,6 @@ header p{
     font-weight:bold;
     color:#555;
 }
-
-
-/* PROGRESS */
 
 .progress-box{
     background:#fff8ed;
@@ -351,9 +315,6 @@ header p{
     color:#8b0000;
 }
 
-
-/* ITEMS */
-
 .items-title{
     color:#8b0000;
     font-size:20px;
@@ -388,9 +349,6 @@ header p{
     white-space:nowrap;
 }
 
-
-/* TOTAL */
-
 .total{
     text-align:right;
     margin-top:15px;
@@ -398,9 +356,6 @@ header p{
     font-weight:bold;
     color:#8b0000;
 }
-
-
-/* ACTION BUTTONS */
 
 .action-area{
     margin-top:20px;
@@ -442,9 +397,6 @@ header p{
     background:#d98d00;
 }
 
-
-/* RETURN TIMER */
-
 .return-window{
     background:#e6f8ea;
     color:#16852d;
@@ -465,9 +417,6 @@ header p{
     font-weight:bold;
 }
 
-
-/* MESSAGES INSIDE ORDER */
-
 .cancelled-message{
     background:#ffe5e5;
     color:#a00000;
@@ -487,9 +436,6 @@ header p{
     font-weight:bold;
     text-align:center;
 }
-
-
-/* REVIEW FORM */
 
 .review-box{
     margin-top:20px;
@@ -548,9 +494,6 @@ header p{
     margin-bottom:10px;
 }
 
-
-/* PUBLIC REVIEWS */
-
 .public-reviews{
     margin-top:25px;
 }
@@ -602,9 +545,6 @@ header p{
     border:1px solid #ddd;
 }
 
-
-/* EMPTY */
-
 .no-orders{
     text-align:center;
     padding:35px 15px;
@@ -622,9 +562,6 @@ header p{
     font-weight:bold;
 }
 
-
-/* BACK */
-
 .back-btn{
     display:block;
     width:100%;
@@ -641,9 +578,6 @@ header p{
 .back-btn:hover{
     background:#333;
 }
-
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -683,9 +617,7 @@ header p{
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -723,7 +655,6 @@ class="message success"
 ></div>
 
 
-
 <div
 id="loginRequired"
 class="box login-required"
@@ -747,7 +678,6 @@ class="login-btn"
 </a>
 
 </div>
-
 
 
 <div
@@ -785,12 +715,10 @@ class="refresh-btn"
 </div>
 
 
-
 <div id="ordersContainer"></div>
 
 
 </div>
-
 
 
 <!-- PUBLIC REVIEWS -->
@@ -816,7 +744,6 @@ Customers ke reviews sabhi log dekh sakte hain.
 </div>
 
 
-
 <div class="box">
 
 <a
@@ -825,7 +752,6 @@ class="back-btn"
 >
 🛒 Continue Shopping
 </a>
-
 
 <a
 href="index.html"
@@ -836,9 +762,7 @@ class="back-btn"
 
 </div>
 
-
 </div>
-
 
 
 <script type="module">
@@ -909,14 +833,11 @@ const firebaseConfig = {
 const app =
 initializeApp(firebaseConfig);
 
-
 const auth =
 getAuth(app);
 
-
 const db =
 getFirestore(app);
-
 
 
 /* =========================================================
@@ -968,10 +889,7 @@ document.getElementById(
     "refreshBtn"
 );
 
-
-let currentUser =
-null;
-
+let currentUser = null;
 
 
 /* =========================================================
@@ -988,7 +906,6 @@ function hideMessages(){
 
     successMessage.style.display =
         "none";
-
 }
 
 
@@ -1001,7 +918,6 @@ function showLoading(text){
 
     loadingMessage.style.display =
         "block";
-
 }
 
 
@@ -1014,7 +930,6 @@ function showError(text){
 
     errorMessage.style.display =
         "block";
-
 }
 
 
@@ -1027,9 +942,7 @@ function showSuccess(text){
 
     successMessage.style.display =
         "block";
-
 }
-
 
 
 /* =========================================================
@@ -1043,7 +956,6 @@ function cleanStatus(status){
     )
     .trim()
     .toLowerCase();
-
 }
 
 
@@ -1052,26 +964,20 @@ function getStatusClass(status){
     const s =
         cleanStatus(status);
 
-
     if(s === "new")
         return "status-new";
-
 
     if(s === "accepted")
         return "status-accepted";
 
-
     if(s === "preparing")
         return "status-preparing";
-
 
     if(s === "shipped")
         return "status-shipped";
 
-
     if(s === "delivered")
         return "status-delivered";
-
 
     if(
         s === "cancelled" ||
@@ -1079,17 +985,13 @@ function getStatusClass(status){
     )
         return "status-cancelled";
 
-
     if(
         s.includes("return")
     )
         return "status-return";
 
-
     return "status-new";
-
 }
-
 
 
 /* =========================================================
@@ -1101,30 +1003,22 @@ function canCustomerCancel(status){
     const s =
         cleanStatus(status);
 
-
     return (
-
         s === "new" ||
-
         s === "accepted" ||
-
         s === "preparing"
-
     );
-
 }
 
 
-
 /* =========================================================
-   FIREBASE DATE CONVERTER
+   DATE
 ========================================================= */
 
 function getDateFromValue(value){
 
     if(!value)
         return null;
-
 
     try{
 
@@ -1134,37 +1028,28 @@ function getDateFromValue(value){
         ){
 
             return value.toDate();
-
         }
-
 
         if(
             value instanceof Date
         ){
 
             return value;
-
         }
 
-
         if(
-            typeof value ===
-            "number"
+            typeof value === "number"
         ){
 
             return new Date(value);
-
         }
 
-
         if(
-            typeof value ===
-            "string"
+            typeof value === "string"
         ){
 
             const d =
                 new Date(value);
-
 
             if(
                 !isNaN(
@@ -1173,9 +1058,7 @@ function getDateFromValue(value){
             ){
 
                 return d;
-
             }
-
         }
 
     }
@@ -1185,14 +1068,10 @@ function getDateFromValue(value){
             "DATE ERROR:",
             error
         );
-
     }
 
-
     return null;
-
 }
-
 
 
 /* =========================================================
@@ -1201,25 +1080,15 @@ function getDateFromValue(value){
 
 function getDeliveredDate(data){
 
-    /*
-       Admin Panel se deliveredAt
-       save hua ho to wahi use hoga.
-    */
-
     const possibleFields = [
 
         "deliveredAt",
-
         "deliveredOn",
-
         "deliveryDate",
-
         "deliveryCompletedAt",
-
         "statusUpdatedAt"
 
     ];
-
 
     for(
         const field
@@ -1231,29 +1100,22 @@ function getDeliveredDate(data){
                 data[field]
             );
 
-
         if(date){
 
             return date;
-
         }
-
     }
 
-
     return null;
-
 }
 
 
-
 /* =========================================================
-   24 HOUR RETURN RULE
+   RETURN WINDOW
 ========================================================= */
 
 const RETURN_WINDOW_HOURS =
 24;
-
 
 const RETURN_WINDOW_MS =
 RETURN_WINDOW_HOURS *
@@ -1269,71 +1131,69 @@ function getReturnInfo(data){
             data.status
         );
 
-
     if(
         status !== "delivered"
     ){
 
         return {
-
             eligible:false,
-
             expired:false,
-
             remainingMs:0,
-
             deliveredDate:null
-
         };
+    }
 
+
+    /*
+       Agar return request already submit ho chuki hai
+       to dobara return option nahi dikhayenge.
+    */
+
+    const returnStatus =
+        String(
+            data.returnStatus || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if(
+        returnStatus === "pending" ||
+        returnStatus === "approved" ||
+        returnStatus === "picked" ||
+        returnStatus === "completed"
+    ){
+
+        return {
+            eligible:false,
+            expired:false,
+            remainingMs:0,
+            deliveredDate:
+                getDeliveredDate(data)
+        };
     }
 
 
     const deliveredDate =
-        getDeliveredDate(
-            data
-        );
-
-
-    /*
-       Exact delivered time nahi mila
-       to return button nahi dikhayenge.
-       Isse galat 24-hour return allow nahi hoga.
-    */
+        getDeliveredDate(data);
 
     if(!deliveredDate){
 
         return {
-
             eligible:false,
-
             expired:true,
-
             remainingMs:0,
-
             deliveredDate:null
-
         };
-
     }
 
 
-    const deliveredMs =
-        deliveredDate.getTime();
-
-
     const expiryMs =
-        deliveredMs +
+        deliveredDate.getTime() +
         RETURN_WINDOW_MS;
-
-
-    const nowMs =
-        Date.now();
-
 
     const remainingMs =
         expiryMs -
-        nowMs;
+        Date.now();
 
 
     if(
@@ -1341,44 +1201,28 @@ function getReturnInfo(data){
     ){
 
         return {
-
             eligible:true,
-
             expired:false,
-
             remainingMs:
-
                 remainingMs,
-
             deliveredDate:
-
                 deliveredDate
-
         };
-
     }
 
 
     return {
-
         eligible:false,
-
         expired:true,
-
         remainingMs:0,
-
         deliveredDate:
-
             deliveredDate
-
     };
-
 }
 
 
-
 /* =========================================================
-   RETURN TIMER TEXT
+   TIMER TEXT
 ========================================================= */
 
 function formatRemainingTime(
@@ -1390,42 +1234,29 @@ function formatRemainingTime(
     ){
 
         return "Return window khatam ho gaya.";
-
     }
-
 
     let totalSeconds =
         Math.floor(
-            remainingMs /
-            1000
+            remainingMs / 1000
         );
-
 
     const hours =
         Math.floor(
-            totalSeconds /
-            3600
+            totalSeconds / 3600
         );
 
-
-    totalSeconds %=
-        3600;
-
+    totalSeconds %= 3600;
 
     const minutes =
         Math.floor(
-            totalSeconds /
-            60
+            totalSeconds / 60
         );
 
-
     const seconds =
-        totalSeconds %
-        60;
-
+        totalSeconds % 60;
 
     return (
-
         "⏰ Return ke liye " +
 
         String(hours)
@@ -1442,44 +1273,22 @@ function formatRemainingTime(
         .padStart(2,"0") +
 
         "s bache hain."
-
     );
-
 }
-
 
 
 /* =========================================================
    REVIEW RULE
 ========================================================= */
 
-function canCustomerReview(
-    data
-){
-
-    const status =
-        cleanStatus(
-            data.status
-        );
-
-
-    /*
-       Review sirf Delivered/
-       Confirmed order par.
-    */
+function canCustomerReview(data){
 
     return (
-
-        status === "delivered" ||
-
-        status === "confirmed" ||
-
-        status === "completed"
-
+        cleanStatus(data.status)
+        ===
+        "delivered"
     );
-
 }
-
 
 
 /* =========================================================
@@ -1491,21 +1300,15 @@ function createProgress(status){
     const s =
         cleanStatus(status);
 
-
     const steps = [
 
         "new",
-
         "accepted",
-
         "preparing",
-
         "shipped",
-
         "delivered"
 
     ];
-
 
     let currentIndex =
         steps.indexOf(s);
@@ -1517,29 +1320,15 @@ function createProgress(status){
     ){
 
         currentIndex = -1;
-
-    }
-
-
-    if(
-        s.includes("return")
-    ){
-
-        currentIndex = 4;
-
     }
 
 
     const names = [
 
         "New",
-
         "Accepted",
-
         "Preparing",
-
         "Shipped",
-
         "Delivered"
 
     ];
@@ -1574,9 +1363,7 @@ function createProgress(status){
 
                     className +=
                         " completed";
-
                 }
-
 
                 else if(
                     index ===
@@ -1585,9 +1372,7 @@ function createProgress(status){
 
                     className +=
                         " current";
-
                 }
-
             }
 
 
@@ -1608,7 +1393,6 @@ function createProgress(status){
 
             </div>
             `;
-
         }
     );
 
@@ -1622,9 +1406,7 @@ function createProgress(status){
 
 
     return html;
-
 }
-
 
 
 /* =========================================================
@@ -1638,10 +1420,8 @@ function formatDate(timestamp){
             timestamp
         );
 
-
     if(!date)
         return "-";
-
 
     try{
 
@@ -1660,11 +1440,8 @@ function formatDate(timestamp){
     catch(error){
 
         return "-";
-
     }
-
 }
-
 
 
 /* =========================================================
@@ -1696,9 +1473,7 @@ function escapeHtml(value){
         /'/g,
         "&#039;"
     );
-
 }
-
 
 
 /* =========================================================
@@ -1717,7 +1492,6 @@ function createItems(items){
             Order items nahi mile.
         </div>
         `;
-
     }
 
 
@@ -1733,25 +1507,21 @@ function createItems(items){
                     "Product"
                 );
 
-
             const size =
                 escapeHtml(
                     item.size ||
                     "-"
                 );
 
-
             const quantity =
                 Number(
                     item.quantity
                 ) || 1;
 
-
             const price =
                 Number(
                     item.price
                 ) || 0;
-
 
             const itemTotal =
                 price *
@@ -1785,15 +1555,12 @@ function createItems(items){
 
             </div>
             `;
-
         }
     );
 
 
     return html;
-
 }
-
 
 
 /* =========================================================
@@ -1824,7 +1591,6 @@ function createReviewForm(
 
         productName =
             items[0].name;
-
     }
 
 
@@ -1839,6 +1605,7 @@ function createReviewForm(
         <p class="review-note">
             Aapka review public hoga aur
             sabhi customers dekh sakte hain.
+            Aapka naam bhi review ke saath dikhega.
         </p>
 
 
@@ -1913,9 +1680,7 @@ function createReviewForm(
     </div>
 
     `;
-
 }
-
 
 
 /* =========================================================
@@ -1927,15 +1692,12 @@ function createOrderCard(order){
     const data =
         order.data();
 
-
     const orderId =
         order.id;
-
 
     const status =
         data.status ||
         "New";
-
 
     const normalizedStatus =
         cleanStatus(status);
@@ -1997,7 +1759,6 @@ function createOrderCard(order){
     let actionHtml = "";
 
 
-
     /* =====================================================
        CANCEL
     ===================================================== */
@@ -2018,19 +1779,25 @@ function createOrderCard(order){
             ❌ Cancel Order
         </button>
         `;
-
     }
 
 
-
     /* =====================================================
-       RETURN - ONLY 24 HOURS
+       RETURN
     ===================================================== */
 
     const returnInfo =
         getReturnInfo(
             data
         );
+
+
+    const returnStatus =
+        String(
+            data.returnStatus || ""
+        )
+        .trim()
+        .toLowerCase();
 
 
     if(
@@ -2059,19 +1826,12 @@ function createOrderCard(order){
             🔄 Return Product
         </button>
         `;
-
     }
 
 
-
-    /*
-       Delivered but 24 hour expired
-       => Return button nahi.
-    */
-
     else if(
-        normalizedStatus ===
-        "delivered" &&
+        normalizedStatus === "delivered" &&
+        returnStatus === "" &&
         returnInfo.expired
     ){
 
@@ -2084,9 +1844,68 @@ function createOrderCard(order){
             Ab return option available nahi hai.
         </div>
         `;
-
     }
 
+
+    /* =====================================================
+       RETURN REQUEST STATUS
+    ===================================================== */
+
+    if(
+        returnStatus === "pending"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            🔄 Return request submit ho chuki hai.
+            Admin request check karega.
+        </div>
+        `;
+    }
+
+
+    if(
+        returnStatus === "approved"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return request approve ho gayi hai.
+        </div>
+        `;
+    }
+
+
+    if(
+        returnStatus === "picked"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            📦 Return pickup process me hai.
+        </div>
+        `;
+    }
+
+
+    if(
+        returnStatus === "completed"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return complete ho gaya hai.
+        </div>
+        `;
+    }
 
 
     /* =====================================================
@@ -2105,79 +1924,7 @@ function createOrderCard(order){
             ❌ Ye order cancel ho chuka hai.
         </div>
         `;
-
     }
-
-
-
-    /* =====================================================
-       RETURN STATUS
-    ===================================================== */
-
-    if(
-        normalizedStatus ===
-        "return requested"
-    ){
-
-        actionHtml +=
-
-        `
-        <div class="return-message">
-            🔄 Return request submit ho chuki hai.
-            Admin request check karega.
-        </div>
-        `;
-
-    }
-
-
-    if(
-        normalizedStatus ===
-        "return approved"
-    ){
-
-        actionHtml +=
-
-        `
-        <div class="return-message">
-            ✅ Return request approve ho gayi hai.
-        </div>
-        `;
-
-    }
-
-
-    if(
-        normalizedStatus ===
-        "return picked"
-    ){
-
-        actionHtml +=
-
-        `
-        <div class="return-message">
-            📦 Return pickup process me hai.
-        </div>
-        `;
-
-    }
-
-
-    if(
-        normalizedStatus ===
-        "returned"
-    ){
-
-        actionHtml +=
-
-        `
-        <div class="return-message">
-            ✅ Return complete ho gaya hai.
-        </div>
-        `;
-
-    }
-
 
 
     /* =====================================================
@@ -2201,7 +1948,6 @@ function createOrderCard(order){
                 Dhanyavaad!
             </div>
             `;
-
         }
 
         else{
@@ -2211,11 +1957,8 @@ function createOrderCard(order){
                     orderId,
                     data
                 );
-
         }
-
     }
-
 
 
     const card =
@@ -2229,33 +1972,27 @@ function createOrderCard(order){
 
 
     if(
-        normalizedStatus ===
-        "cancelled" ||
-        normalizedStatus ===
-        "canceled"
+        normalizedStatus === "cancelled" ||
+        normalizedStatus === "canceled"
     ){
 
         card.classList.add(
             "cancelled"
         );
-
     }
 
 
     if(
-        normalizedStatus.includes(
-            "return"
-        ) ||
-        normalizedStatus ===
-        "returned"
+        returnStatus === "pending" ||
+        returnStatus === "approved" ||
+        returnStatus === "picked" ||
+        returnStatus === "completed"
     ){
 
         card.classList.add(
             "returned"
         );
-
     }
-
 
 
     card.innerHTML =
@@ -2290,7 +2027,6 @@ function createOrderCard(order){
         </div>
 
     </div>
-
 
 
     <div class="customer-details">
@@ -2363,9 +2099,7 @@ function createOrderCard(order){
     </div>
 
 
-
     ${createProgress(status)}
-
 
 
     <h3 class="items-title">
@@ -2390,7 +2124,6 @@ function createOrderCard(order){
     </div>
 
 
-
     ${
         actionHtml
         ?
@@ -2409,9 +2142,7 @@ function createOrderCard(order){
 
 
     return card;
-
 }
-
 
 
 /* =========================================================
@@ -2423,7 +2154,6 @@ async function loadOrders(){
     if(!currentUser){
 
         return;
-
     }
 
 
@@ -2432,7 +2162,8 @@ async function loadOrders(){
     );
 
 
-    ordersContainer.innerHTML = "";
+    ordersContainer.innerHTML =
+        "";
 
 
     try{
@@ -2465,7 +2196,6 @@ async function loadOrders(){
             function(order){
 
                 orders.push(order);
-
             }
         );
 
@@ -2490,7 +2220,6 @@ async function loadOrders(){
                 ){
 
                     return 0;
-
                 }
 
 
@@ -2499,7 +2228,6 @@ async function loadOrders(){
                     -
                     aDate.getTime()
                 );
-
             }
         );
 
@@ -2537,9 +2265,7 @@ async function loadOrders(){
             `;
 
             return;
-
         }
-
 
 
         orders.forEach(
@@ -2548,7 +2274,6 @@ async function loadOrders(){
                 ordersContainer.appendChild(
                     createOrderCard(order)
                 );
-
             }
         );
 
@@ -2556,7 +2281,6 @@ async function loadOrders(){
         attachActionButtons();
 
         startReturnTimers();
-
 
     }
     catch(error){
@@ -2570,11 +2294,8 @@ async function loadOrders(){
         showError(
             "Orders load nahi ho pa rahe. Firebase Rules check karein."
         );
-
     }
-
 }
-
 
 
 /* =========================================================
@@ -2601,14 +2322,6 @@ function startReturnTimers(){
                 setInterval(
                     async function(){
 
-                        const ref =
-                            doc(
-                                db,
-                                "orders",
-                                orderId
-                            );
-
-
                         try{
 
                             const snap =
@@ -2618,6 +2331,7 @@ function startReturnTimers(){
                                             db,
                                             "orders"
                                         ),
+
                                         where(
                                             "__name__",
                                             "==",
@@ -2636,13 +2350,11 @@ function startReturnTimers(){
                                 );
 
                                 return;
-
                             }
 
 
                             const orderDoc =
                                 snap.docs[0];
-
 
                             const data =
                                 orderDoc.data();
@@ -2662,11 +2374,9 @@ function startReturnTimers(){
                                     interval
                                 );
 
-
                                 await loadOrders();
 
                                 return;
-
                             }
 
 
@@ -2682,18 +2392,14 @@ function startReturnTimers(){
                                 "TIMER ERROR:",
                                 error
                             );
-
                         }
 
                     },
                     1000
                 );
-
         }
     );
-
 }
-
 
 
 /* =========================================================
@@ -2711,7 +2417,6 @@ async function cancelOrder(
         );
 
         return;
-
     }
 
 
@@ -2724,7 +2429,6 @@ async function cancelOrder(
     if(!confirmCancel){
 
         return;
-
     }
 
 
@@ -2741,6 +2445,61 @@ async function cancelOrder(
                 "orders",
                 orderId
             );
+
+
+        /*
+           Pehle current order read karenge.
+           Isse Shipped/Delivered ko accidentally
+           cancel nahi kiya ja sakega.
+        */
+
+        const orderSnapshot =
+            await getDocs(
+                query(
+                    collection(
+                        db,
+                        "orders"
+                    ),
+
+                    where(
+                        "__name__",
+                        "==",
+                        orderId
+                    )
+                )
+            );
+
+
+        if(
+            orderSnapshot.empty
+        ){
+
+            showError(
+                "Order nahi mila."
+            );
+
+            return;
+        }
+
+
+        const orderData =
+            orderSnapshot.docs[0].data();
+
+
+        if(
+            !canCustomerCancel(
+                orderData.status
+            )
+        ){
+
+            showError(
+                "Shipped ya Delivered order cancel nahi kiya ja sakta."
+            );
+
+            await loadOrders();
+
+            return;
+        }
 
 
         await updateDoc(
@@ -2779,15 +2538,12 @@ async function cancelOrder(
         showError(
             "Order cancel nahi hua. Firebase Rules check karein."
         );
-
     }
-
 }
 
 
-
 /* =========================================================
-   RETURN ORDER - 24 HOURS CHECK
+   RETURN ORDER
 ========================================================= */
 
 async function returnOrder(
@@ -2801,7 +2557,6 @@ async function returnOrder(
         );
 
         return;
-
     }
 
 
@@ -2837,7 +2592,6 @@ async function returnOrder(
             );
 
             return;
-
         }
 
 
@@ -2849,12 +2603,6 @@ async function returnOrder(
             orderDoc.data();
 
 
-        /*
-           SECURITY CHECK:
-           Customer sirf delivered order
-           ko return kar sakta hai.
-        */
-
         if(
             cleanStatus(data.status)
             !==
@@ -2862,19 +2610,39 @@ async function returnOrder(
         ){
 
             showError(
-                "Ye order ab return ke liye eligible nahi hai."
+                "Return sirf Delivered order ke baad kiya ja sakta hai."
             );
 
             await loadOrders();
 
             return;
-
         }
 
 
-        /*
-           24 HOURS CHECK
-        */
+        const existingReturnStatus =
+            String(
+                data.returnStatus || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if(
+            existingReturnStatus === "pending" ||
+            existingReturnStatus === "approved" ||
+            existingReturnStatus === "picked" ||
+            existingReturnStatus === "completed"
+        ){
+
+            showError(
+                "Is order ki return request already submit ho chuki hai."
+            );
+
+            await loadOrders();
+
+            return;
+        }
+
 
         const returnInfo =
             getReturnInfo(data);
@@ -2891,7 +2659,6 @@ async function returnOrder(
             await loadOrders();
 
             return;
-
         }
 
 
@@ -2904,7 +2671,6 @@ async function returnOrder(
         if(!confirmReturn){
 
             return;
-
         }
 
 
@@ -2920,7 +2686,6 @@ async function returnOrder(
         ){
 
             return;
-
         }
 
 
@@ -2937,15 +2702,21 @@ async function returnOrder(
             );
 
 
+        const customerPhone =
+            data.customerPhone ||
+            data.phone ||
+            "";
+
+
         await updateDoc(
             orderRef,
             {
 
-                status:
-                    "Return Requested",
+                returnStatus:
+                    "Pending",
 
                 returnRequestedBy:
-                    "customer",
+                    customerPhone,
 
                 returnReason:
                     reason.trim(),
@@ -2976,11 +2747,8 @@ async function returnOrder(
         showError(
             "Return request submit nahi hui. Firebase Rules check karein."
         );
-
     }
-
 }
-
 
 
 /* =========================================================
@@ -2999,16 +2767,10 @@ async function submitReview(
         );
 
         return;
-
     }
 
 
     try{
-
-        /*
-           Fresh order data Firebase se
-           dobara read kar rahe hain.
-        */
 
         const orderQuery =
             query(
@@ -3040,7 +2802,6 @@ async function submitReview(
             );
 
             return;
-
         }
 
 
@@ -3052,12 +2813,6 @@ async function submitReview(
             orderDoc.data();
 
 
-        /*
-           Review sirf delivered /
-           confirmed / completed order
-           ke liye.
-        */
-
         if(
             !canCustomerReview(
                 orderData
@@ -3065,16 +2820,16 @@ async function submitReview(
         ){
 
             showError(
-                "Review sirf confirmed/delivered order ke baad diya ja sakta hai."
+                "Review sirf Delivered order ke baad diya ja sakta hai."
             );
 
             return;
-
         }
 
 
         if(
-            orderData.reviewSubmitted === true
+            orderData.reviewSubmitted === true ||
+            orderData.reviewSubmitted === "true"
         ){
 
             showError(
@@ -3082,7 +2837,6 @@ async function submitReview(
             );
 
             return;
-
         }
 
 
@@ -3132,7 +2886,6 @@ async function submitReview(
             );
 
             return;
-
         }
 
 
@@ -3146,7 +2899,30 @@ async function submitReview(
             );
 
             return;
+        }
 
+
+        const customerPhone =
+            orderData.customerPhone ||
+            orderData.phone ||
+            "";
+
+
+        const customerName =
+            orderData.customerName ||
+            orderData.name ||
+            "Customer";
+
+
+        if(
+            !customerPhone
+        ){
+
+            showError(
+                "Order me customer mobile number nahi mila."
+            );
+
+            return;
         }
 
 
@@ -3156,7 +2932,7 @@ async function submitReview(
 
 
         /*
-           PUBLIC REVIEW DOCUMENT
+           PUBLIC REVIEW
         */
 
         await addDoc(
@@ -3174,9 +2950,10 @@ async function submitReview(
                     "",
 
                 customerName:
-                    orderData.customerName ||
-                    orderData.name ||
-                    "Customer",
+                    customerName,
+
+                customerPhone:
+                    customerPhone,
 
                 orderId:
                     orderId,
@@ -3187,6 +2964,9 @@ async function submitReview(
 
                 rating:
                     rating,
+
+                text:
+                    reviewText,
 
                 review:
                     reviewText,
@@ -3205,8 +2985,7 @@ async function submitReview(
 
 
         /*
-           Order me mark kar denge ki
-           review submit ho chuka hai.
+           Order me review submitted flag
         */
 
         await updateDoc(
@@ -3248,11 +3027,8 @@ async function submitReview(
         showError(
             "Review submit nahi hua. Firebase Rules check karein."
         );
-
     }
-
 }
-
 
 
 /* =========================================================
@@ -3290,7 +3066,6 @@ function attachActionButtons(){
                         cancelOrder(
                             orderId
                         );
-
                     }
 
 
@@ -3302,7 +3077,6 @@ function attachActionButtons(){
                         returnOrder(
                             orderId
                         );
-
                     }
 
 
@@ -3315,7 +3089,6 @@ function attachActionButtons(){
                             orderId,
                             button.dataset.productName
                         );
-
                     }
 
                 }
@@ -3323,9 +3096,7 @@ function attachActionButtons(){
 
         }
     );
-
 }
-
 
 
 /* =========================================================
@@ -3344,11 +3115,6 @@ async function loadPublicReviews(){
         </div>
         `;
 
-
-        /*
-           Public reviews collection se
-           reviews load honge.
-        */
 
         const reviewsQuery =
             query(
@@ -3391,7 +3157,6 @@ async function loadPublicReviews(){
             `;
 
             return;
-
         }
 
 
@@ -3433,6 +3198,7 @@ async function loadPublicReviews(){
                 const reviewText =
                     escapeHtml(
                         data.review ||
+                        data.text ||
                         ""
                     );
 
@@ -3478,7 +3244,6 @@ async function loadPublicReviews(){
                         onerror="this.style.display='none';"
                     >
                     `;
-
                 }
 
 
@@ -3549,11 +3314,8 @@ async function loadPublicReviews(){
             ⭐ Reviews abhi load nahi ho pa rahe.
         </div>
         `;
-
     }
-
 }
-
 
 
 /* =========================================================
@@ -3583,9 +3345,7 @@ onAuthStateChanged(
 
             await loadPublicReviews();
 
-
             return;
-
         }
 
 
@@ -3610,7 +3370,6 @@ onAuthStateChanged(
 );
 
 
-
 /* =========================================================
    REFRESH
 ========================================================= */
@@ -3622,7 +3381,6 @@ refreshBtn.addEventListener(
         if(currentUser){
 
             loadOrders();
-
         }
 
         loadPublicReviews();
@@ -3631,13 +3389,11 @@ refreshBtn.addEventListener(
 );
 
 
-
 /* =========================================================
-   INITIAL PUBLIC REVIEWS LOAD
+   INITIAL PUBLIC REVIEWS
 ========================================================= */
 
 loadPublicReviews();
-
 
 </script>
 
@@ -3645,4 +3401,3 @@ loadPublicReviews();
 </body>
 
 </html>
-```

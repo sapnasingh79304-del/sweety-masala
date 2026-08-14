@@ -624,6 +624,8 @@ import {
     getFirestore,
     doc,
     getDoc,
+    collection,
+    getDocs,
     onSnapshot
 }
 from
@@ -671,11 +673,6 @@ getFirestore(app);
 
 /* =====================================================
    DEFAULT PRODUCTS
-
-   Ye sirf FALLBACK hain.
-
-   Firebase/Admin Panel me value milte hi
-   Firebase wali value use hogi.
 ===================================================== */
 
 const largeProducts = [
@@ -1090,6 +1087,12 @@ async function loadDiscount(){
             ) || 0;
 
         }
+        else{
+
+            discountEnabled = false;
+            discountPercent = 0;
+
+        }
 
     }
     catch(error){
@@ -1104,16 +1107,15 @@ async function loadDiscount(){
 }
 
 
-function getFinalPrice(
-    price
-){
+function getFinalPrice(price){
 
     const value =
     Number(price) || 0;
 
 
     if(
-        !discountEnabled
+        !discountEnabled ||
+        discountPercent <= 0
     ){
 
         return value;
@@ -1131,9 +1133,7 @@ function getFinalPrice(
 }
 
 
-function formatPrice(
-    price
-){
+function formatPrice(price){
 
     return Math.round(
         Number(price) || 0
@@ -1147,9 +1147,7 @@ function formatPrice(
    PRODUCT ID ALIASES
 ===================================================== */
 
-function getProductIds(
-    product
-){
+function getProductIds(product){
 
     const ids = [];
 
@@ -1157,7 +1155,8 @@ function getProductIds(
     if(product.id){
 
         ids.push(
-            product.id
+            String(product.id)
+            .trim()
         );
 
     }
@@ -1215,8 +1214,118 @@ function getProductIds(
 
 
     return [
-        ...new Set(ids)
+        ...new Set(
+            ids.filter(Boolean)
+        )
     ];
+
+}
+
+
+
+/* =====================================================
+   NORMALIZE PRODUCT DATA
+===================================================== */
+
+function normalizeFirebaseProduct(
+    fallbackProduct,
+    firebaseData,
+    documentId
+){
+
+    const data =
+    firebaseData || {};
+
+
+    const result = {
+
+        ...fallbackProduct,
+
+        ...data,
+
+        id:
+            documentId ||
+            data.id ||
+            fallbackProduct.id,
+
+        name:
+            data.name ||
+            fallbackProduct.name,
+
+        description:
+            data.description !== undefined
+            ? data.description
+            : fallbackProduct.description,
+
+        icon:
+            data.icon ||
+            fallbackProduct.icon,
+
+        firebaseFound:true
+
+    };
+
+
+    /*
+       Firebase me price string me bhi save ho
+       to number me convert hoga.
+    */
+
+    if(
+        data.price !== undefined &&
+        data.price !== null &&
+        data.price !== ""
+    ){
+
+        const numericPrice =
+        Number(data.price);
+
+
+        if(
+            Number.isFinite(
+                numericPrice
+            )
+        ){
+
+            result.price =
+            numericPrice;
+
+        }
+
+    }
+
+
+    /*
+       Firebase ke sizes ko priority.
+    */
+
+    if(
+        Array.isArray(data.sizes) &&
+        data.sizes.length > 0
+    ){
+
+        result.sizes =
+        data.sizes;
+
+    }
+
+
+    /*
+       sizePrices ko preserve karo.
+    */
+
+    if(
+        data.sizePrices &&
+        typeof data.sizePrices === "object"
+    ){
+
+        result.sizePrices =
+        data.sizePrices;
+
+    }
+
+
+    return result;
 
 }
 
@@ -1226,17 +1335,17 @@ function getProductIds(
    LOAD FIREBASE PRODUCT
 ===================================================== */
 
-async function getProductData(
-    product
-){
+async function getProductData(product){
 
     const ids =
-    getProductIds(
-        product
-    );
+    getProductIds(product);
 
 
     try{
+
+        /*
+           Pehle known IDs check honge.
+        */
 
         for(
             const id
@@ -1257,17 +1366,75 @@ async function getProductData(
                 snap.exists()
             ){
 
-                return {
+                return normalizeFirebaseProduct(
 
-                    id:id,
+                    product,
 
-                    ...product,
+                    snap.data(),
 
-                    ...snap.data(),
+                    snap.id
 
-                    firebaseFound:true
+                );
 
-                };
+            }
+
+        }
+
+
+        /*
+           Agar Admin Panel ne random Firebase
+           document ID use ki hai, to naam ke
+           basis par product dhoondhenge.
+        */
+
+        const productsSnapshot =
+        await getDocs(
+            collection(
+                db,
+                "products"
+            )
+        );
+
+
+        const targetName =
+        String(
+            product.name || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+        for(
+            const productDoc
+            of productsSnapshot.docs
+        ){
+
+            const data =
+            productDoc.data();
+
+
+            const firebaseName =
+            String(
+                data.name || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+            if(
+                firebaseName ===
+                targetName
+            ){
+
+                return normalizeFirebaseProduct(
+
+                    product,
+
+                    data,
+
+                    productDoc.id
+
+                );
 
             }
 
@@ -1284,6 +1451,11 @@ async function getProductData(
 
     }
 
+
+    /*
+       Firebase me product nahi mila to
+       original fallback use hoga.
+    */
 
     return {
 
@@ -1306,13 +1478,18 @@ function calculatePrice(
     size
 ){
 
-    let price =
-    null;
+    const selectedSize =
+    String(
+        size || ""
+    )
+    .trim()
+    .toUpperCase();
 
 
     /*
-       Admin Panel ka
-       sizePrices sabse pehle.
+       ==================================================
+       1. ADMIN PANEL SIZE-WISE PRICE
+       ==================================================
     */
 
     if(
@@ -1329,13 +1506,13 @@ function calculatePrice(
         const exactKey =
         keys.find(
             key =>
+
             String(key)
             .trim()
-            .toLowerCase()
+            .toUpperCase()
             ===
-            String(size)
-            .trim()
-            .toLowerCase()
+            selectedSize
+
         );
 
 
@@ -1357,8 +1534,11 @@ function calculatePrice(
                 )
             ){
 
-                price =
-                savedPrice;
+                return formatPrice(
+                    getFinalPrice(
+                        savedPrice
+                    )
+                );
 
             }
 
@@ -1368,47 +1548,36 @@ function calculatePrice(
 
 
     /*
-       Agar size-wise price nahi hai
-       to Admin Panel ka base price.
+       ==================================================
+       2. ADMIN PANEL BASE PRICE
+       ==================================================
     */
 
+    const basePrice =
+    Number(
+        product.price
+    );
+
+
     if(
-        price === null
+        Number.isFinite(
+            basePrice
+        )
     ){
 
-        const basePrice =
-        Number(
-            product.price
-        );
-
-
-        if(
-            Number.isFinite(
-                basePrice
+        return formatPrice(
+            getFinalPrice(
+                basePrice *
+                sizeToKg(
+                    selectedSize
+                )
             )
-        ){
-
-            price =
-            basePrice *
-            sizeToKg(
-                size
-            );
-
-        }
-        else{
-
-            price = 0;
-
-        }
+        );
 
     }
 
 
-    return formatPrice(
-        getFinalPrice(
-            price
-        )
-    );
+    return 0;
 
 }
 
@@ -1418,9 +1587,7 @@ function calculatePrice(
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(
-    value
-){
+function escapeHTML(value){
 
     return String(
         value ?? ""
@@ -1454,9 +1621,7 @@ function escapeHTML(
    CREATE CARD
 ===================================================== */
 
-function createProductCard(
-    product
-){
+function createProductCard(product){
 
     const card =
     document.createElement(
@@ -1480,14 +1645,27 @@ function createProductCard(
 
 
     /*
-       Admin Panel se sizes aaye hain
-       to wahi use honge.
+       Admin Panel ke sizes agar array nahi hai
+       to fallback sizes use honge.
     */
+
+    if(
+        !Array.isArray(sizes) ||
+        sizes.length === 0
+    ){
+
+        sizes = ["1 KG"];
+
+    }
 
 
     let available =
     true;
 
+
+    /*
+       STOCK CHECK
+    */
 
     if(
         product.inStock === false ||
@@ -1604,9 +1782,12 @@ function createProductCard(
                 class="discount-badge"
                 style="
                     display:
-                    ${discountEnabled
-                    ? "inline-block"
-                    : "none"};
+                    ${
+                        discountEnabled &&
+                        discountPercent > 0
+                        ? "inline-block"
+                        : "none"
+                    };
                 "
             >
                 ${discountPercent}% OFF
@@ -1716,7 +1897,7 @@ function createProductCard(
 
 
         /*
-           Discount old price
+           DISCOUNT OLD PRICE
         */
 
         if(
@@ -1728,7 +1909,8 @@ function createProductCard(
             price /
             (
                 1 -
-                discountPercent / 100
+                discountPercent /
+                100
             );
 
 
@@ -1751,6 +1933,13 @@ function createProductCard(
         }
 
     }
+
+
+    /*
+       Initial price refresh
+    */
+
+    refreshPrice();
 
 
     select.addEventListener(
@@ -1839,11 +2028,15 @@ function addToCart(
     const existing =
     cart.find(
         item =>
+
         item.name ===
         product.name
+
         &&
+
         item.size ===
         size
+
     );
 
 
@@ -1858,6 +2051,11 @@ function addToCart(
             ) || 1
         ) + 1;
 
+
+        /*
+           Current Admin Panel price
+           cart me bhi update hoga.
+        */
 
         existing.price =
         price;
@@ -1951,17 +2149,24 @@ async function renderProducts(){
     );
 
 
+    if(!largeContainer ||
+       !powderContainer ||
+       !attaContainer ||
+       !wholeContainer){
+
+        return;
+
+    }
+
+
     largeContainer.innerHTML =
     "";
-
 
     powderContainer.innerHTML =
     "";
 
-
     attaContainer.innerHTML =
     "";
-
 
     wholeContainer.innerHTML =
     "";
@@ -2001,7 +2206,6 @@ async function renderProducts(){
 
         }
 
-
         else if(
             fallbackProduct.category
             ===
@@ -2014,7 +2218,6 @@ async function renderProducts(){
 
         }
 
-
         else if(
             fallbackProduct.category
             ===
@@ -2026,7 +2229,6 @@ async function renderProducts(){
             );
 
         }
-
 
         else if(
             fallbackProduct.category
@@ -2162,8 +2364,8 @@ for(
             function(){
 
                 /*
-                   Admin Panel me koi bhi product
-                   change hote hi index refresh.
+                   Admin Panel me known ID wale
+                   product change hote hi index refresh.
                 */
 
                 scheduleRender();
@@ -2185,6 +2387,43 @@ for(
     }
 
 }
+
+
+
+/* =====================================================
+   ALL PRODUCTS COLLECTION LISTENER
+   Random Firebase document IDs ke liye
+===================================================== */
+
+onSnapshot(
+
+    collection(
+        db,
+        "products"
+    ),
+
+    function(){
+
+        /*
+           Admin Panel me kisi bhi product ka
+           price / size / stock / image change
+           hone par index refresh hoga.
+        */
+
+        scheduleRender();
+
+    },
+
+    function(error){
+
+        console.error(
+            "Products collection listener error:",
+            error
+        );
+
+    }
+
+);
 
 
 
@@ -2364,41 +2603,45 @@ onAuthStateChanged(
             );
 
 
-            logoutButton.addEventListener(
-                "click",
-                async function(){
+            if(logoutButton){
 
-                    try{
+                logoutButton.addEventListener(
+                    "click",
+                    async function(){
 
-                        await signOut(
-                            auth
-                        );
+                        try{
 
-
-                        alert(
-                            "✅ Logout successful!"
-                        );
+                            await signOut(
+                                auth
+                            );
 
 
-                        window.location.href =
-                        "index.html";
+                            alert(
+                                "✅ Logout successful!"
+                            );
+
+
+                            window.location.href =
+                            "index.html";
+
+                        }
+                        catch(error){
+
+                            console.error(
+                                error
+                            );
+
+
+                            alert(
+                                "Logout nahi ho paya. Dobara try karein."
+                            );
+
+                        }
 
                     }
-                    catch(error){
+                );
 
-                        console.error(
-                            error
-                        );
-
-
-                        alert(
-                            "Logout nahi ho paya. Dobara try karein."
-                        );
-
-                    }
-
-                }
-            );
+            }
 
         }
         else{

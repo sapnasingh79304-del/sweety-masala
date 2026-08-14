@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
 
@@ -5,7 +6,8 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Track Order | Sweety Masala</title>
 
@@ -432,6 +434,37 @@ header p{
     background:#116b24;
 }
 
+.review-btn{
+    background:#f4a000;
+}
+
+.review-btn:hover{
+    background:#d98d00;
+}
+
+
+/* RETURN TIMER */
+
+.return-window{
+    background:#e6f8ea;
+    color:#16852d;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.return-expired{
+    background:#ffe5e5;
+    color:#a00000;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
 
 /* MESSAGES INSIDE ORDER */
 
@@ -453,6 +486,120 @@ header p{
     margin-top:15px;
     font-weight:bold;
     text-align:center;
+}
+
+
+/* REVIEW FORM */
+
+.review-box{
+    margin-top:20px;
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    border-radius:12px;
+    padding:18px;
+}
+
+.review-box h3{
+    color:#8b0000;
+    margin-bottom:12px;
+}
+
+.review-input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.review-textarea{
+    width:100%;
+    min-height:100px;
+    resize:vertical;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.review-submit{
+    width:100%;
+    padding:13px;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.review-submit:hover{
+    background:#a50000;
+}
+
+.review-note{
+    font-size:13px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+
+/* PUBLIC REVIEWS */
+
+.public-reviews{
+    margin-top:25px;
+}
+
+.public-review-card{
+    background:white;
+    border:1px solid #ead8bd;
+    border-radius:12px;
+    padding:17px;
+    margin-bottom:15px;
+}
+
+.review-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+}
+
+.review-name{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.review-stars{
+    color:#f4a000;
+    font-size:18px;
+}
+
+.review-product{
+    color:#666;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.review-text{
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+.review-image{
+    width:100%;
+    max-width:350px;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:10px;
+    margin-top:8px;
+    border:1px solid #ddd;
 }
 
 
@@ -540,8 +687,6 @@ header p{
 <body>
 
 
-<!-- HEADER -->
-
 <header>
 
 <h1>
@@ -557,8 +702,6 @@ header p{
 
 <div class="container">
 
-
-<!-- MESSAGES -->
 
 <div
 id="loadingMessage"
@@ -580,8 +723,6 @@ class="message success"
 ></div>
 
 
-
-<!-- LOGIN REQUIRED -->
 
 <div
 id="loginRequired"
@@ -608,8 +749,6 @@ class="login-btn"
 </div>
 
 
-
-<!-- CUSTOMER AREA -->
 
 <div
 id="customerArea"
@@ -647,8 +786,6 @@ class="refresh-btn"
 
 
 
-<!-- ALL ORDERS -->
-
 <div id="ordersContainer"></div>
 
 
@@ -656,7 +793,29 @@ class="refresh-btn"
 
 
 
-<!-- BOTTOM BUTTONS -->
+<!-- PUBLIC REVIEWS -->
+
+<div class="box public-reviews">
+
+<h2>
+⭐ Customer Reviews
+</h2>
+
+<p style="color:#666;margin-bottom:15px;">
+Customers ke reviews sabhi log dekh sakte hain.
+</p>
+
+<div id="publicReviewsContainer">
+
+<div class="no-orders">
+⏳ Reviews load ho rahe hain...
+</div>
+
+</div>
+
+</div>
+
+
 
 <div class="box">
 
@@ -692,14 +851,16 @@ class="back-btn"
 import {
     initializeApp
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
 import {
     getAuth,
     onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
@@ -709,15 +870,15 @@ import {
     where,
     getDocs,
     doc,
-    updateDoc
+    updateDoc,
+    addDoc,
+    serverTimestamp,
+    orderBy,
+    limit
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-
-
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
 
 const firebaseConfig = {
 
@@ -743,7 +904,6 @@ const firebaseConfig = {
     "G-NQ82YZCKG3"
 
 };
-
 
 
 const app =
@@ -798,14 +958,19 @@ document.getElementById(
     "ordersContainer"
 );
 
+const publicReviewsContainer =
+document.getElementById(
+    "publicReviewsContainer"
+);
+
 const refreshBtn =
 document.getElementById(
     "refreshBtn"
 );
 
 
-
-let currentUser = null;
+let currentUser =
+null;
 
 
 
@@ -928,7 +1093,7 @@ function getStatusClass(status){
 
 
 /* =========================================================
-   CUSTOMER CANCEL RULE
+   CANCEL RULE
 ========================================================= */
 
 function canCustomerCancel(status){
@@ -952,16 +1117,366 @@ function canCustomerCancel(status){
 
 
 /* =========================================================
-   CUSTOMER RETURN RULE
+   FIREBASE DATE CONVERTER
 ========================================================= */
 
-function canCustomerReturn(status){
+function getDateFromValue(value){
 
-    const s =
-        cleanStatus(status);
+    if(!value)
+        return null;
 
 
-    return s === "delivered";
+    try{
+
+        if(
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value.toDate();
+
+        }
+
+
+        if(
+            value instanceof Date
+        ){
+
+            return value;
+
+        }
+
+
+        if(
+            typeof value ===
+            "number"
+        ){
+
+            return new Date(value);
+
+        }
+
+
+        if(
+            typeof value ===
+            "string"
+        ){
+
+            const d =
+                new Date(value);
+
+
+            if(
+                !isNaN(
+                    d.getTime()
+                )
+            ){
+
+                return d;
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "DATE ERROR:",
+            error
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+
+/* =========================================================
+   DELIVERED DATE
+========================================================= */
+
+function getDeliveredDate(data){
+
+    /*
+       Admin Panel se deliveredAt
+       save hua ho to wahi use hoga.
+    */
+
+    const possibleFields = [
+
+        "deliveredAt",
+
+        "deliveredOn",
+
+        "deliveryDate",
+
+        "deliveryCompletedAt",
+
+        "statusUpdatedAt"
+
+    ];
+
+
+    for(
+        const field
+        of possibleFields
+    ){
+
+        const date =
+            getDateFromValue(
+                data[field]
+            );
+
+
+        if(date){
+
+            return date;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+
+/* =========================================================
+   24 HOUR RETURN RULE
+========================================================= */
+
+const RETURN_WINDOW_HOURS =
+24;
+
+
+const RETURN_WINDOW_MS =
+RETURN_WINDOW_HOURS *
+60 *
+60 *
+1000;
+
+
+function getReturnInfo(data){
+
+    const status =
+        cleanStatus(
+            data.status
+        );
+
+
+    if(
+        status !== "delivered"
+    ){
+
+        return {
+
+            eligible:false,
+
+            expired:false,
+
+            remainingMs:0,
+
+            deliveredDate:null
+
+        };
+
+    }
+
+
+    const deliveredDate =
+        getDeliveredDate(
+            data
+        );
+
+
+    /*
+       Exact delivered time nahi mila
+       to return button nahi dikhayenge.
+       Isse galat 24-hour return allow nahi hoga.
+    */
+
+    if(!deliveredDate){
+
+        return {
+
+            eligible:false,
+
+            expired:true,
+
+            remainingMs:0,
+
+            deliveredDate:null
+
+        };
+
+    }
+
+
+    const deliveredMs =
+        deliveredDate.getTime();
+
+
+    const expiryMs =
+        deliveredMs +
+        RETURN_WINDOW_MS;
+
+
+    const nowMs =
+        Date.now();
+
+
+    const remainingMs =
+        expiryMs -
+        nowMs;
+
+
+    if(
+        remainingMs > 0
+    ){
+
+        return {
+
+            eligible:true,
+
+            expired:false,
+
+            remainingMs:
+
+                remainingMs,
+
+            deliveredDate:
+
+                deliveredDate
+
+        };
+
+    }
+
+
+    return {
+
+        eligible:false,
+
+        expired:true,
+
+        remainingMs:0,
+
+        deliveredDate:
+
+            deliveredDate
+
+    };
+
+}
+
+
+
+/* =========================================================
+   RETURN TIMER TEXT
+========================================================= */
+
+function formatRemainingTime(
+    remainingMs
+){
+
+    if(
+        remainingMs <= 0
+    ){
+
+        return "Return window khatam ho gaya.";
+
+    }
+
+
+    let totalSeconds =
+        Math.floor(
+            remainingMs /
+            1000
+        );
+
+
+    const hours =
+        Math.floor(
+            totalSeconds /
+            3600
+        );
+
+
+    totalSeconds %=
+        3600;
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds /
+            60
+        );
+
+
+    const seconds =
+        totalSeconds %
+        60;
+
+
+    return (
+
+        "⏰ Return ke liye " +
+
+        String(hours)
+        .padStart(2,"0") +
+
+        "h " +
+
+        String(minutes)
+        .padStart(2,"0") +
+
+        "m " +
+
+        String(seconds)
+        .padStart(2,"0") +
+
+        "s bache hain."
+
+    );
+
+}
+
+
+
+/* =========================================================
+   REVIEW RULE
+========================================================= */
+
+function canCustomerReview(
+    data
+){
+
+    const status =
+        cleanStatus(
+            data.status
+        );
+
+
+    /*
+       Review sirf Delivered/
+       Confirmed order par.
+    */
+
+    return (
+
+        status === "delivered" ||
+
+        status === "confirmed" ||
+
+        status === "completed"
+
+    );
 
 }
 
@@ -1053,7 +1568,8 @@ function createProgress(status){
             if(currentIndex >= 0){
 
                 if(
-                    index < currentIndex
+                    index <
+                    currentIndex
                 ){
 
                     className +=
@@ -1063,7 +1579,8 @@ function createProgress(status){
 
 
                 else if(
-                    index === currentIndex
+                    index ===
+                    currentIndex
                 ){
 
                     className +=
@@ -1111,20 +1628,22 @@ function createProgress(status){
 
 
 /* =========================================================
-   DATE
+   DATE FORMAT
 ========================================================= */
 
 function formatDate(timestamp){
 
-    if(!timestamp)
+    const date =
+        getDateFromValue(
+            timestamp
+        );
+
+
+    if(!date)
         return "-";
 
 
     try{
-
-        const date =
-            timestamp.toDate();
-
 
         return date.toLocaleString(
             "en-IN",
@@ -1157,11 +1676,26 @@ function escapeHtml(value){
     return String(
         value ?? ""
     )
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
@@ -1220,7 +1754,8 @@ function createItems(items){
 
 
             const itemTotal =
-                price * quantity;
+                price *
+                quantity;
 
 
             html +=
@@ -1256,6 +1791,128 @@ function createItems(items){
 
 
     return html;
+
+}
+
+
+
+/* =========================================================
+   REVIEW FORM
+========================================================= */
+
+function createReviewForm(
+    orderId,
+    data
+){
+
+    const items =
+        Array.isArray(data.items)
+        ?
+        data.items
+        :
+        [];
+
+
+    let productName =
+        "Sweety Masala Product";
+
+
+    if(
+        items.length > 0 &&
+        items[0].name
+    ){
+
+        productName =
+            items[0].name;
+
+    }
+
+
+    return `
+
+    <div class="review-box">
+
+        <h3>
+            ⭐ Give Your Review
+        </h3>
+
+        <p class="review-note">
+            Aapka review public hoga aur
+            sabhi customers dekh sakte hain.
+        </p>
+
+
+        <label>
+            Rating
+        </label>
+
+        <select
+            class="review-input"
+            id="rating-${escapeHtml(orderId)}"
+        >
+
+            <option value="5">
+                ⭐⭐⭐⭐⭐ 5 Stars
+            </option>
+
+            <option value="4">
+                ⭐⭐⭐⭐ 4 Stars
+            </option>
+
+            <option value="3">
+                ⭐⭐⭐ 3 Stars
+            </option>
+
+            <option value="2">
+                ⭐⭐ 2 Stars
+            </option>
+
+            <option value="1">
+                ⭐ 1 Star
+            </option>
+
+        </select>
+
+
+        <label>
+            Review
+        </label>
+
+        <textarea
+            class="review-textarea"
+            id="review-text-${escapeHtml(orderId)}"
+            placeholder="Apna experience likhein..."
+        ></textarea>
+
+
+        <label>
+            Review Image URL
+            <small style="font-weight:normal;color:#777;">
+                (optional)
+            </small>
+        </label>
+
+        <input
+            type="url"
+            class="review-input"
+            id="review-image-${escapeHtml(orderId)}"
+            placeholder="https://example.com/image.jpg"
+        >
+
+
+        <button
+            type="button"
+            class="review-submit"
+            data-action="review"
+            data-order-id="${escapeHtml(orderId)}"
+            data-product-name="${escapeHtml(productName)}"
+        >
+            ⭐ Submit Review
+        </button>
+
+    </div>
+
+    `;
 
 }
 
@@ -1342,7 +1999,7 @@ function createOrderCard(order){
 
 
     /* =====================================================
-       CANCEL BUTTON
+       CANCEL
     ===================================================== */
 
     if(
@@ -1367,16 +2024,32 @@ function createOrderCard(order){
 
 
     /* =====================================================
-       RETURN BUTTON
+       RETURN - ONLY 24 HOURS
     ===================================================== */
 
+    const returnInfo =
+        getReturnInfo(
+            data
+        );
+
+
     if(
-        canCustomerReturn(status)
+        returnInfo.eligible
     ){
 
         actionHtml +=
 
         `
+        <div
+            class="return-window"
+            id="return-timer-${escapeHtml(orderId)}"
+        >
+            ${formatRemainingTime(
+                returnInfo.remainingMs
+            )}
+        </div>
+
+
         <button
             type="button"
             class="action-btn return-btn"
@@ -1391,8 +2064,33 @@ function createOrderCard(order){
 
 
 
+    /*
+       Delivered but 24 hour expired
+       => Return button nahi.
+    */
+
+    else if(
+        normalizedStatus ===
+        "delivered" &&
+        returnInfo.expired
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-expired">
+            ⛔ Return ka 24-hour time
+            complete ho gaya hai.
+            Ab return option available nahi hai.
+        </div>
+        `;
+
+    }
+
+
+
     /* =====================================================
-       CANCELLED MESSAGE
+       CANCELLED
     ===================================================== */
 
     if(
@@ -1477,6 +2175,44 @@ function createOrderCard(order){
             ✅ Return complete ho gaya hai.
         </div>
         `;
+
+    }
+
+
+
+    /* =====================================================
+       REVIEW
+    ===================================================== */
+
+    if(
+        canCustomerReview(data)
+    ){
+
+        if(
+            data.reviewSubmitted === true ||
+            data.reviewSubmitted === "true"
+        ){
+
+            actionHtml +=
+
+            `
+            <div class="return-message">
+                ⭐ Aapka review submit ho chuka hai.
+                Dhanyavaad!
+            </div>
+            `;
+
+        }
+
+        else{
+
+            actionHtml +=
+                createReviewForm(
+                    orderId,
+                    data
+                );
+
+        }
 
     }
 
@@ -1701,13 +2437,6 @@ async function loadOrders(){
 
     try{
 
-        /*
-        IMPORTANT:
-
-        Ye customer ke account ke UID
-        wale orders search karega.
-        */
-
         const ordersQuery =
             query(
                 collection(
@@ -1741,21 +2470,23 @@ async function loadOrders(){
         );
 
 
-        /* NEWEST ORDER FIRST */
-
         orders.sort(
             function(a,b){
 
-                const aTime =
-                    a.data().createdAt;
+                const aDate =
+                    getDateFromValue(
+                        a.data().createdAt
+                    );
 
-                const bTime =
-                    b.data().createdAt;
+                const bDate =
+                    getDateFromValue(
+                        b.data().createdAt
+                    );
 
 
                 if(
-                    !aTime ||
-                    !bTime
+                    !aDate ||
+                    !bDate
                 ){
 
                     return 0;
@@ -1764,9 +2495,9 @@ async function loadOrders(){
 
 
                 return (
-                    bTime.toMillis()
+                    bDate.getTime()
                     -
-                    aTime.toMillis()
+                    aDate.getTime()
                 );
 
             }
@@ -1824,6 +2555,9 @@ async function loadOrders(){
 
         attachActionButtons();
 
+        startReturnTimers();
+
+
     }
     catch(error){
 
@@ -1844,10 +2578,131 @@ async function loadOrders(){
 
 
 /* =========================================================
+   24 HOUR LIVE TIMER
+========================================================= */
+
+function startReturnTimers(){
+
+    document
+    .querySelectorAll(
+        "[id^='return-timer-']"
+    )
+    .forEach(
+        function(timer){
+
+            const orderId =
+                timer.id.replace(
+                    "return-timer-",
+                    ""
+                );
+
+
+            const interval =
+                setInterval(
+                    async function(){
+
+                        const ref =
+                            doc(
+                                db,
+                                "orders",
+                                orderId
+                            );
+
+
+                        try{
+
+                            const snap =
+                                await getDocs(
+                                    query(
+                                        collection(
+                                            db,
+                                            "orders"
+                                        ),
+                                        where(
+                                            "__name__",
+                                            "==",
+                                            orderId
+                                        )
+                                    )
+                                );
+
+
+                            if(
+                                snap.empty
+                            ){
+
+                                clearInterval(
+                                    interval
+                                );
+
+                                return;
+
+                            }
+
+
+                            const orderDoc =
+                                snap.docs[0];
+
+
+                            const data =
+                                orderDoc.data();
+
+
+                            const info =
+                                getReturnInfo(
+                                    data
+                                );
+
+
+                            if(
+                                !info.eligible
+                            ){
+
+                                clearInterval(
+                                    interval
+                                );
+
+
+                                await loadOrders();
+
+                                return;
+
+                            }
+
+
+                            timer.textContent =
+                                formatRemainingTime(
+                                    info.remainingMs
+                                );
+
+                        }
+                        catch(error){
+
+                            console.error(
+                                "TIMER ERROR:",
+                                error
+                            );
+
+                        }
+
+                    },
+                    1000
+                );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
    CANCEL ORDER
 ========================================================= */
 
-async function cancelOrder(orderId){
+async function cancelOrder(
+    orderId
+){
 
     if(!currentUser){
 
@@ -1899,7 +2754,7 @@ async function cancelOrder(orderId){
                     "customer",
 
                 cancelledAt:
-                    new Date()
+                    serverTimestamp()
 
             }
         );
@@ -1932,10 +2787,12 @@ async function cancelOrder(orderId){
 
 
 /* =========================================================
-   RETURN ORDER
+   RETURN ORDER - 24 HOURS CHECK
 ========================================================= */
 
-async function returnOrder(orderId){
+async function returnOrder(
+    orderId
+){
 
     if(!currentUser){
 
@@ -1948,41 +2805,129 @@ async function returnOrder(orderId){
     }
 
 
-    const confirmReturn =
-        confirm(
-            "Kya aap is delivered product ko return karna chahte hain?"
-        );
-
-
-    if(!confirmReturn){
-
-        return;
-
-    }
-
-
-    const reason =
-        prompt(
-            "Return ka reason likhein:"
-        );
-
-
-    if(
-        reason === null ||
-        !reason.trim()
-    ){
-
-        return;
-
-    }
-
-
-    showLoading(
-        "⏳ Return request submit ho rahi hai..."
-    );
-
-
     try{
+
+        const orderQuery =
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
+
+                where(
+                    "__name__",
+                    "==",
+                    orderId
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                orderQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            showError(
+                "Order nahi mila."
+            );
+
+            return;
+
+        }
+
+
+        const orderDoc =
+            snapshot.docs[0];
+
+
+        const data =
+            orderDoc.data();
+
+
+        /*
+           SECURITY CHECK:
+           Customer sirf delivered order
+           ko return kar sakta hai.
+        */
+
+        if(
+            cleanStatus(data.status)
+            !==
+            "delivered"
+        ){
+
+            showError(
+                "Ye order ab return ke liye eligible nahi hai."
+            );
+
+            await loadOrders();
+
+            return;
+
+        }
+
+
+        /*
+           24 HOURS CHECK
+        */
+
+        const returnInfo =
+            getReturnInfo(data);
+
+
+        if(
+            !returnInfo.eligible
+        ){
+
+            showError(
+                "Return ka 24-hour time complete ho gaya hai."
+            );
+
+            await loadOrders();
+
+            return;
+
+        }
+
+
+        const confirmReturn =
+            confirm(
+                "Kya aap is delivered product ko return karna chahte hain?"
+            );
+
+
+        if(!confirmReturn){
+
+            return;
+
+        }
+
+
+        const reason =
+            prompt(
+                "Return ka reason likhein:"
+            );
+
+
+        if(
+            reason === null ||
+            !reason.trim()
+        ){
+
+            return;
+
+        }
+
+
+        showLoading(
+            "⏳ Return request submit ho rahi hai..."
+        );
+
 
         const orderRef =
             doc(
@@ -2006,7 +2951,7 @@ async function returnOrder(orderId){
                     reason.trim(),
 
                 returnRequestedAt:
-                    new Date()
+                    serverTimestamp()
 
             }
         );
@@ -2030,6 +2975,278 @@ async function returnOrder(orderId){
 
         showError(
             "Return request submit nahi hui. Firebase Rules check karein."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   SUBMIT REVIEW
+========================================================= */
+
+async function submitReview(
+    orderId,
+    productName
+){
+
+    if(!currentUser){
+
+        showError(
+            "Pehle login karein."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+           Fresh order data Firebase se
+           dobara read kar rahe hain.
+        */
+
+        const orderQuery =
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
+
+                where(
+                    "__name__",
+                    "==",
+                    orderId
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                orderQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            showError(
+                "Order nahi mila."
+            );
+
+            return;
+
+        }
+
+
+        const orderDoc =
+            snapshot.docs[0];
+
+
+        const orderData =
+            orderDoc.data();
+
+
+        /*
+           Review sirf delivered /
+           confirmed / completed order
+           ke liye.
+        */
+
+        if(
+            !canCustomerReview(
+                orderData
+            )
+        ){
+
+            showError(
+                "Review sirf confirmed/delivered order ke baad diya ja sakta hai."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            orderData.reviewSubmitted === true
+        ){
+
+            showError(
+                "Is order ka review already submit ho chuka hai."
+            );
+
+            return;
+
+        }
+
+
+        const ratingElement =
+            document.getElementById(
+                "rating-" +
+                orderId
+            );
+
+
+        const textElement =
+            document.getElementById(
+                "review-text-" +
+                orderId
+            );
+
+
+        const imageElement =
+            document.getElementById(
+                "review-image-" +
+                orderId
+            );
+
+
+        const rating =
+            Number(
+                ratingElement?.value
+            ) || 5;
+
+
+        const reviewText =
+            textElement?.value.trim()
+            || "";
+
+
+        const imageUrl =
+            imageElement?.value.trim()
+            || "";
+
+
+        if(
+            !reviewText
+        ){
+
+            showError(
+                "Please apna review likhein."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            rating < 1 ||
+            rating > 5
+        ){
+
+            showError(
+                "Rating 1 se 5 stars ke beech honi chahiye."
+            );
+
+            return;
+
+        }
+
+
+        showLoading(
+            "⏳ Review submit ho raha hai..."
+        );
+
+
+        /*
+           PUBLIC REVIEW DOCUMENT
+        */
+
+        await addDoc(
+            collection(
+                db,
+                "reviews"
+            ),
+            {
+
+                uid:
+                    currentUser.uid,
+
+                customerEmail:
+                    currentUser.email ||
+                    "",
+
+                customerName:
+                    orderData.customerName ||
+                    orderData.name ||
+                    "Customer",
+
+                orderId:
+                    orderId,
+
+                productName:
+                    productName ||
+                    "Sweety Masala Product",
+
+                rating:
+                    rating,
+
+                review:
+                    reviewText,
+
+                imageUrl:
+                    imageUrl,
+
+                createdAt:
+                    serverTimestamp(),
+
+                approved:
+                    true
+
+            }
+        );
+
+
+        /*
+           Order me mark kar denge ki
+           review submit ho chuka hai.
+        */
+
+        await updateDoc(
+            doc(
+                db,
+                "orders",
+                orderId
+            ),
+            {
+
+                reviewSubmitted:
+                    true,
+
+                reviewSubmittedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        showSuccess(
+            "⭐ Review successfully submit ho gaya. Dhanyavaad!"
+        );
+
+
+        await loadOrders();
+
+        await loadPublicReviews();
+
+    }
+    catch(error){
+
+        console.error(
+            "REVIEW ERROR:",
+            error
+        );
+
+
+        showError(
+            "Review submit nahi hua. Firebase Rules check karein."
         );
 
     }
@@ -2066,7 +3283,8 @@ function attachActionButtons(){
 
 
                     if(
-                        action === "cancel"
+                        action ===
+                        "cancel"
                     ){
 
                         cancelOrder(
@@ -2077,11 +3295,25 @@ function attachActionButtons(){
 
 
                     if(
-                        action === "return"
+                        action ===
+                        "return"
                     ){
 
                         returnOrder(
                             orderId
+                        );
+
+                    }
+
+
+                    if(
+                        action ===
+                        "review"
+                    ){
+
+                        submitReview(
+                            orderId,
+                            button.dataset.productName
                         );
 
                     }
@@ -2091,6 +3323,234 @@ function attachActionButtons(){
 
         }
     );
+
+}
+
+
+
+/* =========================================================
+   PUBLIC REVIEWS
+========================================================= */
+
+async function loadPublicReviews(){
+
+    try{
+
+        publicReviewsContainer.innerHTML =
+
+        `
+        <div class="no-orders">
+            ⏳ Reviews load ho rahe hain...
+        </div>
+        `;
+
+
+        /*
+           Public reviews collection se
+           reviews load honge.
+        */
+
+        const reviewsQuery =
+            query(
+                collection(
+                    db,
+                    "reviews"
+                ),
+
+                where(
+                    "approved",
+                    "==",
+                    true
+                ),
+
+                orderBy(
+                    "createdAt",
+                    "desc"
+                ),
+
+                limit(50)
+            );
+
+
+        const snapshot =
+            await getDocs(
+                reviewsQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            publicReviewsContainer.innerHTML =
+
+            `
+            <div class="no-orders">
+                ⭐ Abhi koi review nahi hai.
+            </div>
+            `;
+
+            return;
+
+        }
+
+
+        publicReviewsContainer.innerHTML =
+            "";
+
+
+        snapshot.forEach(
+            function(reviewDoc){
+
+                const data =
+                    reviewDoc.data();
+
+
+                const reviewCard =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                reviewCard.className =
+                    "public-review-card";
+
+
+                const customerName =
+                    escapeHtml(
+                        data.customerName ||
+                        "Customer"
+                    );
+
+
+                const productName =
+                    escapeHtml(
+                        data.productName ||
+                        "Sweety Masala Product"
+                    );
+
+
+                const reviewText =
+                    escapeHtml(
+                        data.review ||
+                        ""
+                    );
+
+
+                const rating =
+                    Math.max(
+                        1,
+                        Math.min(
+                            5,
+                            Number(
+                                data.rating
+                            ) || 5
+                        )
+                    );
+
+
+                const stars =
+                    "⭐".repeat(
+                        rating
+                    );
+
+
+                const imageUrl =
+                    String(
+                        data.imageUrl ||
+                        ""
+                    ).trim();
+
+
+                let imageHtml = "";
+
+
+                if(imageUrl){
+
+                    imageHtml =
+
+                    `
+                    <img
+                        src="${escapeHtml(imageUrl)}"
+                        class="review-image"
+                        alt="Customer Review Image"
+                        loading="lazy"
+                        onerror="this.style.display='none';"
+                    >
+                    `;
+
+                }
+
+
+                reviewCard.innerHTML =
+
+                `
+                <div class="review-top">
+
+                    <div class="review-name">
+                        👤 ${customerName}
+                    </div>
+
+                    <div class="review-stars">
+                        ${stars}
+                    </div>
+
+                </div>
+
+
+                <div class="review-product">
+                    🛒 ${productName}
+                </div>
+
+
+                <div class="review-text">
+                    ${reviewText}
+                </div>
+
+
+                ${imageHtml}
+
+
+                <div
+                    style="
+                        margin-top:10px;
+                        color:#888;
+                        font-size:12px;
+                    "
+                >
+                    🕒 ${formatDate(
+                        data.createdAt
+                    )}
+                </div>
+
+                `;
+
+
+                publicReviewsContainer.appendChild(
+                    reviewCard
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "PUBLIC REVIEW ERROR:",
+            error
+        );
+
+
+        publicReviewsContainer.innerHTML =
+
+        `
+        <div class="no-orders">
+            ⭐ Reviews abhi load nahi ho pa rahe.
+        </div>
+        `;
+
+    }
 
 }
 
@@ -2121,6 +3581,9 @@ onAuthStateChanged(
                 "block";
 
 
+            await loadPublicReviews();
+
+
             return;
 
         }
@@ -2141,6 +3604,8 @@ onAuthStateChanged(
 
         await loadOrders();
 
+        await loadPublicReviews();
+
     }
 );
 
@@ -2160,12 +3625,24 @@ refreshBtn.addEventListener(
 
         }
 
+        loadPublicReviews();
+
     }
 );
 
 
+
+/* =========================================================
+   INITIAL PUBLIC REVIEWS LOAD
+========================================================= */
+
+loadPublicReviews();
+
+
 </script>
+
 
 </body>
 
 </html>
+```

@@ -1,175 +1,458 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cart | Sweety Masala</title>
+<meta charset="UTF-8">
 
-    <style>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<title>Cart | Sweety Masala</title>
 
-        body {
-            background: #fff8ed;
-            color: #333;
-        }
+<style>
 
-        header {
-            background: #8b0000;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
 
-        header h1 {
-            margin-bottom: 5px;
-        }
+body{
+    background:#fff8ed;
+    color:#333;
+}
 
-        .container {
-            max-width: 950px;
-            margin: 30px auto;
-            padding: 15px;
-        }
+/* ================= HEADER ================= */
 
-        .cart-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.12);
-        }
+header{
+    background:#8b0000;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
 
-        .cart-item {
-            display: grid;
-            grid-template-columns: 1fr auto auto auto;
-            align-items: center;
-            gap: 20px;
-            padding: 20px 0;
-            border-bottom: 1px solid #ddd;
-        }
+header h1{
+    margin-bottom:5px;
+}
 
-        .cart-item h3 {
-            color: #8b0000;
-            margin-bottom: 8px;
-        }
+nav{
+    margin-top:12px;
+}
 
-        .cart-item p {
-            margin: 5px 0;
-        }
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 8px;
+    font-weight:bold;
+}
 
-        .quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* ================= CONTAINER ================= */
 
-        .quantity button {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: #8b0000;
-            color: white;
-            border-radius: 6px;
-            font-size: 20px;
-            cursor: pointer;
-        }
+.container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:15px;
+}
 
-        .quantity span {
-            font-weight: bold;
-            min-width: 20px;
-            text-align: center;
-        }
+/* ================= CART BOX ================= */
 
-        .item-total {
-            font-weight: bold;
-            color: #8b0000;
-        }
+.cart-box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
 
-        .remove-btn {
-            border: none;
-            background: #d32f2f;
-            color: white;
-            padding: 9px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+    box-shadow:
+    0 3px 15px rgba(0,0,0,.12);
+}
 
-        .empty-cart {
-            text-align: center;
-            padding: 50px 20px;
-        }
+/* ================= CART ITEM ================= */
 
-        .empty-cart h2 {
-            margin-bottom: 15px;
-            color: #8b0000;
-        }
+.cart-item{
+    display:grid;
 
-        .total-box {
-            text-align: right;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #8b0000;
-        }
+    grid-template-columns:
+    70px
+    1fr
+    auto
+    auto
+    auto;
 
-        .total-box h2 {
-            color: #8b0000;
-        }
+    align-items:center;
 
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 25px;
-        }
+    gap:18px;
 
-        .btn {
-            display: inline-block;
-            text-decoration: none;
-            border: none;
-            padding: 13px 20px;
-            border-radius: 7px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    padding:20px 0;
 
-        .continue-btn {
-            background: #555;
-            color: white;
-        }
+    border-bottom:1px solid #ddd;
+}
 
-        .checkout-btn {
-            background: #8b0000;
-            color: white;
-        }
+/* ================= IMAGE ================= */
 
-        @media (max-width: 700px) {
+.cart-image{
+    width:65px;
+    height:65px;
 
-            .cart-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
+    object-fit:contain;
 
-            .item-total {
-                font-size: 18px;
-            }
+    border-radius:10px;
 
-            .buttons {
-                flex-direction: column;
-            }
+    background:#fff8ed;
+}
 
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
+.cart-icon{
+    width:65px;
+    height:65px;
 
-    </style>
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fff8ed;
+
+    border-radius:10px;
+
+    font-size:32px;
+}
+
+/* ================= PRODUCT ================= */
+
+.cart-item h3{
+    color:#8b0000;
+    margin-bottom:7px;
+}
+
+.cart-item p{
+    margin:4px 0;
+    font-size:14px;
+}
+
+/* ================= QUANTITY ================= */
+
+.quantity{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.quantity button{
+    width:34px;
+    height:34px;
+
+    border:none;
+
+    background:#8b0000;
+
+    color:white;
+
+    border-radius:6px;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.quantity button:hover{
+    background:#a50000;
+}
+
+.quantity span{
+    font-weight:bold;
+
+    min-width:25px;
+
+    text-align:center;
+}
+
+/* ================= ITEM TOTAL ================= */
+
+.item-total{
+    font-weight:bold;
+
+    color:#8b0000;
+
+    font-size:18px;
+
+    white-space:nowrap;
+}
+
+/* ================= REMOVE ================= */
+
+.remove-btn{
+    border:none;
+
+    background:#d32f2f;
+
+    color:white;
+
+    padding:9px 12px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+.remove-btn:hover{
+    background:#b71c1c;
+}
+
+/* ================= EMPTY ================= */
+
+.empty-cart{
+    text-align:center;
+
+    padding:60px 20px;
+}
+
+.empty-cart h2{
+    color:#8b0000;
+
+    margin-bottom:15px;
+}
+
+.empty-cart p{
+    color:#666;
+
+    margin-bottom:20px;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary{
+    margin-top:25px;
+
+    padding-top:20px;
+
+    border-top:2px solid #8b0000;
+}
+
+.summary-row{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:10px 0;
+
+    font-size:17px;
+}
+
+.summary-row.discount{
+    color:#198754;
+}
+
+.summary-total{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:15px;
+
+    padding-top:15px;
+
+    border-top:1px solid #ddd;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#8b0000;
+}
+
+/* ================= MINIMUM ORDER ================= */
+
+.minimum-order{
+    margin-top:18px;
+
+    padding:14px;
+
+    border-radius:8px;
+
+    background:#fff3cd;
+
+    color:#856404;
+
+    text-align:center;
+
+    font-weight:bold;
+}
+
+.minimum-order.success{
+    background:#d1e7dd;
+
+    color:#0f5132;
+}
+
+/* ================= BUTTONS ================= */
+
+.buttons{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.btn{
+    display:inline-block;
+
+    text-decoration:none;
+
+    border:none;
+
+    padding:13px 20px;
+
+    border-radius:7px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    text-align:center;
+}
+
+.continue-btn{
+    background:#555;
+
+    color:white;
+}
+
+.continue-btn:hover{
+    background:#333;
+}
+
+.checkout-btn{
+    background:#8b0000;
+
+    color:white;
+}
+
+.checkout-btn:hover{
+    background:#a50000;
+}
+
+.checkout-btn.disabled{
+    background:#999;
+
+    cursor:not-allowed;
+
+    pointer-events:none;
+}
+
+/* ================= CLEAR CART ================= */
+
+.clear-cart-btn{
+    margin-top:15px;
+
+    background:#dc3545;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 15px;
+
+    border-radius:7px;
+
+    cursor:pointer;
+}
+
+.clear-cart-btn:hover{
+    background:#bb2d3b;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#8b0000;
+
+    color:white;
+
+    text-align:center;
+
+    padding:25px 10px;
+
+    margin-top:30px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:750px){
+
+    .cart-item{
+
+        grid-template-columns:
+        65px
+        1fr
+        auto;
+
+        gap:12px;
+
+    }
+
+    .quantity{
+        grid-column:2 / 3;
+    }
+
+    .item-total{
+        grid-column:3 / 4;
+        grid-row:1 / 3;
+    }
+
+    .remove-btn{
+        grid-column:2 / 4;
+        width:100%;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .cart-box{
+        padding:15px;
+    }
+
+    .cart-item{
+        grid-template-columns:
+        60px
+        1fr;
+    }
+
+    .item-total{
+        grid-column:2;
+        grid-row:auto;
+    }
+
+    .quantity{
+        grid-column:2;
+    }
+
+    .remove-btn{
+        grid-column:1 / 3;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .summary-total{
+        font-size:21px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -177,108 +460,343 @@
 <body>
 
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-    <h1>🌶️ Sweety Masala</h1>
+<h1>🌶️ Sweety Masala</h1>
 
-    <p>Shopping Cart</p>
+<p>Shopping Cart</p>
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="products.html">
+Products
+</a>
+
+</nav>
 
 </header>
 
 
+<!-- ================= MAIN ================= -->
 
 <div class="container">
 
-    <div class="cart-box">
-
-        <div id="cart-items"></div>
+<div class="cart-box">
 
 
-        <div class="total-box">
+<!-- ================= CART ITEMS ================= -->
 
-            <h2>
-                Total: ₹<span id="cart-total">0</span>
-            </h2>
-
-        </div>
+<div id="cart-items"></div>
 
 
-        <div class="buttons">
+<!-- ================= SUMMARY ================= -->
 
-            <a
-                href="products.html"
-                class="btn continue-btn">
-
-                ← Continue Shopping
-
-            </a>
+<div
+id="cart-summary"
+style="display:none;"
+>
 
 
-            <a
-                href="checkout.html"
-                class="btn checkout-btn">
+<div class="summary">
 
-                Proceed to Checkout →
 
-            </a>
+<div class="summary-row">
 
-        </div>
+<span>
+Subtotal
+</span>
 
-    </div>
+<strong>
+₹<span id="cart-subtotal">0</span>
+</strong>
 
 </div>
 
 
+<div
+class="summary-row discount"
+id="discount-row"
+style="display:none;"
+>
+
+<span>
+🎁 Discount
+</span>
+
+<strong>
+- ₹<span id="discount-amount">0</span>
+</strong>
+
+</div>
+
+
+<div class="summary-total">
+
+<span>
+Total
+</span>
+
+<span>
+₹<span id="cart-total">0</span>
+</span>
+
+</div>
+
+
+<div
+id="minimum-order-message"
+class="minimum-order"
+>
+
+</div>
+
+
+</div>
+
+
+<!-- ================= BUTTONS ================= -->
+
+<div class="buttons">
+
+
+<a
+href="products.html"
+class="btn continue-btn"
+>
+
+← Continue Shopping
+
+</a>
+
+
+<a
+href="checkout.html"
+id="checkout-button"
+class="btn checkout-btn"
+>
+
+Proceed to Checkout →
+
+</a>
+
+
+</div>
+
+
+<div style="text-align:right;">
+
+<button
+class="clear-cart-btn"
+id="clear-cart-button"
+>
+
+🗑️ Clear Cart
+
+</button>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<p>
+© 2026 Sweety Masala
+</p>
+
+<p>
+📞 7488130373 |
+📞 7870349173
+</p>
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script>
 
+/* =====================================================
+   SETTINGS
+===================================================== */
 
-// =====================================
-// CART DATA
-// =====================================
-
-let cart =
-    JSON.parse(
-        localStorage.getItem("sweetyCart")
-    ) || [];
+const MINIMUM_ORDER = 399;
 
 
+/* =====================================================
+   CART
+===================================================== */
 
-// =====================================
-// DISPLAY CART
-// =====================================
+let cart = [];
 
-function displayCart() {
+
+/* =====================================================
+   LOAD CART SAFELY
+===================================================== */
+
+function loadCart(){
+
+    try{
+
+        const savedCart =
+        localStorage.getItem(
+            "sweetyCart"
+        );
+
+        cart =
+        savedCart
+        ?
+        JSON.parse(savedCart)
+        :
+        [];
+
+        if(!Array.isArray(cart)){
+
+            cart = [];
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Cart load error:",
+            error
+        );
+
+        cart = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   FORMAT PRICE
+===================================================== */
+
+function formatPrice(price){
+
+    return Number(price || 0)
+    .toLocaleString(
+        "en-IN"
+    );
+
+}
+
+
+/* =====================================================
+   SAVE CART
+===================================================== */
+
+function saveCart(){
+
+    localStorage.setItem(
+
+        "sweetyCart",
+
+        JSON.stringify(cart)
+
+    );
+
+}
+
+
+/* =====================================================
+   DISPLAY CART
+===================================================== */
+
+function displayCart(){
 
     const cartItems =
-        document.getElementById("cart-items");
+    document.getElementById(
+        "cart-items"
+    );
+
+    const cartSummary =
+    document.getElementById(
+        "cart-summary"
+    );
+
+    const cartSubtotal =
+    document.getElementById(
+        "cart-subtotal"
+    );
 
     const cartTotal =
-        document.getElementById("cart-total");
+    document.getElementById(
+        "cart-total"
+    );
+
+    const discountRow =
+    document.getElementById(
+        "discount-row"
+    );
+
+    const discountAmount =
+    document.getElementById(
+        "discount-amount"
+    );
+
+    const minimumMessage =
+    document.getElementById(
+        "minimum-order-message"
+    );
+
+    const checkoutButton =
+    document.getElementById(
+        "checkout-button"
+    );
 
 
     cartItems.innerHTML = "";
 
 
-    // Empty cart
+    /* =================================================
+       EMPTY CART
+    ================================================= */
 
-    if (cart.length === 0) {
+    if(cart.length === 0){
+
+        cartSummary.style.display =
+        "none";
+
 
         cartItems.innerHTML = `
 
             <div class="empty-cart">
 
-                <h2>🛒 Cart खाली है</h2>
+                <h2>
+                    🛒 Cart खाली है
+                </h2>
 
                 <p>
-                    Products page से अपना product add करें।
+                    Products page से अपना
+                    पसंदीदा product add करें।
                 </p>
-
-                <br>
 
                 <a
                     href="products.html"
-                    class="btn checkout-btn">
+                    class="btn checkout-btn"
+                >
 
                     Products देखें
 
@@ -288,200 +806,699 @@ function displayCart() {
 
         `;
 
-        cartTotal.textContent = "0";
 
         return;
+
     }
 
 
+    /* =================================================
+       CALCULATE SUBTOTAL
+    ================================================= */
 
-    let total = 0;
+    let subtotal = 0;
 
 
+    cart.forEach(
+        function(item){
 
-    cart.forEach(function(item, index) {
-
-        const price =
+            const price =
             Number(item.price) || 0;
 
-        const quantity =
-            Number(item.quantity) || 1;
+
+            const quantity =
+            Math.max(
+                1,
+                Number(item.quantity) || 1
+            );
 
 
-        const itemTotal =
+            subtotal +=
             price * quantity;
 
-
-        total += itemTotal;
-
-
-
-        const cartItem =
-            document.createElement("div");
+        }
+    );
 
 
-        cartItem.className =
-            "cart-item";
+    /* =================================================
+       DISCOUNT
+       
+       IMPORTANT:
+       Discount yaha automatically
+       hard-code nahi kiya gaya.
+       
+       Agar Admin/Firebase se future me
+       discount amount cart me save kiya
+       jayega to uske liye structure
+       ready hai.
+    ================================================= */
+
+    let discount = 0;
 
 
-        cartItem.innerHTML = `
+    /*
+       Agar future me cart item ya
+       localStorage me discountPercent
+       available ho to use kiya ja sakta hai.
+    */
 
-            <div>
-
-                <h3>
-                    ${item.name}
-                </h3>
-
-                <p>
-                    Size:
-                    <strong>
-                        ${item.size}
-                    </strong>
-                </p>
-
-                <p>
-                    Price:
-                    ₹${price}
-                </p>
-
-            </div>
+    const savedDiscountPercent =
+    Number(
+        localStorage.getItem(
+            "sweetyDiscountPercent"
+        )
+    ) || 0;
 
 
-
-            <div class="quantity">
-
-                <button
-                    onclick="decreaseQuantity(${index})">
-
-                    −
-
-                </button>
+    const savedDiscountEnabled =
+    localStorage.getItem(
+        "sweetyDiscountEnabled"
+    ) === "true";
 
 
-                <span>
-                    ${quantity}
-                </span>
+    if(
+        savedDiscountEnabled &&
+        savedDiscountPercent > 0
+    ){
+
+        discount =
+        Math.round(
+            subtotal *
+            savedDiscountPercent /
+            100
+        );
+
+    }
 
 
-                <button
-                    onclick="increaseQuantity(${index})">
+    /* =================================================
+       FINAL TOTAL
+    ================================================= */
 
-                    +
-
-                </button>
-
-            </div>
-
-
-
-            <div class="item-total">
-
-                ₹${itemTotal}
-
-            </div>
+    const finalTotal =
+    Math.max(
+        0,
+        subtotal - discount
+    );
 
 
+    /* =================================================
+       SHOW SUMMARY
+    ================================================= */
 
-            <button
-                class="remove-btn"
-                onclick="removeItem(${index})">
+    cartSummary.style.display =
+    "block";
 
-                ❌ Remove
 
-            </button>
+    cartSubtotal.textContent =
+    formatPrice(subtotal);
+
+
+    cartTotal.textContent =
+    formatPrice(finalTotal);
+
+
+    /* =================================================
+       DISCOUNT DISPLAY
+    ================================================= */
+
+    if(discount > 0){
+
+        discountRow.style.display =
+        "flex";
+
+        discountAmount.textContent =
+        formatPrice(discount);
+
+    }
+
+    else{
+
+        discountRow.style.display =
+        "none";
+
+    }
+
+
+    /* =================================================
+       MINIMUM ORDER ₹399
+    ================================================= */
+
+    if(finalTotal < MINIMUM_ORDER){
+
+        const remaining =
+        MINIMUM_ORDER - finalTotal;
+
+
+        minimumMessage.className =
+        "minimum-order";
+
+
+        minimumMessage.innerHTML = `
+
+            ⚠️ Minimum order ₹${formatPrice(MINIMUM_ORDER)}
+            है।
+
+            <br>
+
+            अभी ₹${formatPrice(remaining)}
+            और के products add करें।
 
         `;
 
 
-        cartItems.appendChild(cartItem);
-
-    });
-
-
-    cartTotal.textContent =
-        total;
-
-}
+        checkoutButton.classList.add(
+            "disabled"
+        );
 
 
+        checkoutButton.setAttribute(
+            "aria-disabled",
+            "true"
+        );
 
-// =====================================
-// INCREASE QUANTITY
-// =====================================
+    }
 
-function increaseQuantity(index) {
+    else{
 
-    cart[index].quantity =
-        (Number(cart[index].quantity) || 1) + 1;
-
-
-    saveCart();
-
-}
+        minimumMessage.className =
+        "minimum-order success";
 
 
+        minimumMessage.innerHTML = `
 
-// =====================================
-// DECREASE QUANTITY
-// =====================================
+            ✅ Minimum order complete.
+            आप checkout कर सकते हैं।
 
-function decreaseQuantity(index) {
-
-    cart[index].quantity =
-        (Number(cart[index].quantity) || 1) - 1;
+        `;
 
 
-    if (cart[index].quantity <= 0) {
+        checkoutButton.classList.remove(
+            "disabled"
+        );
 
-        cart.splice(index, 1);
+
+        checkoutButton.removeAttribute(
+            "aria-disabled"
+        );
 
     }
 
 
-    saveCart();
+    /* =================================================
+       CREATE CART ITEMS
+    ================================================= */
 
-}
+    cart.forEach(
+        function(item,index){
 
-
-
-// =====================================
-// REMOVE PRODUCT
-// =====================================
-
-function removeItem(index) {
-
-    cart.splice(index, 1);
-
-    saveCart();
-
-}
+            const price =
+            Number(item.price) || 0;
 
 
+            const quantity =
+            Math.max(
+                1,
+                Number(item.quantity) || 1
+            );
 
-// =====================================
-// SAVE CART
-// =====================================
 
-function saveCart() {
+            const itemTotal =
+            price * quantity;
 
-    localStorage.setItem(
-        "sweetyCart",
-        JSON.stringify(cart)
+
+            let imageHTML;
+
+
+            /* ================= IMAGE ================= */
+
+            if(item.image){
+
+                imageHTML = `
+
+                    <img
+                        src="${escapeHTML(item.image)}"
+                        class="cart-image"
+                        alt="${escapeHTML(item.name || "Product")}"
+                        onerror="this.style.display='none'"
+                    >
+
+                `;
+
+            }
+
+            else{
+
+                imageHTML = `
+
+                    <div class="cart-icon">
+                        🌶️
+                    </div>
+
+                `;
+
+            }
+
+
+            /* ================= CART ITEM ================= */
+
+            const cartItem =
+            document.createElement(
+                "div"
+            );
+
+
+            cartItem.className =
+            "cart-item";
+
+
+            cartItem.innerHTML = `
+
+                ${imageHTML}
+
+
+                <div>
+
+                    <h3>
+                        ${escapeHTML(
+                            item.name ||
+                            "Product"
+                        )}
+                    </h3>
+
+                    <p>
+                        Size:
+                        <strong>
+                            ${escapeHTML(
+                                item.size ||
+                                ""
+                            )}
+                        </strong>
+                    </p>
+
+                    <p>
+                        Price:
+                        <strong>
+                            ₹${formatPrice(price)}
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div class="quantity">
+
+                    <button
+                        type="button"
+                        onclick="decreaseQuantity(${index})"
+                    >
+
+                        −
+
+                    </button>
+
+
+                    <span>
+                        ${quantity}
+                    </span>
+
+
+                    <button
+                        type="button"
+                        onclick="increaseQuantity(${index})"
+                    >
+
+                        +
+
+                    </button>
+
+                </div>
+
+
+                <div class="item-total">
+
+                    ₹${formatPrice(itemTotal)}
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeItem(${index})"
+                >
+
+                    ❌ Remove
+
+                </button>
+
+            `;
+
+
+            cartItems.appendChild(
+                cartItem
+            );
+
+        }
     );
 
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   INCREASE QUANTITY
+===================================================== */
+
+function increaseQuantity(index){
+
+    if(!cart[index]){
+        return;
+    }
+
+
+    cart[index].quantity =
+    (
+        Number(
+            cart[index].quantity
+        ) || 1
+    ) + 1;
+
+
+    saveCart();
 
     displayCart();
 
 }
 
 
+/* =====================================================
+   DECREASE QUANTITY
+===================================================== */
 
-// =====================================
-// LOAD CART
-// =====================================
+function decreaseQuantity(index){
+
+    if(!cart[index]){
+        return;
+    }
+
+
+    cart[index].quantity =
+    (
+        Number(
+            cart[index].quantity
+        ) || 1
+    ) - 1;
+
+
+    if(
+        cart[index].quantity <= 0
+    ){
+
+        cart.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    saveCart();
+
+    displayCart();
+
+}
+
+
+/* =====================================================
+   REMOVE ITEM
+===================================================== */
+
+function removeItem(index){
+
+    if(!cart[index]){
+        return;
+    }
+
+
+    const productName =
+    cart[index].name ||
+    "Product";
+
+
+    const confirmRemove =
+    confirm(
+        "Kya aap " +
+        productName +
+        " ko cart se remove karna chahte hain?"
+    );
+
+
+    if(!confirmRemove){
+
+        return;
+
+    }
+
+
+    cart.splice(
+        index,
+        1
+    );
+
+
+    saveCart();
+
+    displayCart();
+
+}
+
+
+/* =====================================================
+   CLEAR CART
+===================================================== */
+
+function clearCart(){
+
+    if(cart.length === 0){
+
+        return;
+
+    }
+
+
+    const confirmClear =
+    confirm(
+        "Kya aap pura cart empty karna chahte hain?"
+    );
+
+
+    if(!confirmClear){
+
+        return;
+
+    }
+
+
+    cart = [];
+
+
+    saveCart();
+
+    displayCart();
+
+}
+
+
+/* =====================================================
+   CLEAR CART BUTTON
+===================================================== */
+
+document
+.getElementById(
+    "clear-cart-button"
+)
+.addEventListener(
+    "click",
+    clearCart
+);
+
+
+/* =====================================================
+   CHECKOUT PROTECTION
+===================================================== */
+
+document
+.getElementById(
+    "checkout-button"
+)
+.addEventListener(
+    "click",
+    function(event){
+
+        /*
+           Checkout click hone se pehle
+           dobara total calculate karenge.
+        */
+
+        let subtotal = 0;
+
+
+        cart.forEach(
+            function(item){
+
+                const price =
+                Number(item.price) || 0;
+
+
+                const quantity =
+                Math.max(
+                    1,
+                    Number(item.quantity) || 1
+                );
+
+
+                subtotal +=
+                price * quantity;
+
+            }
+        );
+
+
+        const discountPercent =
+        Number(
+            localStorage.getItem(
+                "sweetyDiscountPercent"
+            )
+        ) || 0;
+
+
+        const discountEnabled =
+        localStorage.getItem(
+            "sweetyDiscountEnabled"
+        ) === "true";
+
+
+        let discount = 0;
+
+
+        if(
+            discountEnabled &&
+            discountPercent > 0
+        ){
+
+            discount =
+            Math.round(
+                subtotal *
+                discountPercent /
+                100
+            );
+
+        }
+
+
+        const total =
+        Math.max(
+            0,
+            subtotal - discount
+        );
+
+
+        if(total < MINIMUM_ORDER){
+
+            event.preventDefault();
+
+
+            alert(
+
+                "⚠️ Minimum order ₹" +
+                MINIMUM_ORDER +
+                " hai.\n\n" +
+
+                "Abhi ₹" +
+                (
+                    MINIMUM_ORDER -
+                    total
+                ) +
+                " aur ke products add karein."
+
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+           Cart valid hai.
+           Checkout page open hone do.
+        */
+
+    }
+);
+
+
+/* =====================================================
+   STORAGE CHANGE
+===================================================== */
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key ===
+            "sweetyCart"
+        ){
+
+            loadCart();
+
+            displayCart();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+loadCart();
 
 displayCart();
-
 
 </script>
 
@@ -489,3 +1506,4 @@ displayCart();
 </body>
 
 </html>
+```

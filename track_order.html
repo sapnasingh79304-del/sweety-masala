@@ -1,477 +1,3648 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Track Order | Sweety Masala</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#fff8ed;color:#333;min-height:100vh}
-header{background:#8b0000;color:white;text-align:center;padding:22px 15px}
-header h1{font-size:28px;margin-bottom:6px}
-header p{font-size:16px}
-.container{max-width:850px;margin:25px auto;padding:15px}
-.box{background:white;padding:22px;margin-bottom:20px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,.12)}
-.box h2{color:#8b0000;margin-bottom:18px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-weight:bold;margin-bottom:7px}
-.form-group input{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:16px}
-.form-group input:focus{outline:none;border-color:#8b0000}
-.track-btn{width:100%;padding:15px;border:none;border-radius:8px;background:#8b0000;color:white;font-size:18px;font-weight:bold;cursor:pointer}
-.track-btn:hover{background:#a50000}
-.track-btn:disabled{background:#777;cursor:not-allowed}
-.message{display:none;padding:14px;margin-bottom:18px;border-radius:8px;text-align:center;font-weight:bold}
-.error{background:#ffe5e5;color:#a00000}
-.loading{background:#fff4d6;color:#8b0000}
-#orderResult{display:none}
-.order-id{background:#fff4d6;border:1px solid #e2c766;padding:14px;border-radius:9px;margin-bottom:18px;text-align:center}
-.order-id strong{color:#8b0000;font-size:18px}
-.customer-details{background:#fafafa;border:1px solid #eee;border-radius:10px;padding:15px;margin-bottom:20px}
-.detail-row{margin-bottom:9px;line-height:1.5}
-.detail-row:last-child{margin-bottom:0}
-.detail-label{font-weight:bold;color:#555}
-.status-box{text-align:center;background:#fff8ed;border:1px solid #ead8bd;padding:20px 15px;border-radius:12px;margin-bottom:20px}
-.status-title{font-size:16px;font-weight:bold;color:#555;margin-bottom:10px}
-.current-status{font-size:28px;font-weight:bold;color:#8b0000}
-.status-tracker{display:flex;justify-content:space-between;align-items:flex-start;gap:4px;margin-top:25px}
-.status-step{flex:1;text-align:center;position:relative}
-.status-circle{width:38px;height:38px;border-radius:50%;margin:0 auto 8px;background:#ddd;color:#666;display:flex;align-items:center;justify-content:center;font-weight:bold;position:relative;z-index:2}
-.status-name{font-size:12px;font-weight:bold;color:#777;line-height:1.3}
-.status-step.completed .status-circle{background:#16852d;color:white}
-.status-step.completed .status-name{color:#16852d}
-.status-step.current .status-circle{background:#8b0000;color:white;box-shadow:0 0 0 5px #f3d6d6}
-.status-step.current .status-name{color:#8b0000}
-.status-line{position:absolute;top:18px;left:50%;width:100%;height:4px;background:#ddd;z-index:1}
-.status-step.completed .status-line{background:#16852d}
-.status-step:last-child .status-line{display:none}
-.cancelled-box{display:none;background:#ffe5e5;color:#a00000;padding:16px;border-radius:10px;text-align:center;font-weight:bold;margin-bottom:20px}
-.items-title{color:#8b0000;font-size:20px;margin-bottom:12px}
-.order-item{display:flex;justify-content:space-between;gap:15px;padding:14px 0;border-bottom:1px solid #ddd}
-.order-item:last-child{border-bottom:none}
-.item-name{font-weight:bold;margin-bottom:5px}
-.item-info{color:#666;font-size:14px}
-.item-price{color:#8b0000;font-weight:bold;white-space:nowrap}
-.total{text-align:right;margin-top:15px;font-size:21px;font-weight:bold;color:#8b0000}
-.back-btn{display:block;width:100%;padding:13px;margin-top:12px;background:#555;color:white;text-decoration:none;text-align:center;border-radius:8px;font-weight:bold}
-.back-btn:hover{background:#333}
-.review-box,.return-box{margin-top:20px;background:#fff8ed;border:1px solid #ead8bd;border-radius:12px;padding:18px;}
-.review-stars-input{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap;}
-.review-star-btn{font-size:28px;border:0;background:transparent;cursor:pointer;color:#ccc;padding:2px;}
-.review-star-btn.active{color:#f4b400;}
-.review-text-input{width:100%;min-height:110px;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:15px;resize:vertical;}
-.action-btn{width:100%;padding:13px;border:0;border-radius:8px;background:#8b0000;color:#fff;font-weight:bold;font-size:16px;cursor:pointer;margin-top:10px;}
-.action-btn:disabled{background:#777;cursor:not-allowed;}
-.action-message{margin-top:10px;font-weight:bold;text-align:center;}
-.return-warning{font-size:14px;line-height:1.5;color:#555;margin-bottom:10px;}
-@media(max-width:600px){
-header h1{font-size:24px}.container{padding:10px}.box{padding:17px}
-.status-tracker{gap:0}.status-circle{width:32px;height:32px;font-size:13px}
-.status-line{top:15px}.status-name{font-size:10px}.current-status{font-size:24px}
-.order-item{flex-direction:column;gap:6px}.item-price{text-align:left}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
 }
+
+body{
+    background:#fff8ed;
+    color:#333;
+}
+
+/* HEADER */
+
+header{
+    background:#8b0000;
+    color:white;
+    text-align:center;
+    padding:20px 15px;
+}
+
+header h1{
+    margin-bottom:6px;
+}
+
+header p{
+    font-size:15px;
+}
+
+
+/* CONTAINER */
+
+.container{
+    max-width:1000px;
+    margin:25px auto;
+    padding:10px 15px 40px;
+}
+
+
+/* BOX */
+
+.box{
+    background:white;
+    padding:22px;
+    margin-bottom:20px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+}
+
+.box h2{
+    color:#8b0000;
+    margin-bottom:16px;
+}
+
+
+/* MESSAGES */
+
+.message{
+    display:none;
+    padding:14px;
+    border-radius:8px;
+    margin-bottom:18px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.error{
+    background:#ffe5e5;
+    color:#a00000;
+}
+
+.success{
+    background:#e6f8ea;
+    color:#16852d;
+}
+
+.loading{
+    background:#fff4d6;
+    color:#8b0000;
+}
+
+
+/* LOGIN */
+
+.login-required{
+    text-align:center;
+    padding:35px 15px;
+}
+
+.login-required h2{
+    color:#8b0000;
+    margin-bottom:10px;
+}
+
+.login-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:13px 25px;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+
+/* USER INFO */
+
+.user-info{
+    background:#fff4d6;
+    border:1px solid #e2c766;
+    padding:14px;
+    border-radius:9px;
+    margin-bottom:15px;
+}
+
+.user-info strong{
+    color:#8b0000;
+}
+
+
+/* REFRESH */
+
+.refresh-btn{
+    width:100%;
+    padding:13px;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.refresh-btn:hover{
+    background:#a50000;
+}
+
+
+/* ORDER CARD */
+
+.order-card{
+    background:white;
+    border:2px solid #ead8bd;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.order-card.cancelled{
+    border-color:#e00000;
+}
+
+.order-card.returned{
+    border-color:#16852d;
+}
+
+
+/* ORDER HEADER */
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.order-id{
+    font-size:14px;
+    color:#555;
+    word-break:break-all;
+}
+
+.order-id strong{
+    color:#8b0000;
+}
+
+
+/* STATUS */
+
+.status-badge{
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.status-new{
+    background:#fff4d6;
+    color:#8b0000;
+}
+
+.status-accepted{
+    background:#e7f0ff;
+    color:#1754a6;
+}
+
+.status-preparing{
+    background:#fff0d0;
+    color:#a85b00;
+}
+
+.status-shipped{
+    background:#eee8ff;
+    color:#6841a5;
+}
+
+.status-delivered{
+    background:#e6f8ea;
+    color:#16852d;
+}
+
+.status-cancelled{
+    background:#ffe5e5;
+    color:#a00000;
+}
+
+.status-return{
+    background:#fff0d0;
+    color:#9b5900;
+}
+
+
+/* CUSTOMER DETAILS */
+
+.customer-details{
+    background:#fafafa;
+    border:1px solid #eee;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.detail-row{
+    margin-bottom:8px;
+    line-height:1.5;
+}
+
+.detail-row:last-child{
+    margin-bottom:0;
+}
+
+.detail-label{
+    font-weight:bold;
+    color:#555;
+}
+
+
+/* PROGRESS */
+
+.progress-box{
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    padding:18px 10px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.progress-title{
+    font-weight:bold;
+    color:#555;
+    margin-bottom:18px;
+    text-align:center;
+}
+
+.status-tracker{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.status-step{
+    flex:1;
+    text-align:center;
+    position:relative;
+}
+
+.status-circle{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    margin:0 auto 8px;
+    background:#ddd;
+    color:#666;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    position:relative;
+    z-index:2;
+}
+
+.status-name{
+    font-size:11px;
+    font-weight:bold;
+    color:#777;
+}
+
+.status-line{
+    position:absolute;
+    top:18px;
+    left:50%;
+    width:100%;
+    height:4px;
+    background:#ddd;
+    z-index:1;
+}
+
+.status-step:last-child .status-line{
+    display:none;
+}
+
+.status-step.completed .status-circle{
+    background:#16852d;
+    color:white;
+}
+
+.status-step.completed .status-name{
+    color:#16852d;
+}
+
+.status-step.completed .status-line{
+    background:#16852d;
+}
+
+.status-step.current .status-circle{
+    background:#8b0000;
+    color:white;
+    box-shadow:0 0 0 5px #f3d6d6;
+}
+
+.status-step.current .status-name{
+    color:#8b0000;
+}
+
+
+/* ITEMS */
+
+.items-title{
+    color:#8b0000;
+    font-size:20px;
+    margin-bottom:12px;
+}
+
+.order-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:13px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-item:last-child{
+    border-bottom:none;
+}
+
+.item-name{
+    font-weight:bold;
+}
+
+.item-info{
+    color:#666;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.item-price{
+    color:#8b0000;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+
+/* TOTAL */
+
+.total{
+    text-align:right;
+    margin-top:15px;
+    font-size:21px;
+    font-weight:bold;
+    color:#8b0000;
+}
+
+
+/* ACTION BUTTONS */
+
+.action-area{
+    margin-top:20px;
+}
+
+.action-btn{
+    width:100%;
+    border:none;
+    border-radius:8px;
+    padding:14px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.cancel-btn{
+    background:#c40000;
+}
+
+.cancel-btn:hover{
+    background:#a00000;
+}
+
+.return-btn{
+    background:#16852d;
+}
+
+.return-btn:hover{
+    background:#116b24;
+}
+
+.review-btn{
+    background:#f4a000;
+}
+
+.review-btn:hover{
+    background:#d98d00;
+}
+
+
+/* RETURN TIMER */
+
+.return-window{
+    background:#e6f8ea;
+    color:#16852d;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.return-expired{
+    background:#ffe5e5;
+    color:#a00000;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+
+/* MESSAGES INSIDE ORDER */
+
+.cancelled-message{
+    background:#ffe5e5;
+    color:#a00000;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.return-message{
+    background:#fff4d6;
+    color:#8b5900;
+    padding:13px;
+    border-radius:8px;
+    margin-top:15px;
+    font-weight:bold;
+    text-align:center;
+}
+
+
+/* REVIEW FORM */
+
+.review-box{
+    margin-top:20px;
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    border-radius:12px;
+    padding:18px;
+}
+
+.review-box h3{
+    color:#8b0000;
+    margin-bottom:12px;
+}
+
+.review-input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.review-textarea{
+    width:100%;
+    min-height:100px;
+    resize:vertical;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.review-submit{
+    width:100%;
+    padding:13px;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.review-submit:hover{
+    background:#a50000;
+}
+
+.review-note{
+    font-size:13px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+
+/* PUBLIC REVIEWS */
+
+.public-reviews{
+    margin-top:25px;
+}
+
+.public-review-card{
+    background:white;
+    border:1px solid #ead8bd;
+    border-radius:12px;
+    padding:17px;
+    margin-bottom:15px;
+}
+
+.review-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+}
+
+.review-name{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.review-stars{
+    color:#f4a000;
+    font-size:18px;
+}
+
+.review-product{
+    color:#666;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.review-text{
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+.review-image{
+    width:100%;
+    max-width:350px;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:10px;
+    margin-top:8px;
+    border:1px solid #ddd;
+}
+
+
+/* EMPTY */
+
+.no-orders{
+    text-align:center;
+    padding:35px 15px;
+    color:#666;
+}
+
+.shop-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:13px 25px;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+
+/* BACK */
+
+.back-btn{
+    display:block;
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    background:#555;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.back-btn:hover{
+    background:#333;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .container{
+        padding:10px;
+    }
+
+    .box{
+        padding:17px;
+    }
+
+    .status-name{
+        font-size:9px;
+    }
+
+    .status-circle{
+        width:32px;
+        height:32px;
+        font-size:12px;
+    }
+
+    .status-line{
+        top:15px;
+    }
+
+    .order-item{
+        flex-direction:column;
+    }
+
+    .item-price{
+        text-align:left;
+    }
+
+}
+
 </style>
+
 </head>
+
+
 <body>
-<header><h1>🌶️ Sweety Masala</h1><p>🔍 Track Your Order</p></header>
+
+
+<header>
+
+<h1>
+🌶️ Sweety Masala
+</h1>
+
+<p>
+📦 My Orders & Track Order
+</p>
+
+</header>
+
 
 <div class="container">
-<div class="box">
-<h2>🔍 Apna Order Track Karein</h2>
-<div id="errorMessage" class="message error"></div>
-<div id="loadingMessage" class="message loading"></div>
 
-<div class="form-group">
-<label>Order ID *</label>
-<input type="text" id="orderId" placeholder="Example: ABC123xyz">
-</div>
 
-<div class="form-group">
-<label>Mobile Number *</label>
-<input type="tel" id="customerPhone" placeholder="Order mein diya gaya 10 digit mobile number" maxlength="10" inputmode="numeric">
+<div
+id="loadingMessage"
+class="message loading"
+>
+⏳ Aapke orders load ho rahe hain...
 </div>
 
-<button id="trackButton" class="track-btn" type="button">🔍 Track Order</button>
+
+<div
+id="errorMessage"
+class="message error"
+></div>
+
+
+<div
+id="successMessage"
+class="message success"
+></div>
+
+
+
+<div
+id="loginRequired"
+class="box login-required"
+style="display:none;"
+>
+
+<h2>
+👤 Login Required
+</h2>
+
+<p>
+Apne orders dekhne ke liye
+customer account me login karein.
+</p>
+
+<a
+href="login.html"
+class="login-btn"
+>
+👤 Login
+</a>
+
 </div>
 
-<div id="orderResult" class="box">
-<div class="order-id">🧾 Order ID:<br><strong id="resultOrderId">-</strong></div>
 
-<div class="customer-details">
-<h2>👤 Customer Details</h2>
-<div class="detail-row"><span class="detail-label">Name:</span> <span id="resultName">-</span></div>
-<div class="detail-row"><span class="detail-label">Mobile:</span> <span id="resultPhone">-</span></div>
-<div class="detail-row"><span class="detail-label">Address:</span> <span id="resultAddress">-</span></div>
-<div class="detail-row"><span class="detail-label">City:</span> <span id="resultCity">-</span></div>
-<div class="detail-row"><span class="detail-label">PIN:</span> <span id="resultPin">-</span></div>
-<div class="detail-row"><span class="detail-label">Payment:</span> <span id="resultPayment">-</span></div>
-</div>
 
-<div class="status-box">
-<div class="status-title">📌 Current Order Status</div>
-<div id="currentStatus" class="current-status">New</div>
-</div>
+<div
+id="customerArea"
+style="display:none;"
+>
 
-<div id="cancelledBox" class="cancelled-box">❌ Ye order cancel kar diya gaya hai.</div>
-
-<div class="box" style="box-shadow:none;border:1px solid #eee;">
-<h2>📦 Order Progress</h2>
-<div class="status-tracker">
-<div class="status-step" id="stepNew"><div class="status-circle">1</div><div class="status-name">New</div><div class="status-line"></div></div>
-<div class="status-step" id="stepAccepted"><div class="status-circle">2</div><div class="status-name">Accepted</div><div class="status-line"></div></div>
-<div class="status-step" id="stepPreparing"><div class="status-circle">3</div><div class="status-name">Preparing</div><div class="status-line"></div></div>
-<div class="status-step" id="stepShipped"><div class="status-circle">4</div><div class="status-name">Shipped</div><div class="status-line"></div></div>
-<div class="status-step" id="stepDelivered"><div class="status-circle">5</div><div class="status-name">Delivered</div><div class="status-line"></div></div>
-</div>
-</div>
-
-<div>
-<h2 class="items-title">🛒 Order Items</h2>
-<div id="orderItems"></div>
-<div id="orderTotal" class="total">Total: ₹0</div>
-</div>
-</div>
-
-<div id="customerActions" style="display:none;">
-<div id="reviewBox" class="review-box" style="display:none;">
-<h2>⭐ Give Your Review</h2>
-<div>Rating:</div><div id="reviewStars" class="review-stars-input"></div>
-<textarea id="reviewText" class="review-text-input" maxlength="1000" placeholder="Apna review likhein..."></textarea>
-<button id="submitReviewButton" class="action-btn" type="button">⭐ Submit Review</button>
-<div id="reviewMessage" class="action-message"></div>
-</div>
-<div id="returnBox" class="return-box" style="display:none;">
-<h2>🔄 Return Product</h2>
-<div id="returnInfo" class="return-warning"></div>
-<textarea id="returnReason" class="review-text-input" maxlength="500" placeholder="Return ka reason likhein..."></textarea>
-<button id="submitReturnButton" class="action-btn" type="button">🔄 Submit Return Request</button>
-<div id="returnMessage" class="action-message"></div>
-</div>
-</div>
 
 <div class="box">
-<a href="products.html" class="back-btn">🛒 Continue Shopping</a>
-<a href="index.html" class="back-btn">🏠 Home Page</a>
+
+<h2>
+📦 My Orders
+</h2>
+
+
+<div class="user-info">
+
+Logged in as:
+
+<strong id="customerEmail">
+-
+</strong>
+
 </div>
+
+
+<button
+type="button"
+id="refreshBtn"
+class="refresh-btn"
+>
+🔄 Refresh Orders
+</button>
+
 </div>
+
+
+
+<div id="ordersContainer"></div>
+
+
+</div>
+
+
+
+<!-- PUBLIC REVIEWS -->
+
+<div class="box public-reviews">
+
+<h2>
+⭐ Customer Reviews
+</h2>
+
+<p style="color:#666;margin-bottom:15px;">
+Customers ke reviews sabhi log dekh sakte hain.
+</p>
+
+<div id="publicReviewsContainer">
+
+<div class="no-orders">
+⏳ Reviews load ho rahe hain...
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="box">
+
+<a
+href="products.html"
+class="back-btn"
+>
+🛒 Continue Shopping
+</a>
+
+
+<a
+href="index.html"
+class="back-btn"
+>
+🏠 Home Page
+</a>
+
+</div>
+
+
+</div>
+
+
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, addDoc, collection, setDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const firebaseConfig={
-apiKey:"AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
-authDomain:"sweety-masala.firebaseapp.com",
-projectId:"sweety-masala",
-storageBucket:"sweety-masala.firebasestorage.app",
-messagingSenderId:"152835150862",
-appId:"1:152835150862:web:bdd6bafcc074aeb37e585f",
-measurementId:"G-NQ82YZCKG3"
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    updateDoc,
+    addDoc,
+    serverTimestamp,
+    orderBy,
+    limit
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
 
-const orderIdInput=document.getElementById("orderId");
-const phoneInput=document.getElementById("customerPhone");
-const trackButton=document.getElementById("trackButton");
-const errorMessage=document.getElementById("errorMessage");
-const loadingMessage=document.getElementById("loadingMessage");
-const orderResult=document.getElementById("orderResult");
-const resultOrderId=document.getElementById("resultOrderId");
-const resultName=document.getElementById("resultName");
-const resultPhone=document.getElementById("resultPhone");
-const resultAddress=document.getElementById("resultAddress");
-const resultCity=document.getElementById("resultCity");
-const resultPin=document.getElementById("resultPin");
-const resultPayment=document.getElementById("resultPayment");
-const currentStatus=document.getElementById("currentStatus");
-const cancelledBox=document.getElementById("cancelledBox");
-const orderItems=document.getElementById("orderItems");
-const orderTotal=document.getElementById("orderTotal");
-const customerActions=document.getElementById("customerActions");
-const reviewBox=document.getElementById("reviewBox");
-const reviewStars=document.getElementById("reviewStars");
-const reviewText=document.getElementById("reviewText");
-const submitReviewButton=document.getElementById("submitReviewButton");
-const reviewMessage=document.getElementById("reviewMessage");
-const returnBox=document.getElementById("returnBox");
-const returnInfo=document.getElementById("returnInfo");
-const returnReason=document.getElementById("returnReason");
-const submitReturnButton=document.getElementById("submitReturnButton");
-const returnMessage=document.getElementById("returnMessage");
-let currentOrderId="";
-let currentOrderData=null;
-let selectedRating=0;
+const app =
+initializeApp(firebaseConfig);
 
-const statuses=["New","Accepted","Preparing","Shipped","Delivered"];
-let unsubscribeOrder=null;
 
-function clearMessages(){
-errorMessage.style.display="none";
-loadingMessage.style.display="none";
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loadingMessage =
+document.getElementById(
+    "loadingMessage"
+);
+
+const errorMessage =
+document.getElementById(
+    "errorMessage"
+);
+
+const successMessage =
+document.getElementById(
+    "successMessage"
+);
+
+const loginRequired =
+document.getElementById(
+    "loginRequired"
+);
+
+const customerArea =
+document.getElementById(
+    "customerArea"
+);
+
+const customerEmail =
+document.getElementById(
+    "customerEmail"
+);
+
+const ordersContainer =
+document.getElementById(
+    "ordersContainer"
+);
+
+const publicReviewsContainer =
+document.getElementById(
+    "publicReviewsContainer"
+);
+
+const refreshBtn =
+document.getElementById(
+    "refreshBtn"
+);
+
+
+let currentUser =
+null;
+
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+function hideMessages(){
+
+    loadingMessage.style.display =
+        "none";
+
+    errorMessage.style.display =
+        "none";
+
+    successMessage.style.display =
+        "none";
+
 }
 
-function showError(message){
-clearMessages();
-errorMessage.textContent="❌ "+message;
-errorMessage.style.display="block";
+
+function showLoading(text){
+
+    hideMessages();
+
+    loadingMessage.textContent =
+        text;
+
+    loadingMessage.style.display =
+        "block";
+
 }
 
-function showLoading(message){
-clearMessages();
-loadingMessage.textContent="⏳ "+message;
-loadingMessage.style.display="block";
+
+function showError(text){
+
+    hideMessages();
+
+    errorMessage.textContent =
+        "❌ " + text;
+
+    errorMessage.style.display =
+        "block";
+
 }
 
-function resetStatusTracker(){
-statuses.forEach(status=>{
-const element=document.getElementById("step"+status);
-if(element){
-element.classList.remove("completed");
-element.classList.remove("current");
-}
-});
-}
 
-function showStatus(status){
-resetStatusTracker();
+function showSuccess(text){
 
-const normalizedStatus=String(status||"New").trim();
-currentStatus.textContent=normalizedStatus;
+    hideMessages();
 
-if(normalizedStatus.toLowerCase()==="cancelled"){
-currentStatus.style.color="#a00000";
-cancelledBox.style.display="block";
-return;
+    successMessage.textContent =
+        "✅ " + text;
+
+    successMessage.style.display =
+        "block";
+
 }
 
-cancelledBox.style.display="none";
-currentStatus.style.color="#8b0000";
 
-let currentIndex=statuses.findIndex(item=>item.toLowerCase()===normalizedStatus.toLowerCase());
-if(currentIndex===-1) currentIndex=0;
 
-statuses.forEach((statusName,index)=>{
-const element=document.getElementById("step"+statusName);
-if(!element) return;
-if(index<currentIndex) element.classList.add("completed");
-if(index===currentIndex) element.classList.add("current");
-});
+/* =========================================================
+   STATUS
+========================================================= */
+
+function cleanStatus(status){
+
+    return String(
+        status || "New"
+    )
+    .trim()
+    .toLowerCase();
+
 }
 
-function showItems(items){
-orderItems.innerHTML="";
 
-if(!Array.isArray(items)||items.length===0){
-orderItems.textContent="Order items available nahi hain.";
-orderTotal.textContent="Total: ₹0";
-return;
+function getStatusClass(status){
+
+    const s =
+        cleanStatus(status);
+
+
+    if(s === "new")
+        return "status-new";
+
+
+    if(s === "accepted")
+        return "status-accepted";
+
+
+    if(s === "preparing")
+        return "status-preparing";
+
+
+    if(s === "shipped")
+        return "status-shipped";
+
+
+    if(s === "delivered")
+        return "status-delivered";
+
+
+    if(
+        s === "cancelled" ||
+        s === "canceled"
+    )
+        return "status-cancelled";
+
+
+    if(
+        s.includes("return")
+    )
+        return "status-return";
+
+
+    return "status-new";
+
 }
 
-let total=0;
 
-items.forEach(item=>{
-const quantity=Math.max(1,Number(item.quantity)||1);
-const price=Number(item.price)||0;
-const itemTotal=price*quantity;
-total+=itemTotal;
 
-const itemDiv=document.createElement("div");
-itemDiv.className="order-item";
+/* =========================================================
+   CANCEL RULE
+========================================================= */
 
-const left=document.createElement("div");
-const name=document.createElement("div");
-name.className="item-name";
-name.textContent=item.name||"Product";
+function canCustomerCancel(status){
 
-const info=document.createElement("div");
-info.className="item-info";
-info.textContent="Size: "+(item.size||"-")+" | Qty: "+quantity;
+    const s =
+        cleanStatus(status);
 
-left.appendChild(name);
-left.appendChild(info);
 
-const priceDiv=document.createElement("div");
-priceDiv.className="item-price";
-priceDiv.textContent="₹"+Math.round(itemTotal);
+    return (
 
-itemDiv.appendChild(left);
-itemDiv.appendChild(priceDiv);
-orderItems.appendChild(itemDiv);
-});
+        s === "new" ||
 
-orderTotal.textContent="Total: ₹"+Math.round(total);
+        s === "accepted" ||
+
+        s === "preparing"
+
+    );
+
 }
 
-function setupReviewStars(){
-    reviewStars.innerHTML="";
-    for(let i=1;i<=5;i++){
-        const btn=document.createElement("button"); btn.type="button"; btn.className="review-star-btn"; btn.textContent="★";
-        btn.addEventListener("click",function(){ selectedRating=i; [...reviewStars.children].forEach((el,index)=>el.classList.toggle("active",index<i)); });
-        reviewStars.appendChild(btn);
+
+
+/* =========================================================
+   FIREBASE DATE CONVERTER
+========================================================= */
+
+function getDateFromValue(value){
+
+    if(!value)
+        return null;
+
+
+    try{
+
+        if(
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value.toDate();
+
+        }
+
+
+        if(
+            value instanceof Date
+        ){
+
+            return value;
+
+        }
+
+
+        if(
+            typeof value ===
+            "number"
+        ){
+
+            return new Date(value);
+
+        }
+
+
+        if(
+            typeof value ===
+            "string"
+        ){
+
+            const d =
+                new Date(value);
+
+
+            if(
+                !isNaN(
+                    d.getTime()
+                )
+            ){
+
+                return d;
+
+            }
+
+        }
+
     }
-}
-function timestampDate(value){
-    if(!value) return null;
-    if(typeof value.toDate==="function") return value.toDate();
-    if(value instanceof Date) return value;
-    if(typeof value.seconds==="number") return new Date(value.seconds*1000);
+    catch(error){
+
+        console.error(
+            "DATE ERROR:",
+            error
+        );
+
+    }
+
+
     return null;
-}
-function renderCustomerActions(orderId,data){
-    currentOrderId=orderId; currentOrderData=data; customerActions.style.display="block";
-    reviewBox.style.display="none"; returnBox.style.display="none"; reviewMessage.textContent=""; returnMessage.textContent="";
-    reviewText.value=""; reviewText.disabled=false; submitReviewButton.disabled=false; submitReviewButton.style.display="block"; returnReason.value=""; returnReason.style.display="block"; submitReturnButton.style.display="block"; selectedRating=0;
-    const delivered=String(data.status||"").toLowerCase()==="delivered";
-    if(!delivered) return;
-    setupReviewStars(); reviewBox.style.display="block";
-    if(data.reviewSubmitted){ reviewText.disabled=true; submitReviewButton.disabled=true; submitReviewButton.textContent="✅ Review Submitted"; reviewMessage.textContent="✅ Aapka review pehle hi submit ho chuka hai."; reviewMessage.style.color="#16752b"; }
-    const deliveredAt=timestampDate(data.deliveredAt);
-    returnBox.style.display="block";
-    if(data.returnStatus){ returnInfo.textContent="🔄 Return Status: "+data.returnStatus+(data.returnReason?" — "+data.returnReason:""); returnReason.style.display="none"; submitReturnButton.style.display="none"; returnMessage.textContent=""; return; }
-    if(!deliveredAt){ returnInfo.textContent="❌ Delivered time available nahi hai. Admin panel me order ko Delivered save karein."; returnReason.style.display="none"; submitReturnButton.style.display="none"; return; }
-    const remaining=24*60*60*1000-(Date.now()-deliveredAt.getTime());
-    if(remaining<=0){ returnInfo.textContent="❌ Return window 24 hours ke baad khatam ho chuki hai."; returnReason.style.display="none"; submitReturnButton.style.display="none"; return; }
-    const hours=Math.floor(remaining/3600000), minutes=Math.floor((remaining%3600000)/60000);
-    returnInfo.textContent="Return sirf Delivered hone ke 24 hours ke andar request kiya ja sakta hai. Abhi lagbhag "+hours+" hours "+minutes+" minutes bache hain.";
+
 }
 
-function renderOrder(orderId,data){
-const savedPhone=String(data.customerPhone||data.phone||"").trim();
 
-resultOrderId.textContent=orderId;
-resultName.textContent=data.customerName||data.name||"-";
-resultPhone.textContent=savedPhone||"-";
-resultAddress.textContent=data.customerAddress||data.address||"-";
-resultCity.textContent=data.customerCity||data.city||"-";
-resultPin.textContent=data.customerPin||data.pin||"-";
-resultPayment.textContent=data.paymentMethod||"-";
 
-showStatus(data.status||"New");
-showItems(data.items||[]);
-renderCustomerActions(orderId,data);
+/* =========================================================
+   DELIVERED DATE
+========================================================= */
 
-clearMessages();
-orderResult.style.display="block";
+function getDeliveredDate(data){
+
+    /*
+       Admin Panel se deliveredAt
+       save hua ho to wahi use hoga.
+    */
+
+    const possibleFields = [
+
+        "deliveredAt",
+
+        "deliveredOn",
+
+        "deliveryDate",
+
+        "deliveryCompletedAt",
+
+        "statusUpdatedAt"
+
+    ];
+
+
+    for(
+        const field
+        of possibleFields
+    ){
+
+        const date =
+            getDateFromValue(
+                data[field]
+            );
+
+
+        if(date){
+
+            return date;
+
+        }
+
+    }
+
+
+    return null;
+
 }
 
-function stopOrderListener(){
-if(typeof unsubscribeOrder==="function"){
-unsubscribeOrder();
-unsubscribeOrder=null;
+
+
+/* =========================================================
+   24 HOUR RETURN RULE
+========================================================= */
+
+const RETURN_WINDOW_HOURS =
+24;
+
+
+const RETURN_WINDOW_MS =
+RETURN_WINDOW_HOURS *
+60 *
+60 *
+1000;
+
+
+function getReturnInfo(data){
+
+    const status =
+        cleanStatus(
+            data.status
+        );
+
+
+    if(
+        status !== "delivered"
+    ){
+
+        return {
+
+            eligible:false,
+
+            expired:false,
+
+            remainingMs:0,
+
+            deliveredDate:null
+
+        };
+
+    }
+
+
+    const deliveredDate =
+        getDeliveredDate(
+            data
+        );
+
+
+    /*
+       Exact delivered time nahi mila
+       to return button nahi dikhayenge.
+       Isse galat 24-hour return allow nahi hoga.
+    */
+
+    if(!deliveredDate){
+
+        return {
+
+            eligible:false,
+
+            expired:true,
+
+            remainingMs:0,
+
+            deliveredDate:null
+
+        };
+
+    }
+
+
+    const deliveredMs =
+        deliveredDate.getTime();
+
+
+    const expiryMs =
+        deliveredMs +
+        RETURN_WINDOW_MS;
+
+
+    const nowMs =
+        Date.now();
+
+
+    const remainingMs =
+        expiryMs -
+        nowMs;
+
+
+    if(
+        remainingMs > 0
+    ){
+
+        return {
+
+            eligible:true,
+
+            expired:false,
+
+            remainingMs:
+
+                remainingMs,
+
+            deliveredDate:
+
+                deliveredDate
+
+        };
+
+    }
+
+
+    return {
+
+        eligible:false,
+
+        expired:true,
+
+        remainingMs:0,
+
+        deliveredDate:
+
+            deliveredDate
+
+    };
+
 }
+
+
+
+/* =========================================================
+   RETURN TIMER TEXT
+========================================================= */
+
+function formatRemainingTime(
+    remainingMs
+){
+
+    if(
+        remainingMs <= 0
+    ){
+
+        return "Return window khatam ho gaya.";
+
+    }
+
+
+    let totalSeconds =
+        Math.floor(
+            remainingMs /
+            1000
+        );
+
+
+    const hours =
+        Math.floor(
+            totalSeconds /
+            3600
+        );
+
+
+    totalSeconds %=
+        3600;
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds /
+            60
+        );
+
+
+    const seconds =
+        totalSeconds %
+        60;
+
+
+    return (
+
+        "⏰ Return ke liye " +
+
+        String(hours)
+        .padStart(2,"0") +
+
+        "h " +
+
+        String(minutes)
+        .padStart(2,"0") +
+
+        "m " +
+
+        String(seconds)
+        .padStart(2,"0") +
+
+        "s bache hain."
+
+    );
+
 }
 
-function startOrderListener(){
-stopOrderListener();
-clearMessages();
-orderResult.style.display="none";
 
-const orderId=orderIdInput.value.trim();
-const phone=phoneInput.value.trim();
 
-if(!orderId){
-showError("Please Order ID likhein.");
-return;
+/* =========================================================
+   REVIEW RULE
+========================================================= */
+
+function canCustomerReview(
+    data
+){
+
+    const status =
+        cleanStatus(
+            data.status
+        );
+
+
+    /*
+       Review sirf Delivered/
+       Confirmed order par.
+    */
+
+    return (
+
+        status === "delivered" ||
+
+        status === "confirmed" ||
+
+        status === "completed"
+
+    );
+
 }
 
-if(!/^[0-9]{10}$/.test(phone)){
-showError("Please valid 10 digit mobile number likhein.");
-return;
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function createProgress(status){
+
+    const s =
+        cleanStatus(status);
+
+
+    const steps = [
+
+        "new",
+
+        "accepted",
+
+        "preparing",
+
+        "shipped",
+
+        "delivered"
+
+    ];
+
+
+    let currentIndex =
+        steps.indexOf(s);
+
+
+    if(
+        s === "cancelled" ||
+        s === "canceled"
+    ){
+
+        currentIndex = -1;
+
+    }
+
+
+    if(
+        s.includes("return")
+    ){
+
+        currentIndex = 4;
+
+    }
+
+
+    const names = [
+
+        "New",
+
+        "Accepted",
+
+        "Preparing",
+
+        "Shipped",
+
+        "Delivered"
+
+    ];
+
+
+    let html =
+
+    `
+    <div class="progress-box">
+
+        <div class="progress-title">
+            📌 Order Progress
+        </div>
+
+        <div class="status-tracker">
+    `;
+
+
+    names.forEach(
+        function(name,index){
+
+            let className =
+                "status-step";
+
+
+            if(currentIndex >= 0){
+
+                if(
+                    index <
+                    currentIndex
+                ){
+
+                    className +=
+                        " completed";
+
+                }
+
+
+                else if(
+                    index ===
+                    currentIndex
+                ){
+
+                    className +=
+                        " current";
+
+                }
+
+            }
+
+
+            html +=
+
+            `
+            <div class="${className}">
+
+                <div class="status-circle">
+                    ${index + 1}
+                </div>
+
+                <div class="status-name">
+                    ${name}
+                </div>
+
+                <div class="status-line"></div>
+
+            </div>
+            `;
+
+        }
+    );
+
+
+    html +=
+
+    `
+        </div>
+    </div>
+    `;
+
+
+    return html;
+
 }
 
-trackButton.disabled=true;
-trackButton.textContent="⏳ Searching...";
-showLoading("Order details Firebase se check ho rahe hain...");
 
-const orderRef=doc(db,"orders",orderId);
 
-unsubscribeOrder=onSnapshot(orderRef,orderSnap=>{
-if(!orderSnap.exists()){
-stopOrderListener();
-showError("Order ID nahi mila. Order ID dobara check karein.");
-trackButton.disabled=false;
-trackButton.textContent="🔍 Track Order";
-return;
-}
+/* =========================================================
+   DATE FORMAT
+========================================================= */
 
-const data=orderSnap.data();
-const savedPhone=String(data.customerPhone||data.phone||"").trim();
+function formatDate(timestamp){
 
-if(savedPhone!==phone){
-stopOrderListener();
-showError("Order ID aur mobile number match nahi karte.");
-trackButton.disabled=false;
-trackButton.textContent="🔍 Track Order";
-return;
-}
+    const date =
+        getDateFromValue(
+            timestamp
+        );
 
-renderOrder(orderId,data);
 
-trackButton.disabled=false;
-trackButton.textContent="🔄 Tracking Active";
-},error=>{
-console.error("TRACK ORDER ERROR:",error);
-stopOrderListener();
-showError("Order load nahi hua. Firebase Firestore Rules check karein.");
-trackButton.disabled=false;
-trackButton.textContent="🔍 Track Order";
-});
-}
+    if(!date)
+        return "-";
 
-submitReviewButton.addEventListener("click",async function(){
-    if(!currentOrderData || String(currentOrderData.status||"").toLowerCase()!=="delivered"){ reviewMessage.textContent="❌ Review sirf Delivered order ke liye hai."; reviewMessage.style.color="#a00000"; return; }
-    if(!selectedRating){ reviewMessage.textContent="❌ Pehle 1 se 5 stars select karein."; reviewMessage.style.color="#a00000"; return; }
-    const text=reviewText.value.trim(); if(!text){ reviewMessage.textContent="❌ Review likhein."; reviewMessage.style.color="#a00000"; return; }
-    submitReviewButton.disabled=true; submitReviewButton.textContent="⏳ Submitting...";
+
     try{
-        const product=currentOrderData.items&&currentOrderData.items.length?currentOrderData.items[0]:{};
-        await addDoc(collection(db,"reviews"),{orderId:currentOrderId,customerName:currentOrderData.customerName||currentOrderData.name||"Customer",customerPhone:currentOrderData.customerPhone||currentOrderData.phone||"",productName:product.name||"Product",productId:product.productId||product.id||"",imageUrl:product.image||product.imageUrl||"",rating:selectedRating,text:text,approved:true,createdAt:new Date()});
-        await setDoc(doc(db,"orders",currentOrderId),{reviewSubmitted:true,reviewSubmittedAt:new Date()},{merge:true});
-        reviewMessage.textContent="✅ Review successfully submit ho gaya."; reviewMessage.style.color="#16752b"; reviewText.disabled=true; submitReviewButton.textContent="✅ Review Submitted";
-    }catch(error){ console.error("Submit review error:",error); reviewMessage.textContent="❌ Review submit nahi hua. Firebase Firestore Rules check karein."; reviewMessage.style.color="#a00000"; submitReviewButton.disabled=false; submitReviewButton.textContent="⭐ Submit Review"; }
-});
-submitReturnButton.addEventListener("click",async function(){
-    if(!currentOrderData || String(currentOrderData.status||"").toLowerCase()!=="delivered"){ returnMessage.textContent="❌ Return sirf Delivered order ke liye hai."; returnMessage.style.color="#a00000"; return; }
-    const deliveredAt=timestampDate(currentOrderData.deliveredAt); if(!deliveredAt){ returnMessage.textContent="❌ Delivered time available nahi hai."; returnMessage.style.color="#a00000"; return; }
-    if(Date.now()-deliveredAt.getTime()>24*60*60*1000){ returnMessage.textContent="❌ Return window 24 hours ke baad khatam ho gayi hai."; returnMessage.style.color="#a00000"; return; }
-    if(currentOrderData.returnStatus){ returnMessage.textContent="ℹ️ Return request already submitted hai."; returnMessage.style.color="#8a5a00"; return; }
-    const reason=returnReason.value.trim(); if(!reason){ returnMessage.textContent="❌ Return ka reason likhein."; returnMessage.style.color="#a00000"; return; }
-    submitReturnButton.disabled=true; submitReturnButton.textContent="⏳ Submitting...";
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric",
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+    }
+    catch(error){
+
+        return "-";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+function createItems(items){
+
+    if(
+        !Array.isArray(items) ||
+        items.length === 0
+    ){
+
+        return `
+        <div class="no-orders">
+            Order items nahi mile.
+        </div>
+        `;
+
+    }
+
+
+    let html = "";
+
+
+    items.forEach(
+        function(item){
+
+            const name =
+                escapeHtml(
+                    item.name ||
+                    "Product"
+                );
+
+
+            const size =
+                escapeHtml(
+                    item.size ||
+                    "-"
+                );
+
+
+            const quantity =
+                Number(
+                    item.quantity
+                ) || 1;
+
+
+            const price =
+                Number(
+                    item.price
+                ) || 0;
+
+
+            const itemTotal =
+                price *
+                quantity;
+
+
+            html +=
+
+            `
+            <div class="order-item">
+
+                <div>
+
+                    <div class="item-name">
+                        ${name}
+                    </div>
+
+                    <div class="item-info">
+                        Size: ${size}
+                    </div>
+
+                    <div class="item-info">
+                        Quantity: ${quantity}
+                    </div>
+
+                </div>
+
+                <div class="item-price">
+                    ₹${Math.round(itemTotal)}
+                </div>
+
+            </div>
+            `;
+
+        }
+    );
+
+
+    return html;
+
+}
+
+
+
+/* =========================================================
+   REVIEW FORM
+========================================================= */
+
+function createReviewForm(
+    orderId,
+    data
+){
+
+    const items =
+        Array.isArray(data.items)
+        ?
+        data.items
+        :
+        [];
+
+
+    let productName =
+        "Sweety Masala Product";
+
+
+    if(
+        items.length > 0 &&
+        items[0].name
+    ){
+
+        productName =
+            items[0].name;
+
+    }
+
+
+    return `
+
+    <div class="review-box">
+
+        <h3>
+            ⭐ Give Your Review
+        </h3>
+
+        <p class="review-note">
+            Aapka review public hoga aur
+            sabhi customers dekh sakte hain.
+        </p>
+
+
+        <label>
+            Rating
+        </label>
+
+        <select
+            class="review-input"
+            id="rating-${escapeHtml(orderId)}"
+        >
+
+            <option value="5">
+                ⭐⭐⭐⭐⭐ 5 Stars
+            </option>
+
+            <option value="4">
+                ⭐⭐⭐⭐ 4 Stars
+            </option>
+
+            <option value="3">
+                ⭐⭐⭐ 3 Stars
+            </option>
+
+            <option value="2">
+                ⭐⭐ 2 Stars
+            </option>
+
+            <option value="1">
+                ⭐ 1 Star
+            </option>
+
+        </select>
+
+
+        <label>
+            Review
+        </label>
+
+        <textarea
+            class="review-textarea"
+            id="review-text-${escapeHtml(orderId)}"
+            placeholder="Apna experience likhein..."
+        ></textarea>
+
+
+        <label>
+            Review Image URL
+            <small style="font-weight:normal;color:#777;">
+                (optional)
+            </small>
+        </label>
+
+        <input
+            type="url"
+            class="review-input"
+            id="review-image-${escapeHtml(orderId)}"
+            placeholder="https://example.com/image.jpg"
+        >
+
+
+        <button
+            type="button"
+            class="review-submit"
+            data-action="review"
+            data-order-id="${escapeHtml(orderId)}"
+            data-product-name="${escapeHtml(productName)}"
+        >
+            ⭐ Submit Review
+        </button>
+
+    </div>
+
+    `;
+
+}
+
+
+
+/* =========================================================
+   CREATE ORDER CARD
+========================================================= */
+
+function createOrderCard(order){
+
+    const data =
+        order.data();
+
+
+    const orderId =
+        order.id;
+
+
+    const status =
+        data.status ||
+        "New";
+
+
+    const normalizedStatus =
+        cleanStatus(status);
+
+
+    const name =
+        escapeHtml(
+            data.customerName ||
+            data.name ||
+            "-"
+        );
+
+
+    const phone =
+        escapeHtml(
+            data.customerPhone ||
+            data.phone ||
+            "-"
+        );
+
+
+    const address =
+        escapeHtml(
+            data.customerAddress ||
+            data.address ||
+            "-"
+        );
+
+
+    const city =
+        escapeHtml(
+            data.customerCity ||
+            data.city ||
+            "-"
+        );
+
+
+    const pin =
+        escapeHtml(
+            data.customerPin ||
+            data.pin ||
+            "-"
+        );
+
+
+    const payment =
+        escapeHtml(
+            data.paymentMethod ||
+            "Cash on Delivery"
+        );
+
+
+    const total =
+        Number(
+            data.total
+        ) || 0;
+
+
+    let actionHtml = "";
+
+
+
+    /* =====================================================
+       CANCEL
+    ===================================================== */
+
+    if(
+        canCustomerCancel(status)
+    ){
+
+        actionHtml +=
+
+        `
+        <button
+            type="button"
+            class="action-btn cancel-btn"
+            data-action="cancel"
+            data-order-id="${escapeHtml(orderId)}"
+        >
+            ❌ Cancel Order
+        </button>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       RETURN - ONLY 24 HOURS
+    ===================================================== */
+
+    const returnInfo =
+        getReturnInfo(
+            data
+        );
+
+
+    if(
+        returnInfo.eligible
+    ){
+
+        actionHtml +=
+
+        `
+        <div
+            class="return-window"
+            id="return-timer-${escapeHtml(orderId)}"
+        >
+            ${formatRemainingTime(
+                returnInfo.remainingMs
+            )}
+        </div>
+
+
+        <button
+            type="button"
+            class="action-btn return-btn"
+            data-action="return"
+            data-order-id="${escapeHtml(orderId)}"
+        >
+            🔄 Return Product
+        </button>
+        `;
+
+    }
+
+
+
+    /*
+       Delivered but 24 hour expired
+       => Return button nahi.
+    */
+
+    else if(
+        normalizedStatus ===
+        "delivered" &&
+        returnInfo.expired
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-expired">
+            ⛔ Return ka 24-hour time
+            complete ho gaya hai.
+            Ab return option available nahi hai.
+        </div>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       CANCELLED
+    ===================================================== */
+
+    if(
+        normalizedStatus === "cancelled" ||
+        normalizedStatus === "canceled"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="cancelled-message">
+            ❌ Ye order cancel ho chuka hai.
+        </div>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       RETURN STATUS
+    ===================================================== */
+
+    if(
+        normalizedStatus ===
+        "return requested"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            🔄 Return request submit ho chuki hai.
+            Admin request check karega.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "return approved"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return request approve ho gayi hai.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "return picked"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            📦 Return pickup process me hai.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "returned"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return complete ho gaya hai.
+        </div>
+        `;
+
+    }
+
+
+
+    /* =====================================================
+       REVIEW
+    ===================================================== */
+
+    if(
+        canCustomerReview(data)
+    ){
+
+        if(
+            data.reviewSubmitted === true ||
+            data.reviewSubmitted === "true"
+        ){
+
+            actionHtml +=
+
+            `
+            <div class="return-message">
+                ⭐ Aapka review submit ho chuka hai.
+                Dhanyavaad!
+            </div>
+            `;
+
+        }
+
+        else{
+
+            actionHtml +=
+                createReviewForm(
+                    orderId,
+                    data
+                );
+
+        }
+
+    }
+
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "order-card";
+
+
+    if(
+        normalizedStatus ===
+        "cancelled" ||
+        normalizedStatus ===
+        "canceled"
+    ){
+
+        card.classList.add(
+            "cancelled"
+        );
+
+    }
+
+
+    if(
+        normalizedStatus.includes(
+            "return"
+        ) ||
+        normalizedStatus ===
+        "returned"
+    ){
+
+        card.classList.add(
+            "returned"
+        );
+
+    }
+
+
+
+    card.innerHTML =
+
+    `
+    <div class="order-header">
+
+        <div class="order-id">
+
+            🧾 Order ID:
+
+            <strong>
+                ${escapeHtml(orderId)}
+            </strong>
+
+            <br>
+
+            🕒 ${formatDate(
+                data.createdAt
+            )}
+
+        </div>
+
+
+        <div
+            class="status-badge
+            ${getStatusClass(status)}"
+        >
+
+            ${escapeHtml(status)}
+
+        </div>
+
+    </div>
+
+
+
+    <div class="customer-details">
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Name:
+            </span>
+
+            ${name}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Mobile:
+            </span>
+
+            ${phone}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Address:
+            </span>
+
+            ${address}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                City:
+            </span>
+
+            ${city}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                PIN:
+            </span>
+
+            ${pin}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Payment:
+            </span>
+
+            ${payment}
+
+        </div>
+
+    </div>
+
+
+
+    ${createProgress(status)}
+
+
+
+    <h3 class="items-title">
+        🛒 Order Items
+    </h3>
+
+
+    <div>
+
+        ${createItems(
+            data.items
+        )}
+
+    </div>
+
+
+    <div class="total">
+
+        Total:
+        ₹${Math.round(total)}
+
+    </div>
+
+
+
+    ${
+        actionHtml
+        ?
+        `
+        <div class="action-area">
+
+            ${actionHtml}
+
+        </div>
+        `
+        :
+        ""
+    }
+
+    `;
+
+
+    return card;
+
+}
+
+
+
+/* =========================================================
+   LOAD ORDERS
+========================================================= */
+
+async function loadOrders(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    showLoading(
+        "⏳ Aapke saare orders load ho rahe hain..."
+    );
+
+
+    ordersContainer.innerHTML = "";
+
+
     try{
-        await setDoc(doc(db,"orders",currentOrderId),{returnStatus:"Pending",returnReason:reason,returnRequestedAt:new Date(),returnRequestedBy:currentOrderData.customerPhone||currentOrderData.phone||"customer"},{merge:true});
-        currentOrderData.returnStatus="Pending"; returnInfo.textContent="✅ Return request Admin Panel ko bhej di gayi hai."; returnReason.style.display="none"; submitReturnButton.style.display="none"; returnMessage.textContent="Admin aapki return request check karega."; returnMessage.style.color="#16752b";
-    }catch(error){ console.error("Return request error:",error); returnMessage.textContent="❌ Return request submit nahi hui. Firebase Firestore Rules check karein."; returnMessage.style.color="#a00000"; submitReturnButton.disabled=false; submitReturnButton.textContent="🔄 Submit Return Request"; }
-});
 
-trackButton.addEventListener("click",startOrderListener);
+        const ordersQuery =
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
 
-orderIdInput.addEventListener("keydown",event=>{
-if(event.key==="Enter"){
-event.preventDefault();
-startOrderListener();
+                where(
+                    "uid",
+                    "==",
+                    currentUser.uid
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                ordersQuery
+            );
+
+
+        const orders = [];
+
+
+        snapshot.forEach(
+            function(order){
+
+                orders.push(order);
+
+            }
+        );
+
+
+        orders.sort(
+            function(a,b){
+
+                const aDate =
+                    getDateFromValue(
+                        a.data().createdAt
+                    );
+
+                const bDate =
+                    getDateFromValue(
+                        b.data().createdAt
+                    );
+
+
+                if(
+                    !aDate ||
+                    !bDate
+                ){
+
+                    return 0;
+
+                }
+
+
+                return (
+                    bDate.getTime()
+                    -
+                    aDate.getTime()
+                );
+
+            }
+        );
+
+
+        hideMessages();
+
+
+        if(
+            orders.length === 0
+        ){
+
+            ordersContainer.innerHTML =
+
+            `
+            <div class="box no-orders">
+
+                <h2>
+                    📦 Abhi koi order nahi mila
+                </h2>
+
+                <p>
+                    Is account se abhi koi order
+                    place nahi hua hai.
+                </p>
+
+
+                <a
+                    href="products.html"
+                    class="shop-btn"
+                >
+                    🛒 Order Now
+                </a>
+
+            </div>
+            `;
+
+            return;
+
+        }
+
+
+
+        orders.forEach(
+            function(order){
+
+                ordersContainer.appendChild(
+                    createOrderCard(order)
+                );
+
+            }
+        );
+
+
+        attachActionButtons();
+
+        startReturnTimers();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD ORDERS ERROR:",
+            error
+        );
+
+
+        showError(
+            "Orders load nahi ho pa rahe. Firebase Rules check karein."
+        );
+
+    }
+
 }
-});
 
-phoneInput.addEventListener("keydown",event=>{
-if(event.key==="Enter"){
-event.preventDefault();
-startOrderListener();
+
+
+/* =========================================================
+   24 HOUR LIVE TIMER
+========================================================= */
+
+function startReturnTimers(){
+
+    document
+    .querySelectorAll(
+        "[id^='return-timer-']"
+    )
+    .forEach(
+        function(timer){
+
+            const orderId =
+                timer.id.replace(
+                    "return-timer-",
+                    ""
+                );
+
+
+            const interval =
+                setInterval(
+                    async function(){
+
+                        const ref =
+                            doc(
+                                db,
+                                "orders",
+                                orderId
+                            );
+
+
+                        try{
+
+                            const snap =
+                                await getDocs(
+                                    query(
+                                        collection(
+                                            db,
+                                            "orders"
+                                        ),
+                                        where(
+                                            "__name__",
+                                            "==",
+                                            orderId
+                                        )
+                                    )
+                                );
+
+
+                            if(
+                                snap.empty
+                            ){
+
+                                clearInterval(
+                                    interval
+                                );
+
+                                return;
+
+                            }
+
+
+                            const orderDoc =
+                                snap.docs[0];
+
+
+                            const data =
+                                orderDoc.data();
+
+
+                            const info =
+                                getReturnInfo(
+                                    data
+                                );
+
+
+                            if(
+                                !info.eligible
+                            ){
+
+                                clearInterval(
+                                    interval
+                                );
+
+
+                                await loadOrders();
+
+                                return;
+
+                            }
+
+
+                            timer.textContent =
+                                formatRemainingTime(
+                                    info.remainingMs
+                                );
+
+                        }
+                        catch(error){
+
+                            console.error(
+                                "TIMER ERROR:",
+                                error
+                            );
+
+                        }
+
+                    },
+                    1000
+                );
+
+        }
+    );
+
 }
-});
 
-phoneInput.addEventListener("input",function(){
-this.value=this.value.replace(/[^0-9]/g,"").slice(0,10);
-});
 
-const urlParams=new URLSearchParams(window.location.search);
-const urlOrderId=urlParams.get("orderId");
 
-if(urlOrderId) orderIdInput.value=urlOrderId;
+/* =========================================================
+   CANCEL ORDER
+========================================================= */
 
-window.addEventListener("beforeunload",stopOrderListener);
+async function cancelOrder(
+    orderId
+){
 
-console.log("Track Order page loaded with realtime status tracking.");
+    if(!currentUser){
+
+        showError(
+            "Pehle login karein."
+        );
+
+        return;
+
+    }
+
+
+    const confirmCancel =
+        confirm(
+            "Kya aap is order ko cancel karna chahte hain?"
+        );
+
+
+    if(!confirmCancel){
+
+        return;
+
+    }
+
+
+    showLoading(
+        "⏳ Order cancel ho raha hai..."
+    );
+
+
+    try{
+
+        const orderRef =
+            doc(
+                db,
+                "orders",
+                orderId
+            );
+
+
+        await updateDoc(
+            orderRef,
+            {
+
+                status:
+                    "Cancelled",
+
+                cancelledBy:
+                    "customer",
+
+                cancelledAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        showSuccess(
+            "Order successfully cancel ho gaya."
+        );
+
+
+        await loadOrders();
+
+    }
+    catch(error){
+
+        console.error(
+            "CANCEL ERROR:",
+            error
+        );
+
+
+        showError(
+            "Order cancel nahi hua. Firebase Rules check karein."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   RETURN ORDER - 24 HOURS CHECK
+========================================================= */
+
+async function returnOrder(
+    orderId
+){
+
+    if(!currentUser){
+
+        showError(
+            "Pehle login karein."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const orderQuery =
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
+
+                where(
+                    "__name__",
+                    "==",
+                    orderId
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                orderQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            showError(
+                "Order nahi mila."
+            );
+
+            return;
+
+        }
+
+
+        const orderDoc =
+            snapshot.docs[0];
+
+
+        const data =
+            orderDoc.data();
+
+
+        /*
+           SECURITY CHECK:
+           Customer sirf delivered order
+           ko return kar sakta hai.
+        */
+
+        if(
+            cleanStatus(data.status)
+            !==
+            "delivered"
+        ){
+
+            showError(
+                "Ye order ab return ke liye eligible nahi hai."
+            );
+
+            await loadOrders();
+
+            return;
+
+        }
+
+
+        /*
+           24 HOURS CHECK
+        */
+
+        const returnInfo =
+            getReturnInfo(data);
+
+
+        if(
+            !returnInfo.eligible
+        ){
+
+            showError(
+                "Return ka 24-hour time complete ho gaya hai."
+            );
+
+            await loadOrders();
+
+            return;
+
+        }
+
+
+        const confirmReturn =
+            confirm(
+                "Kya aap is delivered product ko return karna chahte hain?"
+            );
+
+
+        if(!confirmReturn){
+
+            return;
+
+        }
+
+
+        const reason =
+            prompt(
+                "Return ka reason likhein:"
+            );
+
+
+        if(
+            reason === null ||
+            !reason.trim()
+        ){
+
+            return;
+
+        }
+
+
+        showLoading(
+            "⏳ Return request submit ho rahi hai..."
+        );
+
+
+        const orderRef =
+            doc(
+                db,
+                "orders",
+                orderId
+            );
+
+
+        await updateDoc(
+            orderRef,
+            {
+
+                status:
+                    "Return Requested",
+
+                returnRequestedBy:
+                    "customer",
+
+                returnReason:
+                    reason.trim(),
+
+                returnRequestedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        showSuccess(
+            "Return request successfully submit ho gayi."
+        );
+
+
+        await loadOrders();
+
+    }
+    catch(error){
+
+        console.error(
+            "RETURN ERROR:",
+            error
+        );
+
+
+        showError(
+            "Return request submit nahi hui. Firebase Rules check karein."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   SUBMIT REVIEW
+========================================================= */
+
+async function submitReview(
+    orderId,
+    productName
+){
+
+    if(!currentUser){
+
+        showError(
+            "Pehle login karein."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+           Fresh order data Firebase se
+           dobara read kar rahe hain.
+        */
+
+        const orderQuery =
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
+
+                where(
+                    "__name__",
+                    "==",
+                    orderId
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                orderQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            showError(
+                "Order nahi mila."
+            );
+
+            return;
+
+        }
+
+
+        const orderDoc =
+            snapshot.docs[0];
+
+
+        const orderData =
+            orderDoc.data();
+
+
+        /*
+           Review sirf delivered /
+           confirmed / completed order
+           ke liye.
+        */
+
+        if(
+            !canCustomerReview(
+                orderData
+            )
+        ){
+
+            showError(
+                "Review sirf confirmed/delivered order ke baad diya ja sakta hai."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            orderData.reviewSubmitted === true
+        ){
+
+            showError(
+                "Is order ka review already submit ho chuka hai."
+            );
+
+            return;
+
+        }
+
+
+        const ratingElement =
+            document.getElementById(
+                "rating-" +
+                orderId
+            );
+
+
+        const textElement =
+            document.getElementById(
+                "review-text-" +
+                orderId
+            );
+
+
+        const imageElement =
+            document.getElementById(
+                "review-image-" +
+                orderId
+            );
+
+
+        const rating =
+            Number(
+                ratingElement?.value
+            ) || 5;
+
+
+        const reviewText =
+            textElement?.value.trim()
+            || "";
+
+
+        const imageUrl =
+            imageElement?.value.trim()
+            || "";
+
+
+        if(
+            !reviewText
+        ){
+
+            showError(
+                "Please apna review likhein."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            rating < 1 ||
+            rating > 5
+        ){
+
+            showError(
+                "Rating 1 se 5 stars ke beech honi chahiye."
+            );
+
+            return;
+
+        }
+
+
+        showLoading(
+            "⏳ Review submit ho raha hai..."
+        );
+
+
+        /*
+           PUBLIC REVIEW DOCUMENT
+        */
+
+        await addDoc(
+            collection(
+                db,
+                "reviews"
+            ),
+            {
+
+                uid:
+                    currentUser.uid,
+
+                customerEmail:
+                    currentUser.email ||
+                    "",
+
+                customerName:
+                    orderData.customerName ||
+                    orderData.name ||
+                    "Customer",
+
+                orderId:
+                    orderId,
+
+                productName:
+                    productName ||
+                    "Sweety Masala Product",
+
+                rating:
+                    rating,
+
+                review:
+                    reviewText,
+
+                imageUrl:
+                    imageUrl,
+
+                createdAt:
+                    serverTimestamp(),
+
+                approved:
+                    true
+
+            }
+        );
+
+
+        /*
+           Order me mark kar denge ki
+           review submit ho chuka hai.
+        */
+
+        await updateDoc(
+            doc(
+                db,
+                "orders",
+                orderId
+            ),
+            {
+
+                reviewSubmitted:
+                    true,
+
+                reviewSubmittedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        showSuccess(
+            "⭐ Review successfully submit ho gaya. Dhanyavaad!"
+        );
+
+
+        await loadOrders();
+
+        await loadPublicReviews();
+
+    }
+    catch(error){
+
+        console.error(
+            "REVIEW ERROR:",
+            error
+        );
+
+
+        showError(
+            "Review submit nahi hua. Firebase Rules check karein."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+function attachActionButtons(){
+
+    const buttons =
+        document.querySelectorAll(
+            "[data-action]"
+        );
+
+
+    buttons.forEach(
+        function(button){
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    const action =
+                        button.dataset.action;
+
+
+                    const orderId =
+                        button.dataset.orderId;
+
+
+                    if(
+                        action ===
+                        "cancel"
+                    ){
+
+                        cancelOrder(
+                            orderId
+                        );
+
+                    }
+
+
+                    if(
+                        action ===
+                        "return"
+                    ){
+
+                        returnOrder(
+                            orderId
+                        );
+
+                    }
+
+
+                    if(
+                        action ===
+                        "review"
+                    ){
+
+                        submitReview(
+                            orderId,
+                            button.dataset.productName
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   PUBLIC REVIEWS
+========================================================= */
+
+async function loadPublicReviews(){
+
+    try{
+
+        publicReviewsContainer.innerHTML =
+
+        `
+        <div class="no-orders">
+            ⏳ Reviews load ho rahe hain...
+        </div>
+        `;
+
+
+        /*
+           Public reviews collection se
+           reviews load honge.
+        */
+
+        const reviewsQuery =
+            query(
+                collection(
+                    db,
+                    "reviews"
+                ),
+
+                where(
+                    "approved",
+                    "==",
+                    true
+                ),
+
+                orderBy(
+                    "createdAt",
+                    "desc"
+                ),
+
+                limit(50)
+            );
+
+
+        const snapshot =
+            await getDocs(
+                reviewsQuery
+            );
+
+
+        if(
+            snapshot.empty
+        ){
+
+            publicReviewsContainer.innerHTML =
+
+            `
+            <div class="no-orders">
+                ⭐ Abhi koi review nahi hai.
+            </div>
+            `;
+
+            return;
+
+        }
+
+
+        publicReviewsContainer.innerHTML =
+            "";
+
+
+        snapshot.forEach(
+            function(reviewDoc){
+
+                const data =
+                    reviewDoc.data();
+
+
+                const reviewCard =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                reviewCard.className =
+                    "public-review-card";
+
+
+                const customerName =
+                    escapeHtml(
+                        data.customerName ||
+                        "Customer"
+                    );
+
+
+                const productName =
+                    escapeHtml(
+                        data.productName ||
+                        "Sweety Masala Product"
+                    );
+
+
+                const reviewText =
+                    escapeHtml(
+                        data.review ||
+                        ""
+                    );
+
+
+                const rating =
+                    Math.max(
+                        1,
+                        Math.min(
+                            5,
+                            Number(
+                                data.rating
+                            ) || 5
+                        )
+                    );
+
+
+                const stars =
+                    "⭐".repeat(
+                        rating
+                    );
+
+
+                const imageUrl =
+                    String(
+                        data.imageUrl ||
+                        ""
+                    ).trim();
+
+
+                let imageHtml = "";
+
+
+                if(imageUrl){
+
+                    imageHtml =
+
+                    `
+                    <img
+                        src="${escapeHtml(imageUrl)}"
+                        class="review-image"
+                        alt="Customer Review Image"
+                        loading="lazy"
+                        onerror="this.style.display='none';"
+                    >
+                    `;
+
+                }
+
+
+                reviewCard.innerHTML =
+
+                `
+                <div class="review-top">
+
+                    <div class="review-name">
+                        👤 ${customerName}
+                    </div>
+
+                    <div class="review-stars">
+                        ${stars}
+                    </div>
+
+                </div>
+
+
+                <div class="review-product">
+                    🛒 ${productName}
+                </div>
+
+
+                <div class="review-text">
+                    ${reviewText}
+                </div>
+
+
+                ${imageHtml}
+
+
+                <div
+                    style="
+                        margin-top:10px;
+                        color:#888;
+                        font-size:12px;
+                    "
+                >
+                    🕒 ${formatDate(
+                        data.createdAt
+                    )}
+                </div>
+
+                `;
+
+
+                publicReviewsContainer.appendChild(
+                    reviewCard
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "PUBLIC REVIEW ERROR:",
+            error
+        );
+
+
+        publicReviewsContainer.innerHTML =
+
+        `
+        <div class="no-orders">
+            ⭐ Reviews abhi load nahi ho pa rahe.
+        </div>
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   LOGIN STATE
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        currentUser =
+            user;
+
+
+        if(!user){
+
+            hideMessages();
+
+
+            customerArea.style.display =
+                "none";
+
+
+            loginRequired.style.display =
+                "block";
+
+
+            await loadPublicReviews();
+
+
+            return;
+
+        }
+
+
+        loginRequired.style.display =
+            "none";
+
+
+        customerArea.style.display =
+            "block";
+
+
+        customerEmail.textContent =
+            user.email ||
+            "Customer";
+
+
+        await loadOrders();
+
+        await loadPublicReviews();
+
+    }
+);
+
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshBtn.addEventListener(
+    "click",
+    function(){
+
+        if(currentUser){
+
+            loadOrders();
+
+        }
+
+        loadPublicReviews();
+
+    }
+);
+
+
+
+/* =========================================================
+   INITIAL PUBLIC REVIEWS LOAD
+========================================================= */
+
+loadPublicReviews();
+
+
 </script>
+
+
 </body>
+
 </html>
+```

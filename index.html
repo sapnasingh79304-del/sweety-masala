@@ -1029,6 +1029,13 @@ async function getProductData(
                             :
                             fallbackPrice,
 
+                    sizePrices:
+                        data.sizePrices &&
+                        typeof data.sizePrices === "object"
+                            ?
+                            data.sizePrices
+                            :
+                            {},
 
                     sizes:
                         Array.isArray(data.sizes) &&
@@ -1063,6 +1070,8 @@ async function getProductData(
     return {
 
         price:fallbackPrice,
+
+        sizePrices:{},
 
         sizes:fallbackSizes,
 
@@ -1171,6 +1180,7 @@ function createProductCard(
     name,
     description,
     basePrice,
+    sizePrices,
     sizes,
     icon,
     inStock
@@ -1323,8 +1333,33 @@ function createProductCard(
             );
 
 
+        const savedSizePrice =
+            sizePrices &&
+            typeof sizePrices === "object"
+                ?
+                (
+                    sizePrices[selectedSize] !== undefined
+                        ?
+                        Number(sizePrices[selectedSize])
+                        :
+                        Number(
+                            sizePrices[
+                                String(selectedSize)
+                                    .trim()
+                                    .toUpperCase()
+                            ]
+                        )
+                )
+                :
+                NaN;
+
+
         const normalPrice =
-            Number(basePrice) * kg;
+            Number.isFinite(savedSizePrice) && savedSizePrice >= 0
+                ?
+                savedSizePrice
+                :
+                Number(basePrice) * kg;
 
 
         const finalPrice =
@@ -1408,8 +1443,33 @@ function createProductCard(
                     );
 
 
+                const savedSizePrice =
+                    sizePrices &&
+                    typeof sizePrices === "object"
+                        ?
+                        (
+                            sizePrices[size] !== undefined
+                                ?
+                                Number(sizePrices[size])
+                                :
+                                Number(
+                                    sizePrices[
+                                        String(size)
+                                            .trim()
+                                            .toUpperCase()
+                                    ]
+                                )
+                        )
+                        :
+                        NaN;
+
+
                 const normalPrice =
-                    Number(basePrice) * kg;
+                    Number.isFinite(savedSizePrice) && savedSizePrice >= 0
+                        ?
+                        savedSizePrice
+                        :
+                        Number(basePrice) * kg;
 
 
                 const finalPrice =
@@ -1492,6 +1552,7 @@ async function renderAllProducts(){
                 product.name,
                 product.description,
                 data.price,
+                data.sizePrices,
                 data.sizes,
                 "🌶️",
                 data.inStock
@@ -1524,6 +1585,7 @@ async function renderAllProducts(){
                 product[0],
                 product[1],
                 data.price,
+                data.sizePrices,
                 data.sizes,
                 "🥘",
                 data.inStock
@@ -1558,6 +1620,7 @@ async function renderAllProducts(){
                 product[0],
                 product[1],
                 data.price,
+                data.sizePrices,
                 data.sizes,
                 "🌾",
                 data.inStock
@@ -1590,6 +1653,7 @@ async function renderAllProducts(){
                 product[0],
                 product[1],
                 data.price,
+                data.sizePrices,
                 data.sizes,
                 "🌿",
                 data.inStock

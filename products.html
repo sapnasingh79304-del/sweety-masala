@@ -1307,53 +1307,60 @@ function sizeToKg(size){
 
 function calculatePrice(
     basePrice,
-    size
+    size,
+    sizePrices
 ){
 
     /*
-       Firebase ka price = 1 KG/base price.
+       NEW SIZE-WISE PRICE SYSTEM
 
-       Example:
-       Haldi = ₹200
+       Admin Panel Firebase:
+       sizePrices: {
+           "1 KG": 200,
+           "5 KG": 900,
+           "15 KG": 2400,
+           "25 KG": 3800
+       }
 
-       1 KG = ₹200
-       5 KG = ₹1000
-       10 KG = ₹2000
-       15 KG = ₹3000
-       20 KG = ₹4000
-       25 KG = ₹5000
-       30 KG = ₹6000
+       Har size ka apna exact price use hoga.
+       Purane products ke liye agar sizePrices nahi hai,
+       to old base-price calculation fallback rahega.
     */
 
-    const kg =
-    sizeToKg(size);
+    let normalPrice = null;
 
+    if(sizePrices && typeof sizePrices === "object"){
+        const exactKey = Object.keys(sizePrices).find(
+            key => String(key).trim().toLowerCase() ===
+                   String(size).trim().toLowerCase()
+        );
 
-    const normalPrice =
-    Number(basePrice) * kg;
+        if(exactKey !== undefined){
+            const savedPrice = Number(sizePrices[exactKey]);
 
+            if(Number.isFinite(savedPrice)){
+                normalPrice = savedPrice;
+            }
+        }
+    }
+
+    /* Old Firebase products ke liye safe fallback */
+    if(normalPrice === null){
+        const kg = sizeToKg(size);
+        normalPrice = Number(basePrice) * kg;
+    }
 
     if(
         discountEnabled &&
         discountPercent > 0
     ){
-
         return Math.round(
             normalPrice -
-            (
-                normalPrice *
-                discountPercent /
-                100
-            )
+            (normalPrice * discountPercent / 100)
         );
-
     }
 
-
-    return Math.round(
-        normalPrice
-    );
-
+    return Math.round(normalPrice);
 }
 
 
@@ -1439,6 +1446,9 @@ async function loadProduct(product){
                 price:
                 product.fallbackPrice,
 
+                sizePrices:
+                {},
+
                 inStock:true,
 
                 image:""
@@ -1476,6 +1486,17 @@ async function loadProduct(product){
         :
 
         Number(product.fallbackPrice);
+
+        /*
+           NEW: Admin Panel se har size ka exact price.
+        */
+        const firebaseSizePrices =
+        data.sizePrices &&
+        typeof data.sizePrices === "object"
+        ?
+        data.sizePrices
+        :
+        {};
 
 
         /*
@@ -1517,6 +1538,9 @@ async function loadProduct(product){
             price:
             firebasePrice,
 
+            sizePrices:
+            firebaseSizePrices,
+
             inStock:
             firebaseStock,
 
@@ -1551,6 +1575,8 @@ async function loadProduct(product){
 
             price:
             product.fallbackPrice,
+
+            sizePrices:{},
 
             inStock:true,
 
@@ -1776,7 +1802,8 @@ function createCard(product){
         const price =
         calculatePrice(
             product.price,
-            select.value
+            select.value,
+            product.sizePrices
         );
 
 
@@ -1823,7 +1850,8 @@ function createCard(product){
                 const price =
                 calculatePrice(
                     product.price,
-                    size
+                    size,
+                    product.sizePrices
                 );
 
 

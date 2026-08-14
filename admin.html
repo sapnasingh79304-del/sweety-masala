@@ -428,6 +428,45 @@ header h1{
     margin-top:7px;
 }
 
+.size-price-list{
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.size-price-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.size-price-label{
+    flex:1;
+    font-weight:bold;
+    color:#333;
+}
+
+.size-price-input{
+    width:130px;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.size-price-current{
+    min-width:90px;
+    text-align:right;
+    color:#8b0000;
+    font-weight:bold;
+    font-size:13px;
+}
+
 .refresh-btn{
     width:100%;
     padding:12px;
@@ -1425,6 +1464,99 @@ function renderSizeList(
 
 
 /* =====================================================
+   SIZE PRICE HELPERS
+===================================================== */
+
+function sizeToKgForAdmin(size){
+    const s = String(size || "").toUpperCase().trim();
+
+    // Longest / more specific units first.
+    let match = s.match(/(\d+(?:\.\d+)?)\s*KG/);
+    if(match) return Number(match[1]);
+
+    match = s.match(/(\d+(?:\.\d+)?)\s*GM/);
+    if(match) return Number(match[1]) / 1000;
+
+    match = s.match(/(\d+(?:\.\d+)?)\s*G/);
+    if(match) return Number(match[1]) / 1000;
+
+    return null;
+}
+
+function makeLegacySizePrices(sizes, basePrice){
+    const result = {};
+    const base = Number(basePrice);
+
+    if(!Number.isFinite(base) || base < 0) return result;
+
+    sizes.forEach(function(size){
+        const kg = sizeToKgForAdmin(size);
+        if(kg !== null){
+            result[size] = Math.round(base * kg);
+        }
+    });
+
+    return result;
+}
+
+function normalizeSizePrices(value){
+    if(!value || typeof value !== "object" || Array.isArray(value)){
+        return {};
+    }
+
+    const result = {};
+
+    Object.keys(value).forEach(function(size){
+        const price = Number(value[size]);
+        if(Number.isFinite(price) && price >= 0){
+            result[String(size).trim()] = Math.round(price);
+        }
+    });
+
+    return result;
+}
+
+function renderSizePriceList(container, sizes, sizePrices){
+    container.innerHTML = "";
+
+    if(!sizes.length){
+        container.innerHTML = '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+        return;
+    }
+
+    sizes.forEach(function(size){
+        const row = document.createElement("div");
+        row.className = "size-price-row";
+
+        const label = document.createElement("span");
+        label.className = "size-price-label";
+        label.textContent = size;
+
+        const current = document.createElement("span");
+        current.className = "size-price-current";
+        const currentPrice = sizePrices[size];
+        current.textContent = Number.isFinite(Number(currentPrice)) ? "₹" + Math.round(Number(currentPrice)) : "Not set";
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.className = "size-price-input";
+        input.placeholder = "Price";
+        if(Number.isFinite(Number(currentPrice))){
+            input.value = Math.round(Number(currentPrice));
+        }
+        input.dataset.size = size;
+
+        row.appendChild(label);
+        row.appendChild(current);
+        row.appendChild(input);
+        container.appendChild(row);
+    });
+}
+
+
+/* =====================================================
    LOGIN
 ===================================================== */
 
@@ -1791,7 +1923,7 @@ async function loadProducts(){
 
                     <span class="current-price">
 
-                        Current Price: ₹
+                        1 KG / Base Price: ₹
 
                         <span class="price-value">
                             Loading...
@@ -1799,42 +1931,37 @@ async function loadProducts(){
 
                     </span>
 
-
                     <input
                         type="number"
                         class="price-input"
                         min="0"
                         step="1"
-                        placeholder="New price"
+                        placeholder="1 KG price"
                     >
-
 
                     <button
                         type="button"
                         class="price-save-btn"
                     >
-                        💾 Save Price
+                        💾 Save 1 KG Price
                     </button>
 
                 </div>
 
 
-
                 <div class="size-editor">
 
                     <div class="size-title">
-                        📦 Product Sizes
+                        📦 Product Sizes & Prices
                     </div>
-
 
                     <div class="size-add-row">
 
                         <input
                             type="text"
                             class="size-input"
-                            placeholder="Example: 750 GM"
+                            placeholder="Example: 750 GM / 7 KG / 50 KG"
                         >
-
 
                         <button
                             type="button"
@@ -1845,26 +1972,27 @@ async function loadProducts(){
 
                     </div>
 
-
                     <div class="size-list">
-
                         <span style="color:#777;font-size:13px;">
                             Sizes loading...
                         </span>
-
                     </div>
 
+                    <div class="size-price-list">
+                        <span style="color:#777;font-size:13px;">
+                            Size prices loading...
+                        </span>
+                    </div>
 
                     <button
                         type="button"
                         class="size-save-btn"
                     >
-                        💾 Save Sizes
+                        💾 Save Sizes & Prices
                     </button>
 
-
                     <div class="size-help">
-                        Size add/remove karke Save Sizes dabayein.
+                        Har size ke saamne uska exact price likhein. Aap koi bhi size add kar sakte hain.
                     </div>
 
                 </div>
@@ -1933,6 +2061,12 @@ async function loadProducts(){
         const sizeList =
         row.querySelector(
             ".size-list"
+        );
+
+
+        const sizePriceList =
+        row.querySelector(
+            ".size-price-list"
         );
 
 
@@ -2006,9 +2140,39 @@ async function loadProducts(){
         );
 
 
+        let sizePrices =
+        normalizeSizePrices(
+            data
+            ? data.sizePrices
+            : null
+        );
+
+
+        // Old products me agar sizePrices nahi hai, to existing 1 KG/base price
+        // se temporary legacy prices dikha do. Admin baad me exact prices save kar sakta hai.
+        if(
+            Object.keys(sizePrices).length === 0 &&
+            data &&
+            data.price !== undefined &&
+            data.price !== null
+        ){
+            sizePrices = makeLegacySizePrices(
+                productSizes,
+                data.price
+            );
+        }
+
+
         renderSizeList(
             sizeList,
             productSizes
+        );
+
+
+        renderSizePriceList(
+            sizePriceList,
+            productSizes,
+            sizePrices
         );
 
 
@@ -2080,6 +2244,12 @@ async function loadProducts(){
                     productSizes
                 );
 
+                renderSizePriceList(
+                    sizePriceList,
+                    productSizes,
+                    sizePrices
+                );
+
             }
         );
 
@@ -2110,98 +2280,110 @@ async function loadProducts(){
 
 
         /* ==============================================
-           SAVE SIZES
+           SAVE SIZES & PRICES
         ============================================== */
 
         sizeSaveButton.addEventListener(
             "click",
             async function(){
 
-                if(
-                    !productSizes.length
-                ){
-
+                if(!productSizes.length){
                     alert(
                         "Kam se kam ek size hona chahiye."
                     );
-
                     return;
-
                 }
 
+                const inputs =
+                sizePriceList.querySelectorAll(
+                    ".size-price-input"
+                );
 
-                sizeSaveButton.disabled =
-                true;
+                const newSizePrices = {};
+                let invalid = false;
+                let invalidSize = "";
 
+                inputs.forEach(function(input){
+                    const size = input.dataset.size;
+                    const value = Number(input.value);
 
-                sizeSaveButton.textContent =
-                "⏳ Saving...";
+                    if(
+                        !Number.isFinite(value) ||
+                        value < 0
+                    ){
+                        invalid = true;
+                        invalidSize = size;
+                        return;
+                    }
 
+                    newSizePrices[size] = Math.round(value);
+                });
+
+                if(invalid || Object.keys(newSizePrices).length !== productSizes.length){
+                    alert(
+                        "Har size ke saamne valid price likhein. Example: 25 KG = 3800"
+                    );
+                    return;
+                }
+
+                sizeSaveButton.disabled = true;
+                sizeSaveButton.textContent = "⏳ Saving...";
 
                 try{
-
                     await setDoc(
-
                         doc(
                             db,
                             "products",
                             product.id
                         ),
-
                         {
-
-                            name:
-                            product.name,
-
-                            sizes:
-                            productSizes
-
+                            name: product.name,
+                            sizes: productSizes,
+                            sizePrices: newSizePrices,
+                            // 1 KG price ko old 'price' field me bhi rakhein,
+                            // taaki purana website/base break na ho.
+                            price: newSizePrices["1 KG"] !== undefined
+                                ? newSizePrices["1 KG"]
+                                : (data && data.price !== undefined ? Number(data.price) : 0)
                         },
-
                         {
-
                             merge:true
-
                         }
-
                     );
 
+                    sizePrices = newSizePrices;
+
+                    renderSizePriceList(
+                        sizePriceList,
+                        productSizes,
+                        sizePrices
+                    );
+
+                    if(newSizePrices["1 KG"] !== undefined){
+                        priceValue.textContent = Math.round(newSizePrices["1 KG"]);
+                    }
 
                     alert(
-
                         "✅ " +
                         product.name +
-                        " ke sizes successfully save ho gaye."
-
+                        " ke sizes aur prices successfully save ho gaye."
                     );
-
                 }
-
                 catch(error){
-
                     console.error(
-                        "Size update error:",
+                        "Size/price update error:",
                         error
                     );
 
-
                     alert(
-                        "❌ Size save nahi hua. Firebase Firestore Rules check karein."
+                        "❌ Sizes/prices save nahi hue. Firebase Firestore Rules check karein."
                     );
-
                 }
 
-
-                sizeSaveButton.disabled =
-                false;
-
-
-                sizeSaveButton.textContent =
-                "💾 Save Sizes";
-
+                sizeSaveButton.disabled = false;
+                sizeSaveButton.textContent = "💾 Save Sizes & Prices";
             }
         );
-
 
 
         /* ==============================================

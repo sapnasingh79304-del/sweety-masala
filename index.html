@@ -24,7 +24,7 @@ body{
     color:#333;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 header{
     background:#8b0000;
@@ -44,7 +44,7 @@ nav{
 nav a{
     color:white;
     text-decoration:none;
-    margin:0 8px;
+    margin:0 5px;
     font-weight:bold;
     display:inline-block;
     padding:8px 12px;
@@ -55,22 +55,13 @@ nav a:hover{
     background:#a50000;
 }
 
-/* TRACK ORDER */
-.track-order-link{
+.login-link,
+.track-link{
     background:white;
     color:#8b0000 !important;
 }
 
-.track-order-link:hover{
-    background:#fff4d6;
-}
-
-.login-link{
-    background:white;
-    color:#8b0000 !important;
-}
-
-/* HERO */
+/* ================= HERO ================= */
 
 .hero{
     max-width:1200px;
@@ -103,7 +94,11 @@ nav a:hover{
     font-weight:bold;
 }
 
-/* SECTION */
+.shop-btn:hover{
+    background:#a50000;
+}
+
+/* ================= SECTION ================= */
 
 .section-title{
     max-width:1200px;
@@ -117,7 +112,7 @@ nav a:hover{
     padding-left:10px;
 }
 
-/* PRODUCTS */
+/* ================= PRODUCTS ================= */
 
 .products{
     max-width:1200px;
@@ -125,6 +120,7 @@ nav a:hover{
     padding:10px 15px 30px;
 
     display:grid;
+
     grid-template-columns:
     repeat(auto-fit,minmax(230px,1fr));
 
@@ -139,6 +135,15 @@ nav a:hover{
 
     box-shadow:
     0 4px 14px rgba(0,0,0,.12);
+}
+
+.product-image{
+    width:100%;
+    height:180px;
+    object-fit:contain;
+    border-radius:10px;
+    margin-bottom:10px;
+    display:none;
 }
 
 .product-icon{
@@ -181,7 +186,7 @@ nav a:hover{
     padding:4px 8px;
     border-radius:5px;
     font-size:12px;
-    margin-bottom:8px;
+    margin-top:5px;
 }
 
 label{
@@ -225,7 +230,65 @@ select{
     font-weight:bold;
 }
 
-/* FOOTER */
+/* ================= LOCATION ================= */
+
+.location-section{
+    max-width:1200px;
+    margin:35px auto;
+    padding:0 15px;
+}
+
+.location-box{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+
+    box-shadow:
+    0 4px 14px rgba(0,0,0,.12);
+}
+
+.location-box h2{
+    color:#8b0000;
+    border-left:6px solid #8b0000;
+    padding-left:10px;
+    margin-bottom:15px;
+}
+
+.location-address{
+    margin-bottom:15px;
+    color:#555;
+    line-height:1.6;
+}
+
+.map-container{
+    width:100%;
+    height:400px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.map-container iframe{
+    width:100%;
+    height:100%;
+    border:0;
+}
+
+.direction-btn{
+    display:inline-block;
+    margin-top:15px;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.direction-btn:hover{
+    background:#a50000;
+}
+
+/* ================= FOOTER ================= */
 
 .footer{
     background:#8b0000;
@@ -239,28 +302,7 @@ select{
     margin:7px;
 }
 
-/* MOBILE */
-
-@media(max-width:600px){
-
-    .hero h2{
-        font-size:27px;
-    }
-
-    nav a{
-        margin:5px 3px;
-    }
-
-    .products{
-        grid-template-columns:1fr;
-    }
-
-}
-
-
-/* ==========================================
-   FIREBASE LOGIN / LOGOUT
-========================================== */
+/* ================= LOGIN ================= */
 
 #userArea{
     display:inline-block;
@@ -282,7 +324,6 @@ select{
     max-width:220px;
     overflow:hidden;
     text-overflow:ellipsis;
-    vertical-align:middle;
 }
 
 .logout-btn{
@@ -299,7 +340,28 @@ select{
     background:#ffc928;
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:600px){
+
+    .hero h2{
+        font-size:27px;
+    }
+
+    nav a{
+        margin:5px 2px;
+        padding:7px 9px;
+        font-size:14px;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .map-container{
+        height:300px;
+    }
+
     .user-area{
         display:flex;
         flex-wrap:wrap;
@@ -309,6 +371,7 @@ select{
     .user-email{
         max-width:180px;
     }
+
 }
 
 </style>
@@ -319,7 +382,9 @@ select{
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
@@ -346,28 +411,31 @@ Products
 </a>
 
 <a
-    href="./track_order.html"
-    class="track-order-link"
+href="track_order.html"
+class="track-link"
 >
-    📦 Track Order
+📦 Track Order
 </a>
 
-<div id="userArea">
+<span id="userArea">
+
 <a
 href="login.html"
 class="login-link"
 >
 👤 Login
 </a>
-</div>
+
+</span>
 
 </nav>
 
 </header>
 
 
-
-<!-- HERO -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section class="hero">
 
@@ -390,8 +458,9 @@ View All Products
 </section>
 
 
-
-<!-- MAIN PRODUCTS -->
+<!-- =====================================================
+     MAIN PRODUCTS
+===================================================== -->
 
 <div class="section-title">
 
@@ -408,8 +477,9 @@ id="largeProducts"
 </div>
 
 
-
-<!-- MASALA POWDER -->
+<!-- =====================================================
+     MASALA POWDER
+===================================================== -->
 
 <div class="section-title">
 
@@ -426,8 +496,9 @@ id="powderProducts"
 </div>
 
 
-
-<!-- AATA -->
+<!-- =====================================================
+     AATA
+===================================================== -->
 
 <div class="section-title">
 
@@ -444,8 +515,9 @@ id="attaProducts"
 </div>
 
 
-
-<!-- WHOLE SPICES -->
+<!-- =====================================================
+     WHOLE SPICES
+===================================================== -->
 
 <div class="section-title">
 
@@ -462,8 +534,62 @@ id="wholeProducts"
 </div>
 
 
+<!-- =====================================================
+     LOCATION
+===================================================== -->
 
-<!-- FOOTER -->
+<section class="location-section">
+
+<div class="location-box">
+
+<h2>
+📍 Our Location
+</h2>
+
+<div class="location-address">
+
+<strong>
+🏪 Sweety Masala
+</strong>
+
+<br>
+
+Jyotish Path, Hari Krishna Nagar,
+
+<br>
+
+Patna, Bihar
+
+</div>
+
+
+<div class="map-container">
+
+<iframe
+src="https://www.google.com/maps?q=25.5777855,85.1385193&output=embed"
+loading="lazy"
+allowfullscreen>
+</iframe>
+
+</div>
+
+
+<a
+href="https://maps.app.goo.gl/edvTY5XwqUUcnZ8x7"
+target="_blank"
+class="direction-btn"
+>
+🧭 Get Directions
+</a>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer class="footer">
 
@@ -480,1112 +606,33 @@ id="wholeProducts"
 
 
 
-<script>
-
-/* ==========================================
-   DISCOUNT SETTINGS
-========================================== */
-
-const DISCOUNT_ENABLED = false;
-
-const DISCOUNT_PERCENT = 10;
-
-
-
-/* ==========================================
-   OUT OF STOCK SETTINGS
-
-   false = Available
-   true  = Out of Stock
-========================================== */
-
-const OUT_OF_STOCK_PRODUCTS = {
-
-    "Haldi": false,
-    "Dhaniya": false,
-    "Lal Mirch": false,
-    "Chana Sattu": false,
-    "Chana Besan": false,
-
-    "Mix Masala": false,
-    "Sabji Masala": false,
-    "Kali Mirch Powder": false,
-    "Jeera Powder": false,
-    "Garam Masala": false,
-    "Chicken Masala": false,
-    "Chat Masala": false,
-    "Machali Masala": false,
-    "Meat Masala": false,
-    "Aamchur Powder": false,
-    "Hing": false,
-    "Chhola Masala": false,
-    "Pav Bhaji Masala": false,
-    "Sambhar Masala": false,
-    "Kasuri Methi": false,
-    "Biryani Masala": false,
-    "Kashmiri Lal Mirch": false,
-    "Kala Namak Powder": false,
-    "Sendha Namak Powder": false,
-    "Lahsun Powder": false,
-    "Payz Powder": false,
-    "Maggi Masala Powder": false,
-    "Tandoori Masala Powder": false,
-    "Jaljeer Powder": false,
-
-    "Mix Aata": false,
-    "Ragi Aata": false,
-    "Makka Aata": false,
-    "Jowar Aata": false,
-    "Bajara Aata": false,
-    "Jo Aata": false,
-    "Gehun Aata": false,
-    "Makka Sattu": false,
-
-    "Jeera": false,
-    "Shah Jeera": false,
-    "Laung": false,
-    "Badi Elaichi": false,
-    "Chhoti Elaichi": false,
-    "Dalchini": false,
-    "Kali Mirch": false,
-    "Safed Mirch": false,
-    "Tejpatta": false,
-    "Chakraphool": false,
-    "Javitri": false,
-    "Jaiphal": false,
-    "Kabab Chini": false,
-    "Sabut Dhaniya": false,
-    "Sabut Lal Mirch": false,
-    "Rai": false,
-    "Pili Sarson": false,
-    "Methi Dana": false,
-    "Saunf": false,
-    "Ajwain": false,
-    "Kalonji": false,
-    "Dagad Phool": false,
-    "Anardana": false,
-    "Nagkesar": false
-
-};
-
-
-
-/* ==========================================
-   MAIN PRODUCTS
-========================================== */
-
-const largeProducts = [
-
-{
-    name:"Haldi",
-    description:"Turmeric Powder",
-    price:260,
-    sizes:[
-        "1 KG",
-        "5 KG",
-        "10 KG",
-        "15 KG",
-        "20 KG",
-        "25 KG",
-        "30 KG"
-    ]
-},
-
-{
-    name:"Dhaniya",
-    description:"Coriander Powder",
-    price:200,
-    sizes:[
-        "1 KG",
-        "5 KG",
-        "10 KG",
-        "15 KG",
-        "20 KG",
-        "25 KG",
-        "30 KG"
-    ]
-},
-
-{
-    name:"Lal Mirch",
-    description:"Red Chilli Powder",
-    price:300,
-    sizes:[
-        "1 KG",
-        "5 KG",
-        "10 KG",
-        "15 KG",
-        "20 KG",
-        "25 KG",
-        "30 KG"
-    ]
-},
-
-{
-    name:"Chana Sattu",
-    description:"Chana Sattu",
-    price:140,
-    sizes:[
-        "1 KG",
-        "5 KG",
-        "10 KG",
-        "15 KG",
-        "20 KG",
-        "25 KG",
-        "30 KG"
-    ]
-},
-
-{
-    name:"Chana Besan",
-    description:"Chana Besan",
-    price:120,
-    sizes:[
-        "1 KG",
-        "5 KG",
-        "10 KG",
-        "15 KG",
-        "20 KG",
-        "25 KG",
-        "30 KG"
-    ]
-}
-
-];
-
-
-
-/* ==========================================
-   POWDER PRODUCTS
-========================================== */
-
-const powderProducts = [
-
-["Mix Masala","Mix Masala",500],
-["Sabji Masala","Sabji Masala",450],
-["Kali Mirch Powder","Black Pepper Powder",1000],
-["Jeera Powder","Cumin Powder",400],
-["Garam Masala","Garam Masala",1200],
-["Chicken Masala","Chicken Masala",700],
-["Chat Masala","Chaat Masala",400],
-["Machali Masala","Fish Masala",700],
-["Meat Masala","Meat Masala",700],
-["Aamchur Powder","Dry Mango Powder",350],
-["Hing","Asafoetida",1500],
-["Chhola Masala","Chhole Masala",400],
-["Pav Bhaji Masala","Pav Bhaji Masala",450],
-["Sambhar Masala","Sambar Masala",450],
-["Kasuri Methi","Kasuri Methi",300],
-["Biryani Masala","Biryani Masala",550],
-["Kashmiri Lal Mirch","Kashmiri Red Chilli",450],
-["Kala Namak Powder","Black Salt Powder",120],
-["Sendha Namak Powder","Rock Salt Powder",120],
-["Lahsun Powder","Garlic Powder",400],
-["Payz Powder","Payz Powder",300],
-["Maggi Masala Powder","Maggi Masala Powder",350],
-["Tandoori Masala Powder","Tandoori Masala",500],
-["Jaljeer Powder","Jaljeera Powder",300]
-
-];
-
-
-
-/* ==========================================
-   AATA PRODUCTS
-========================================== */
-
-const attaProducts = [
-
-["Mix Aata","Multigrain Flour",70],
-["Ragi Aata","Ragi Flour",70],
-["Makka Aata","Maize Flour",60],
-["Jowar Aata","Sorghum Flour",60],
-["Bajara Aata","Pearl Millet Flour",60],
-["Jo Aata","Barley Flour",60],
-["Gehun Aata","Wheat Flour",45],
-["Makka Sattu","Makka Sattu",80]
-
-];
-
-
-
-/* ==========================================
-   WHOLE SPICES
-========================================== */
-
-const wholeSpices = [
-
-["Jeera","Cumin Seeds",250],
-["Shah Jeera","Black Cumin",350],
-["Laung","Clove",800],
-["Badi Elaichi","Black Cardamom",900],
-["Chhoti Elaichi","Green Cardamom",2200],
-["Dalchini","Cinnamon Stick",500],
-["Kali Mirch","Black Peppercorns",700],
-["Safed Mirch","White Peppercorns",900],
-["Tejpatta","Bay Leaf",200],
-["Chakraphool","Star Anise",700],
-["Javitri","Mace",1800],
-["Jaiphal","Nutmeg",1200],
-["Kabab Chini","Cubeb Pepper",900],
-["Sabut Dhaniya","Whole Coriander",200],
-["Sabut Lal Mirch","Whole Red Chili",350],
-["Rai","Black/Brown Mustard",150],
-["Pili Sarson","Yellow Mustard",150],
-["Methi Dana","Fenugreek Seeds",180],
-["Saunf","Fennel Seeds",300],
-["Ajwain","Carom Seeds",350],
-["Kalonji","Nigella Seeds",400],
-["Dagad Phool","Black Stone Flower",800],
-["Anardana","Dried Pomegranate",600],
-["Nagkesar","Nagkesar",1200]
-
-];
-
-
-
-/* ==========================================
-   SIZE TO KG
-========================================== */
-
-function sizeToKg(size){
-
-    if(size.includes("50 GM")){
-        return 0.05;
-    }
-
-    if(size.includes("100 GM")){
-        return 0.10;
-    }
-
-    if(size.includes("250 GM")){
-        return 0.25;
-    }
-
-    if(size.includes("500 GM")){
-        return 0.50;
-    }
-
-    if(size.includes("1 KG")){
-        return 1;
-    }
-
-    if(size.includes("2 KG")){
-        return 2;
-    }
-
-    if(size.includes("3 KG")){
-        return 3;
-    }
-
-    if(size.includes("4 KG")){
-        return 4;
-    }
-
-    if(size.includes("5 KG")){
-        return 5;
-    }
-
-    if(size.includes("10 KG")){
-        return 10;
-    }
-
-    if(size.includes("15 KG")){
-        return 15;
-    }
-
-    if(size.includes("20 KG")){
-        return 20;
-    }
-
-    if(size.includes("25 KG")){
-        return 25;
-    }
-
-    if(size.includes("30 KG")){
-        return 30;
-    }
-
-    return 1;
-}
-
-
-
-/* ==========================================
-   DISCOUNT
-========================================== */
-
-function getFinalPrice(price){
-
-    if(!DISCOUNT_ENABLED){
-        return price;
-    }
-
-    return price -
-    (price * DISCOUNT_PERCENT / 100);
-}
-
-
-
-/* ==========================================
-   FORMAT PRICE
-========================================== */
-
-function formatPrice(price){
-
-    return Math.round(price);
-
-}
-
-
-
-/* ==========================================
-   CREATE PRODUCT CARD
-========================================== */
-
-function createProductCard(
-    name,
-    description,
-    basePrice,
-    sizes,
-    icon,
-    outOfStock = false
-){
-
-    const card =
-    document.createElement("div");
-
-    card.className="product-card";
-
-
-    card.innerHTML = `
-
-        <div class="product-icon">
-            ${icon}
-        </div>
-
-        <h3>${name}</h3>
-
-        <p>${description}</p>
-
-        <div class="price">
-
-            ${
-                DISCOUNT_ENABLED
-
-                ?
-
-                `
-                <span class="old-price">
-                    ₹${formatPrice(basePrice)}
-                </span>
-
-                <span class="discount-price">
-                    ₹${formatPrice(
-                        getFinalPrice(basePrice)
-                    )}
-                </span>
-
-                <br>
-
-                <span class="discount-badge">
-                    ${DISCOUNT_PERCENT}% OFF
-                </span>
-                `
-
-                :
-
-                `
-                ₹<span class="current-price">
-                    ${formatPrice(basePrice)}
-                </span>
-                `
-            }
-
-        </div>
-
-
-        <label>
-            Size
-        </label>
-
-
-        <select
-            class="size-select"
-            ${outOfStock ? "disabled" : ""}
-        >
-
-            ${sizes.map(function(size){
-
-                return `<option>${size}</option>`;
-
-            }).join("")}
-
-        </select>
-
-
-        ${
-            outOfStock
-
-            ?
-
-            `
-            <button
-                class="out-of-stock-btn"
-                disabled
-            >
-                ❌ Out of Stock
-            </button>
-            `
-
-            :
-
-            `
-            <button class="add-btn">
-                🛒 Add to Cart
-            </button>
-            `
-        }
-
-    `;
-
-
-    const select =
-    card.querySelector(".size-select");
-
-
-    const button =
-    card.querySelector(
-        outOfStock
-        ? ".out-of-stock-btn"
-        : ".add-btn"
-    );
-
-
-    const currentPrice =
-    card.querySelector(".current-price");
-
-
-    function updatePrice(){
-
-        if(outOfStock){
-            return;
-        }
-
-
-        const size =
-        select.value;
-
-
-        const kg =
-        sizeToKg(size);
-
-
-        const normalPrice =
-        basePrice * kg;
-
-
-        const finalPrice =
-        getFinalPrice(normalPrice);
-
-
-        if(currentPrice){
-
-            currentPrice.textContent =
-            formatPrice(finalPrice);
-
-        }
-
-    }
-
-
-    select.addEventListener(
-        "change",
-        updatePrice
-    );
-
-
-    if(!outOfStock){
-
-        button.addEventListener(
-            "click",
-            function(){
-
-                const size =
-                select.value;
-
-
-                const kg =
-                sizeToKg(size);
-
-
-                const normalPrice =
-                basePrice * kg;
-
-
-                const finalPrice =
-                getFinalPrice(normalPrice);
-
-
-                addToCart(
-                    name,
-                    size,
-                    formatPrice(finalPrice)
-                );
-
-            }
-        );
-
-    }
-
-
-    return card;
-
-}
-
-
-
-/* ==========================================
-   ADD TO CART
-========================================== */
-
-function addToCart(
-    name,
-    size,
-    price
-){
-
-    let cart = [];
-
-    try{
-
-        cart =
-        JSON.parse(
-            localStorage.getItem(
-                "sweetyCart"
-            )
-        ) || [];
-
-    }
-    catch(error){
-
-        cart = [];
-
-    }
-
-
-    if(!Array.isArray(cart)){
-
-        cart = [];
-
-    }
-
-
-    const existing =
-    cart.find(function(item){
-
-        return(
-            item.name === name &&
-            item.size === size
-        );
-
-    });
-
-
-    if(existing){
-
-        existing.quantity =
-        (Number(existing.quantity) || 1) + 1;
-
-        /*
-          Price ko latest selected price
-          par rakhenge.
-        */
-
-        existing.price = price;
-
-    }
-    else{
-
-        cart.push({
-
-            name:name,
-
-            size:size,
-
-            price:price,
-
-            quantity:1
-
-        });
-
-    }
-
-
-    localStorage.setItem(
-        "sweetyCart",
-        JSON.stringify(cart)
-    );
-
-
-    alert(
-        name +
-        " (" +
-        size +
-        ") cart me add ho gaya! 🛒"
-    );
-
-}
-
-
-
-/* ==========================================
-   SHOW MAIN PRODUCTS
-========================================== */
-
-const largeContainer =
-document.getElementById(
-    "largeProducts"
-);
-
-
-largeProducts.forEach(function(product){
-
-    largeContainer.appendChild(
-
-        createProductCard(
-            product.name,
-            product.description,
-            product.price,
-            product.sizes,
-            "🌶️",
-            OUT_OF_STOCK_PRODUCTS[
-                product.name
-            ] || false
-        )
-
-    );
-
-});
-
-
-
-/* ==========================================
-   SHOW POWDER PRODUCTS
-========================================== */
-
-const powderContainer =
-document.getElementById(
-    "powderProducts"
-);
-
-
-powderProducts.forEach(function(product){
-
-    powderContainer.appendChild(
-
-        createProductCard(
-
-            product[0],
-            product[1],
-            product[2],
-
-            [
-                "250 GM",
-                "500 GM",
-                "1 KG"
-            ],
-
-            "🥘",
-
-            OUT_OF_STOCK_PRODUCTS[
-                product[0]
-            ] || false
-
-        )
-
-    );
-
-});
-
-
-
-/* ==========================================
-   SHOW AATA PRODUCTS
-========================================== */
-
-const attaContainer =
-document.getElementById(
-    "attaProducts"
-);
-
-
-attaProducts.forEach(function(product){
-
-    attaContainer.appendChild(
-
-        createProductCard(
-
-            product[0],
-            product[1],
-            product[2],
-
-            [
-                "1 KG",
-                "2 KG",
-                "3 KG",
-                "4 KG",
-                "5 KG"
-            ],
-
-            "🌾",
-
-            OUT_OF_STOCK_PRODUCTS[
-                product[0]
-            ] || false
-
-        )
-
-    );
-
-});
-
-
-
-/* ==========================================
-   SHOW WHOLE SPICES
-========================================== */
-
-const wholeContainer =
-document.getElementById(
-    "wholeProducts"
-);
-
-
-wholeSpices.forEach(function(product){
-
-    wholeContainer.appendChild(
-
-        createProductCard(
-
-            product[0],
-            product[1],
-            product[2],
-
-            [
-                "50 GM",
-                "100 GM",
-                "250 GM"
-            ],
-
-            "🌿",
-
-            OUT_OF_STOCK_PRODUCTS[
-                product[0]
-            ] || false
-
-        )
-
-    );
-
-});
-
-</script>
-
-
-
-
-<script type="module">
-/* ==========================================
-   FIREBASE PRODUCT + PRICE + SIZE SYNC
-   Admin Panel -> Firebase -> index.html
-========================================== */
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {
-    getFirestore,
-    collection,
-    getDocs
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-const syncFirebaseConfig = {
-    apiKey: "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
-    authDomain: "sweety-masala.firebaseapp.com",
-    projectId: "sweety-masala",
-    storageBucket: "sweety-masala.firebasestorage.app",
-    messagingSenderId: "152835150862",
-    appId: "1:152835150862:web:bdd6bafcc074aeb37e585f",
-    measurementId: "G-NQ82YZCKG3"
-};
-
-const syncApp = initializeApp(syncFirebaseConfig, "indexProductSyncApp");
-const syncDb = getFirestore(syncApp);
-
-function cleanName(value){
-    return String(value || "").trim().toLowerCase();
-}
-
-function getProductFallback(name){
-    const large = largeProducts.find(p => cleanName(p.name) === cleanName(name));
-    if(large){
-        return {
-            basePrice: Number(large.price) || 0,
-            sizes: Array.isArray(large.sizes) ? large.sizes.slice() : []
-        };
-    }
-
-    const powder = powderProducts.find(p => cleanName(p[0]) === cleanName(name));
-    if(powder){
-        return {
-            basePrice: Number(powder[2]) || 0,
-            sizes: ["250 GM","500 GM","1 KG"]
-        };
-    }
-
-    const atta = attaProducts.find(p => cleanName(p[0]) === cleanName(name));
-    if(atta){
-        return {
-            basePrice: Number(atta[2]) || 0,
-            sizes: ["1 KG","2 KG","3 KG","4 KG","5 KG"]
-        };
-    }
-
-    const whole = wholeSpices.find(p => cleanName(p[0]) === cleanName(name));
-    if(whole){
-        return {
-            basePrice: Number(whole[2]) || 0,
-            sizes: ["50 GM","100 GM","250 GM"]
-        };
-    }
-
-    return {basePrice:0,sizes:["1 KG"]};
-}
-
-function normalizeSizePrices(value){
-    if(!value || typeof value !== "object" || Array.isArray(value)){
-        return {};
-    }
-
-    const result = {};
-
-    Object.keys(value).forEach(function(key){
-        const price = Number(value[key]);
-        if(Number.isFinite(price) && price >= 0){
-            result[String(key).trim()] = Math.round(price);
-        }
-    });
-
-    return result;
-}
-
-function findSizePrice(size, sizePrices){
-    const target = cleanName(size);
-
-    const exactKey = Object.keys(sizePrices).find(function(key){
-        return cleanName(key) === target;
-    });
-
-    if(exactKey !== undefined){
-        const price = Number(sizePrices[exactKey]);
-        if(Number.isFinite(price)) return price;
-    }
-
-    return null;
-}
-
-function getFirebasePrice(size, data, fallbackBasePrice){
-    const sizePrices = normalizeSizePrices(data && data.sizePrices);
-    const savedSizePrice = findSizePrice(size, sizePrices);
-
-    /* Admin Panel ka exact size price sabse pehle use hoga. */
-    if(savedSizePrice !== null){
-        return savedSizePrice;
-    }
-
-    /* Purane products ke liye 1 KG/base price fallback. */
-    const firebaseBase = Number(data && data.price);
-    const basePrice = Number.isFinite(firebaseBase) && firebaseBase >= 0
-        ? firebaseBase
-        : Number(fallbackBasePrice) || 0;
-
-    return basePrice * sizeToKg(size);
-}
-
-function updateCardFromFirebase(card, data){
-    const heading = card.querySelector("h3");
-    const select = card.querySelector(".size-select");
-    const currentPrice = card.querySelector(".current-price");
-
-    if(!heading || !select){
-        return;
-    }
-
-    const productName = heading.textContent.trim();
-    const fallback = getProductFallback(productName);
-
-    /* ------------------------------------------
-       SIZES: Admin Panel me naye sizes hain to
-       index.html me bhi wahi sizes dikhenge.
-    ------------------------------------------ */
-    let sizes = fallback.sizes.slice();
-
-    if(
-        data &&
-        Array.isArray(data.sizes) &&
-        data.sizes.length > 0
-    ){
-        sizes = data.sizes
-            .map(size => String(size).trim())
-            .filter(Boolean);
-    }
-
-    const oldSize = select.value;
-
-    select.innerHTML = "";
-
-    sizes.forEach(function(size){
-        const option = document.createElement("option");
-        option.value = size;
-        option.textContent = size;
-        select.appendChild(option);
-    });
-
-    if(
-        sizes.some(size => cleanName(size) === cleanName(oldSize))
-    ){
-        select.value = sizes.find(size => cleanName(size) === cleanName(oldSize));
-    }
-
-    /* ------------------------------------------
-       STOCK
-    ------------------------------------------ */
-    const available = !data || data.inStock !== false;
-
-    select.disabled = !available;
-
-    let addButton = card.querySelector(".add-btn");
-    let outButton = card.querySelector(".out-of-stock-btn");
-
-    if(!available){
-        if(addButton){
-            outButton = document.createElement("button");
-            outButton.className = "out-of-stock-btn";
-            outButton.disabled = true;
-            outButton.textContent = "❌ Out of Stock";
-            addButton.replaceWith(outButton);
-        }
-    }
-    else{
-        if(outButton){
-            addButton = document.createElement("button");
-            addButton.className = "add-btn";
-            addButton.textContent = "🛒 Add to Cart";
-            outButton.replaceWith(addButton);
-        }
-    }
-
-    /* ------------------------------------------
-       PRICE
-    ------------------------------------------ */
-    function refreshDisplayedPrice(){
-        const selectedSize = select.value || sizes[0] || "1 KG";
-        const normalPrice = getFirebasePrice(
-            selectedSize,
-            data || {},
-            fallback.basePrice
-        );
-        const finalPrice = getFinalPrice(normalPrice);
-
-        if(currentPrice){
-            currentPrice.textContent = formatPrice(finalPrice);
-        }
-    }
-
-    select.onchange = refreshDisplayedPrice;
-
-    /* ------------------------------------------
-       ADD TO CART: customer ko wahi exact price
-       milega jo screen par dikh raha hai.
-    ------------------------------------------ */
-    if(available){
-        const activeButton = card.querySelector(".add-btn");
-
-        if(activeButton){
-            activeButton.onclick = function(){
-                const selectedSize = select.value || "1 KG";
-                const normalPrice = getFirebasePrice(
-                    selectedSize,
-                    data || {},
-                    fallback.basePrice
-                );
-                const finalPrice = getFinalPrice(normalPrice);
-
-                addToCart(
-                    productName,
-                    selectedSize,
-                    formatPrice(finalPrice)
-                );
-            };
-        }
-    }
-
-    refreshDisplayedPrice();
-}
-
-async function syncIndexProducts(){
-    try{
-        const snapshot = await getDocs(
-            collection(syncDb, "products")
-        );
-
-        const firebaseMap = {};
-
-        snapshot.forEach(function(docSnap){
-            const data = docSnap.data() || {};
-            const name = data.name || docSnap.id;
-            firebaseMap[cleanName(name)] = data;
-        });
-
-        document.querySelectorAll(".product-card").forEach(function(card){
-            const heading = card.querySelector("h3");
-            if(!heading) return;
-
-            const productName = heading.textContent.trim();
-            const data = firebaseMap[cleanName(productName)] || null;
-
-            updateCardFromFirebase(card, data);
-        });
-
-        console.log("✅ Index products, prices and sizes synced from Firebase.");
-    }
-    catch(error){
-        console.error("Index Firebase product sync error:", error);
-    }
-}
-
-/* Initial sync + small delay for page rendering. */
-syncIndexProducts();
-setTimeout(syncIndexProducts, 500);
-setTimeout(syncIndexProducts, 1500);
-
-</script>
+<!-- =====================================================
+     FIREBASE PRODUCT SYSTEM
+===================================================== -->
 
 <script type="module">
 
-/* ==========================================
-   FIREBASE AUTH - LOGIN / LOGOUT
-========================================== */
 
 import {
     initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 
 import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    getFirestore,
+    doc,
+    getDoc,
+    onSnapshot
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
@@ -1613,90 +660,1768 @@ const firebaseConfig = {
 };
 
 
-const firebaseApp =
+const app =
 initializeApp(firebaseConfig);
 
-const auth =
-getAuth(firebaseApp);
+
+const db =
+getFirestore(app);
 
 
-onAuthStateChanged(auth, function(user){
 
-    const userArea =
-    document.getElementById("userArea");
+/* =====================================================
+   DEFAULT PRODUCTS
 
-    if(!userArea){
-        return;
-    }
+   Ye sirf FALLBACK hain.
+
+   Firebase/Admin Panel me value milte hi
+   Firebase wali value use hogi.
+===================================================== */
+
+const largeProducts = [
+
+{
+    id:"haldi",
+    name:"Haldi",
+    description:"Turmeric Powder",
+    price:260,
+    sizes:[
+        "1 KG",
+        "5 KG",
+        "10 KG",
+        "15 KG",
+        "20 KG",
+        "25 KG",
+        "30 KG"
+    ],
+    icon:"🌶️"
+},
+
+{
+    id:"dhaniya",
+    name:"Dhaniya",
+    description:"Coriander Powder",
+    price:200,
+    sizes:[
+        "1 KG",
+        "5 KG",
+        "10 KG",
+        "15 KG",
+        "20 KG",
+        "25 KG",
+        "30 KG"
+    ],
+    icon:"🌶️"
+},
+
+{
+    id:"lal-mirch",
+    name:"Lal Mirch",
+    description:"Red Chilli Powder",
+    price:300,
+    sizes:[
+        "1 KG",
+        "5 KG",
+        "10 KG",
+        "15 KG",
+        "20 KG",
+        "25 KG",
+        "30 KG"
+    ],
+    icon:"🌶️"
+},
+
+{
+    id:"sattu",
+    name:"Chana Sattu",
+    description:"Chana Sattu",
+    price:140,
+    sizes:[
+        "1 KG",
+        "5 KG",
+        "10 KG",
+        "15 KG",
+        "20 KG",
+        "25 KG",
+        "30 KG"
+    ],
+    icon:"🌾"
+},
+
+{
+    id:"besan",
+    name:"Chana Besan",
+    description:"Chana Besan",
+    price:120,
+    sizes:[
+        "1 KG",
+        "5 KG",
+        "10 KG",
+        "15 KG",
+        "20 KG",
+        "25 KG",
+        "30 KG"
+    ],
+    icon:"🌾"
+}
+
+];
 
 
-    if(user){
+const powderProducts = [
 
-        userArea.innerHTML = `
+["mix-masala","Mix Masala","Mix Masala",500],
 
-            <div class="user-area">
+["sabji-masala","Sabji Masala","Sabji Masala",450],
 
-                <span class="user-email">
-                    👤 ${user.email}
-                </span>
+["kali-mirch-powder","Kali Mirch Powder","Black Pepper Powder",1000],
 
-                <button
-                    type="button"
-                    class="logout-btn"
-                    id="logoutButton"
-                >
-                    🚪 Logout
-                </button>
+["jeera-powder","Jeera Powder","Cumin Powder",400],
 
-            </div>
+["garam-masala","Garam Masala","Garam Masala",1200],
 
-        `;
+["chicken-masala","Chicken Masala","Chicken Masala",700],
+
+["chat-masala","Chat Masala","Chaat Masala",400],
+
+["machali-masala","Machali Masala","Fish Masala",700],
+
+["meat-masala","Meat Masala","Meat Masala",700],
+
+["aamchur-powder","Aamchur Powder","Dry Mango Powder",350],
+
+["hing","Hing","Asafoetida",1500],
+
+["chhola-masala","Chhola Masala","Chhole Masala",400],
+
+["pav-bhaji-masala","Pav Bhaji Masala","Pav Bhaji Masala",450],
+
+["sambhar-masala","Sambhar Masala","Sambar Masala",450],
+
+["kasuri-methi","Kasuri Methi","Kasuri Methi",300],
+
+["biryani-masala","Biryani Masala","Biryani Masala",550],
+
+["kashmiri-lal-mirch","Kashmiri Lal Mirch","Kashmiri Red Chilli",450],
+
+["kala-namak-powder","Kala Namak Powder","Black Salt Powder",120],
+
+["sendha-namak-powder","Sendha Namak Powder","Rock Salt Powder",120],
+
+["lahsun-powder","Lahsun Powder","Garlic Powder",400],
+
+["payz-powder","Payz Powder","Payz Powder",300],
+
+["maggi-masala-powder","Maggi Masala Powder","Maggi Masala Powder",350],
+
+["tandoori-masala-powder","Tandoori Masala Powder","Tandoori Masala",500],
+
+["jaljeer-powder","Jaljeer Powder","Jaljeera Powder",300]
+
+];
 
 
-        document
-        .getElementById("logoutButton")
-        .addEventListener("click", async function(){
+const attaProducts = [
 
-            try{
+["mix-aata","Mix Aata","Multigrain Flour",70],
 
-                await signOut(auth);
+["ragi-aata","Ragi Aata","Ragi Flour",70],
 
-                alert("✅ Logout successful!");
+["makka-aata","Makka Aata","Maize Flour",60],
 
-                window.location.href = "index.html";
+["jowar-aata","Jowar Aata","Sorghum Flour",60],
 
-            }
-            catch(error){
+["bajara-aata","Bajara Aata","Pearl Millet Flour",60],
 
-                console.error(error);
+["jo-aata","Jo Aata","Barley Flour",60],
 
-                alert(
-                    "Logout nahi ho paya. Dobara try karein."
-                );
+["gehun-aata","Gehun Aata","Wheat Flour",45],
 
-            }
+["makka-sattu","Makka Sattu","Makka Sattu",80]
+
+];
+
+
+const wholeSpices = [
+
+["jeera","Jeera","Cumin Seeds",250],
+
+["shah-jeera","Shah Jeera","Black Cumin",350],
+
+["laung","Laung","Clove",800],
+
+["badi-elaichi","Badi Elaichi","Black Cardamom",900],
+
+["chhoti-elaichi","Chhoti Elaichi","Green Cardamom",2200],
+
+["dalchini","Dalchini","Cinnamon Stick",500],
+
+["kali-mirch","Kali Mirch","Black Peppercorns",700],
+
+["safed-mirch","Safed Mirch","White Peppercorns",900],
+
+["tejpatta","Tejpatta","Bay Leaf",200],
+
+["chakraphool","Chakraphool","Star Anise",700],
+
+["javitri","Javitri","Mace",1800],
+
+["jaiphal","Jaiphal","Nutmeg",1200],
+
+["kabab-chini","Kabab Chini","Cubeb Pepper",900],
+
+["sabut-dhaniya","Sabut Dhaniya","Whole Coriander",200],
+
+["sabut-lal-mirch","Sabut Lal Mirch","Whole Red Chili",350],
+
+["rai","Rai","Black/Brown Mustard",150],
+
+["pili-sarson","Pili Sarson","Yellow Mustard",150],
+
+["methi-dana","Methi Dana","Fenugreek Seeds",180],
+
+["saunf","Saunf","Fennel Seeds",300],
+
+["ajwain","Ajwain","Carom Seeds",350],
+
+["kalonji","Kalonji","Nigella Seeds",400],
+
+["dagad-phool","Dagad Phool","Black Stone Flower",800],
+
+["anardana","Anardana","Dried Pomegranate",600],
+
+["nagkesar","Nagkesar","Nagkesar",1200]
+
+];
+
+
+
+/* =====================================================
+   ALL PRODUCTS
+===================================================== */
+
+const allProducts = [];
+
+
+largeProducts.forEach(
+    p => {
+
+        allProducts.push({
+
+            ...p,
+
+            category:"large"
 
         });
 
     }
-    else{
+);
 
-        userArea.innerHTML = `
 
-            <a
-                href="login.html"
-                class="login-link"
-            >
-                👤 Login
-            </a>
+powderProducts.forEach(
+    p => {
 
-        `;
+        allProducts.push({
+
+            id:p[0],
+            name:p[1],
+            description:p[2],
+            price:p[3],
+
+            sizes:[
+                "250 GM",
+                "500 GM",
+                "1 KG"
+            ],
+
+            icon:"🥘",
+
+            category:"powder"
+
+        });
+
+    }
+);
+
+
+attaProducts.forEach(
+    p => {
+
+        allProducts.push({
+
+            id:p[0],
+            name:p[1],
+            description:p[2],
+            price:p[3],
+
+            sizes:[
+                "1 KG",
+                "2 KG",
+                "3 KG",
+                "4 KG",
+                "5 KG"
+            ],
+
+            icon:"🌾",
+
+            category:"atta"
+
+        });
+
+    }
+);
+
+
+wholeSpices.forEach(
+    p => {
+
+        allProducts.push({
+
+            id:p[0],
+            name:p[1],
+            description:p[2],
+            price:p[3],
+
+            sizes:[
+                "50 GM",
+                "100 GM",
+                "250 GM"
+            ],
+
+            icon:"🌿",
+
+            category:"whole"
+
+        });
+
+    }
+);
+
+
+
+/* =====================================================
+   SIZE TO KG
+===================================================== */
+
+function sizeToKg(size){
+
+    const value =
+    String(size || "")
+    .toUpperCase()
+    .trim();
+
+
+    const gm =
+    value.match(
+        /^([\d.]+)\s*GM$/
+    );
+
+
+    if(gm){
+
+        return Number(
+            gm[1]
+        ) / 1000;
 
     }
 
-});
+
+    const kg =
+    value.match(
+        /^([\d.]+)\s*KG$/
+    );
+
+
+    if(kg){
+
+        return Number(
+            kg[1]
+        );
+
+    }
+
+
+    return 1;
+
+}
+
+
+
+/* =====================================================
+   DISCOUNT
+===================================================== */
+
+let discountEnabled =
+false;
+
+let discountPercent =
+0;
+
+
+async function loadDiscount(){
+
+    try{
+
+        const snap =
+        await getDoc(
+            doc(
+                db,
+                "settings",
+                "discount"
+            )
+        );
+
+
+        if(
+            snap.exists()
+        ){
+
+            const data =
+            snap.data();
+
+
+            discountEnabled =
+            data.enabled === true;
+
+
+            discountPercent =
+            Number(
+                data.percent
+            ) || 0;
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Discount error:",
+            error
+        );
+
+    }
+
+}
+
+
+function getFinalPrice(
+    price
+){
+
+    const value =
+    Number(price) || 0;
+
+
+    if(
+        !discountEnabled
+    ){
+
+        return value;
+
+    }
+
+
+    return value -
+    (
+        value *
+        discountPercent /
+        100
+    );
+
+}
+
+
+function formatPrice(
+    price
+){
+
+    return Math.round(
+        Number(price) || 0
+    );
+
+}
+
+
+
+/* =====================================================
+   PRODUCT ID ALIASES
+===================================================== */
+
+function getProductIds(
+    product
+){
+
+    const ids = [];
+
+
+    if(product.id){
+
+        ids.push(
+            product.id
+        );
+
+    }
+
+
+    const name =
+    String(
+        product.name || ""
+    )
+    .trim();
+
+
+    const slug =
+    name
+    .toLowerCase()
+    .replace(
+        /[^a-z0-9]+/g,
+        "-"
+    )
+    .replace(
+        /^-|-$/g,
+        ""
+    );
+
+
+    if(slug){
+
+        ids.push(
+            slug
+        );
+
+    }
+
+
+    const aliases = {
+
+        "Chana Sattu":
+        "sattu",
+
+        "Chana Besan":
+        "besan"
+
+    };
+
+
+    if(
+        aliases[name]
+    ){
+
+        ids.unshift(
+            aliases[name]
+        );
+
+    }
+
+
+    return [
+        ...new Set(ids)
+    ];
+
+}
+
+
+
+/* =====================================================
+   LOAD FIREBASE PRODUCT
+===================================================== */
+
+async function getProductData(
+    product
+){
+
+    const ids =
+    getProductIds(
+        product
+    );
+
+
+    try{
+
+        for(
+            const id
+            of ids
+        ){
+
+            const snap =
+            await getDoc(
+                doc(
+                    db,
+                    "products",
+                    id
+                )
+            );
+
+
+            if(
+                snap.exists()
+            ){
+
+                return {
+
+                    id:id,
+
+                    ...product,
+
+                    ...snap.data(),
+
+                    firebaseFound:true
+
+                };
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Firebase product read error:",
+            product.name,
+            error
+        );
+
+    }
+
+
+    return {
+
+        ...product,
+
+        firebaseFound:false
+
+    };
+
+}
+
+
+
+/* =====================================================
+   PRICE FOR SIZE
+===================================================== */
+
+function calculatePrice(
+    product,
+    size
+){
+
+    let price =
+    null;
+
+
+    /*
+       Admin Panel ka
+       sizePrices sabse pehle.
+    */
+
+    if(
+        product.sizePrices &&
+        typeof product.sizePrices === "object"
+    ){
+
+        const keys =
+        Object.keys(
+            product.sizePrices
+        );
+
+
+        const exactKey =
+        keys.find(
+            key =>
+            String(key)
+            .trim()
+            .toLowerCase()
+            ===
+            String(size)
+            .trim()
+            .toLowerCase()
+        );
+
+
+        if(
+            exactKey !== undefined
+        ){
+
+            const savedPrice =
+            Number(
+                product
+                .sizePrices
+                [exactKey]
+            );
+
+
+            if(
+                Number.isFinite(
+                    savedPrice
+                )
+            ){
+
+                price =
+                savedPrice;
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       Agar size-wise price nahi hai
+       to Admin Panel ka base price.
+    */
+
+    if(
+        price === null
+    ){
+
+        const basePrice =
+        Number(
+            product.price
+        );
+
+
+        if(
+            Number.isFinite(
+                basePrice
+            )
+        ){
+
+            price =
+            basePrice *
+            sizeToKg(
+                size
+            );
+
+        }
+        else{
+
+            price = 0;
+
+        }
+
+    }
+
+
+    return formatPrice(
+        getFinalPrice(
+            price
+        )
+    );
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createProductCard(
+    product
+){
+
+    const card =
+    document.createElement(
+        "div"
+    );
+
+
+    card.className =
+    "product-card";
+
+
+    let sizes =
+    Array.isArray(
+        product.sizes
+    ) &&
+    product.sizes.length
+    ?
+    product.sizes
+    :
+    ["1 KG"];
+
+
+    /*
+       Admin Panel se sizes aaye hain
+       to wahi use honge.
+    */
+
+
+    let available =
+    true;
+
+
+    if(
+        product.inStock === false ||
+        product.inStock === "false" ||
+        product.stock === 0 ||
+        product.stock === "0"
+    ){
+
+        available =
+        false;
+
+    }
+
+
+    if(
+        typeof product.status === "string"
+    ){
+
+        const status =
+        product.status
+        .trim()
+        .toLowerCase();
+
+
+        if(
+            status === "out of stock" ||
+            status === "outofstock" ||
+            status === "out_of_stock"
+        ){
+
+            available =
+            false;
+
+        }
+
+    }
+
+
+    const firstSize =
+    sizes[0] ||
+    "1 KG";
+
+
+    const firstPrice =
+    calculatePrice(
+        product,
+        firstSize
+    );
+
+
+    const image =
+    product.image ||
+    product.imageUrl ||
+    "";
+
+
+    card.innerHTML = `
+
+        ${
+            image
+            ?
+
+            `
+            <img
+                class="product-image"
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(product.name)}"
+                style="display:block;"
+            >
+            `
+
+            :
+
+            `
+            <div class="product-icon">
+                ${product.icon || "🌶️"}
+            </div>
+            `
+        }
+
+
+        <h3>
+            ${escapeHTML(product.name)}
+        </h3>
+
+
+        <p>
+            ${escapeHTML(
+                product.description ||
+                ""
+            )}
+        </p>
+
+
+        <div class="price">
+
+            <span
+                class="old-price"
+                style="display:none;"
+            ></span>
+
+
+            <span
+                class="current-price"
+            >
+                ₹${firstPrice}
+            </span>
+
+
+            <br>
+
+
+            <span
+                class="discount-badge"
+                style="
+                    display:
+                    ${discountEnabled
+                    ? "inline-block"
+                    : "none"};
+                "
+            >
+                ${discountPercent}% OFF
+            </span>
+
+        </div>
+
+
+        <label>
+            Size
+        </label>
+
+
+        <select
+            class="size-select"
+            ${!available ? "disabled" : ""}
+        >
+
+            ${
+                sizes
+                .map(
+                    size =>
+                    `
+                    <option
+                        value="${escapeHTML(size)}"
+                    >
+                        ${escapeHTML(size)}
+                    </option>
+                    `
+                )
+                .join("")
+            }
+
+        </select>
+
+
+        ${
+            available
+
+            ?
+
+            `
+            <button
+                class="add-btn"
+                type="button"
+            >
+                🛒 Add to Cart
+            </button>
+            `
+
+            :
+
+            `
+            <button
+                class="out-of-stock-btn"
+                disabled
+            >
+                ❌ Out of Stock
+            </button>
+            `
+        }
+
+    `;
+
+
+    const select =
+    card.querySelector(
+        ".size-select"
+    );
+
+
+    const priceElement =
+    card.querySelector(
+        ".current-price"
+    );
+
+
+    const oldPriceElement =
+    card.querySelector(
+        ".old-price"
+    );
+
+
+    const addButton =
+    card.querySelector(
+        ".add-btn"
+    );
+
+
+    function refreshPrice(){
+
+        const selectedSize =
+        select.value ||
+        firstSize;
+
+
+        const price =
+        calculatePrice(
+            product,
+            selectedSize
+        );
+
+
+        priceElement.textContent =
+        "₹" +
+        price;
+
+
+        /*
+           Discount old price
+        */
+
+        if(
+            discountEnabled &&
+            discountPercent > 0
+        ){
+
+            const normalPrice =
+            price /
+            (
+                1 -
+                discountPercent / 100
+            );
+
+
+            oldPriceElement.textContent =
+            "₹" +
+            Math.round(
+                normalPrice
+            );
+
+
+            oldPriceElement.style.display =
+            "inline";
+
+        }
+        else{
+
+            oldPriceElement.style.display =
+            "none";
+
+        }
+
+    }
+
+
+    select.addEventListener(
+        "change",
+        refreshPrice
+    );
+
+
+    if(
+        addButton
+    ){
+
+        addButton.addEventListener(
+            "click",
+            function(){
+
+                const selectedSize =
+                select.value ||
+                firstSize;
+
+
+                const price =
+                calculatePrice(
+                    product,
+                    selectedSize
+                );
+
+
+                addToCart(
+                    product,
+                    selectedSize,
+                    price
+                );
+
+            }
+        );
+
+    }
+
+
+    return card;
+
+}
+
+
+
+/* =====================================================
+   ADD TO CART
+===================================================== */
+
+function addToCart(
+    product,
+    size,
+    price
+){
+
+    let cart = [];
+
+
+    try{
+
+        cart =
+        JSON.parse(
+            localStorage.getItem(
+                "sweetyCart"
+            )
+        ) || [];
+
+    }
+    catch(error){
+
+        cart = [];
+
+    }
+
+
+    if(
+        !Array.isArray(cart)
+    ){
+
+        cart = [];
+
+    }
+
+
+    const existing =
+    cart.find(
+        item =>
+        item.name ===
+        product.name
+        &&
+        item.size ===
+        size
+    );
+
+
+    if(
+        existing
+    ){
+
+        existing.quantity =
+        (
+            Number(
+                existing.quantity
+            ) || 1
+        ) + 1;
+
+
+        existing.price =
+        price;
+
+    }
+    else{
+
+        cart.push({
+
+            productId:
+            product.id,
+
+            name:
+            product.name,
+
+            description:
+            product.description ||
+            "",
+
+            image:
+            product.image ||
+            product.imageUrl ||
+            "",
+
+            size:
+            size,
+
+            price:
+            price,
+
+            quantity:
+            1
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+
+        "sweetyCart",
+
+        JSON.stringify(
+            cart
+        )
+
+    );
+
+
+    alert(
+
+        "✅ " +
+        product.name +
+        " (" +
+        size +
+        ") cart me add ho gaya! 🛒"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   RENDER ALL PRODUCTS
+===================================================== */
+
+async function renderProducts(){
+
+    const largeContainer =
+    document.getElementById(
+        "largeProducts"
+    );
+
+
+    const powderContainer =
+    document.getElementById(
+        "powderProducts"
+    );
+
+
+    const attaContainer =
+    document.getElementById(
+        "attaProducts"
+    );
+
+
+    const wholeContainer =
+    document.getElementById(
+        "wholeProducts"
+    );
+
+
+    largeContainer.innerHTML =
+    "";
+
+
+    powderContainer.innerHTML =
+    "";
+
+
+    attaContainer.innerHTML =
+    "";
+
+
+    wholeContainer.innerHTML =
+    "";
+
+
+    /*
+       Firebase/Admin Panel ki latest
+       values lekar cards banenge.
+    */
+
+    for(
+        const fallbackProduct
+        of allProducts
+    ){
+
+        const product =
+        await getProductData(
+            fallbackProduct
+        );
+
+
+        const card =
+        createProductCard(
+            product
+        );
+
+
+        if(
+            fallbackProduct.category
+            ===
+            "large"
+        ){
+
+            largeContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            fallbackProduct.category
+            ===
+            "powder"
+        ){
+
+            powderContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            fallbackProduct.category
+            ===
+            "atta"
+        ){
+
+            attaContainer.appendChild(
+                card
+            );
+
+        }
+
+
+        else if(
+            fallbackProduct.category
+            ===
+            "whole"
+        ){
+
+            wholeContainer.appendChild(
+                card
+            );
+
+        }
+
+    }
+
+}
+
+
+
+/* =====================================================
+   REAL-TIME SYNC
+===================================================== */
+
+let renderTimer =
+null;
+
+
+let rendering =
+false;
+
+
+let renderAgain =
+false;
+
+
+function scheduleRender(){
+
+    clearTimeout(
+        renderTimer
+    );
+
+
+    renderTimer =
+    setTimeout(
+        async function(){
+
+            if(
+                rendering
+            ){
+
+                renderAgain =
+                true;
+
+                return;
+
+            }
+
+
+            rendering =
+            true;
+
+
+            try{
+
+                await loadDiscount();
+
+                await renderProducts();
+
+            }
+            catch(error){
+
+                console.error(
+                    "Render error:",
+                    error
+                );
+
+            }
+            finally{
+
+                rendering =
+                false;
+
+
+                if(
+                    renderAgain
+                ){
+
+                    renderAgain =
+                    false;
+
+                    scheduleRender();
+
+                }
+
+            }
+
+        },
+        300
+    );
+
+}
+
+
+
+/* =====================================================
+   FIREBASE PRODUCT LISTENERS
+===================================================== */
+
+for(
+    const product
+    of allProducts
+){
+
+    const ids =
+    getProductIds(
+        product
+    );
+
+
+    for(
+        const id
+        of ids
+    ){
+
+        onSnapshot(
+
+            doc(
+                db,
+                "products",
+                id
+            ),
+
+            function(){
+
+                /*
+                   Admin Panel me koi bhi product
+                   change hote hi index refresh.
+                */
+
+                scheduleRender();
+
+            },
+
+            function(error){
+
+                console.error(
+                    "Product listener error:",
+                    id,
+                    error
+                );
+
+            }
+
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISCOUNT REAL-TIME LISTENER
+===================================================== */
+
+onSnapshot(
+
+    doc(
+        db,
+        "settings",
+        "discount"
+    ),
+
+    function(){
+
+        scheduleRender();
+
+    },
+
+    function(error){
+
+        console.error(
+            "Discount listener error:",
+            error
+        );
+
+    }
+
+);
+
+
+
+/* =====================================================
+   FIRST LOAD
+===================================================== */
+
+async function start(){
+
+    await loadDiscount();
+
+    await renderProducts();
+
+    console.log(
+        "✅ Sweety Masala index loaded."
+    );
+
+    console.log(
+        "✅ Admin Panel Firebase sync active."
+    );
+
+}
+
+
+start();
+
 
 </script>
+
+
+
+<!-- =====================================================
+     FIREBASE LOGIN / LOGOUT
+===================================================== -->
+
+<script type="module">
+
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+const authConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
+};
+
+
+const authApp =
+initializeApp(
+    authConfig,
+    "indexAuthApp"
+);
+
+
+const auth =
+getAuth(
+    authApp
+);
+
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        const userArea =
+        document.getElementById(
+            "userArea"
+        );
+
+
+        if(
+            !userArea
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            user
+        ){
+
+            userArea.innerHTML = `
+
+                <span class="user-area">
+
+                    <span class="user-email">
+
+                        👤 ${user.email}
+
+                    </span>
+
+
+                    <button
+                        type="button"
+                        class="logout-btn"
+                        id="logoutButton"
+                    >
+
+                        🚪 Logout
+
+                    </button>
+
+                </span>
+
+            `;
+
+
+            const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+            logoutButton.addEventListener(
+                "click",
+                async function(){
+
+                    try{
+
+                        await signOut(
+                            auth
+                        );
+
+
+                        alert(
+                            "✅ Logout successful!"
+                        );
+
+
+                        window.location.href =
+                        "index.html";
+
+                    }
+                    catch(error){
+
+                        console.error(
+                            error
+                        );
+
+
+                        alert(
+                            "Logout nahi ho paya. Dobara try karein."
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+        else{
+
+            userArea.innerHTML = `
+
+                <a
+                    href="login.html"
+                    class="login-link"
+                >
+                    👤 Login
+                </a>
+
+            `;
+
+        }
+
+    }
+);
+
+
+</script>
+
 
 </body>
 

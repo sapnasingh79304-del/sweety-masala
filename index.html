@@ -1297,7 +1297,7 @@ wholeSpices.forEach(function(product){
 
 <script type="module">
 /* ==========================================
-   FIREBASE PRODUCT STOCK SYNC
+   FIREBASE PRODUCT + PRICE + SIZE SYNC
    Admin Panel -> Firebase -> index.html
 ========================================== */
 
@@ -1308,7 +1308,7 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const stockFirebaseConfig = {
+const syncFirebaseConfig = {
     apiKey: "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
     authDomain: "sweety-masala.firebaseapp.com",
     projectId: "sweety-masala",
@@ -1318,119 +1318,255 @@ const stockFirebaseConfig = {
     measurementId: "G-NQ82YZCKG3"
 };
 
-const stockApp = initializeApp(
-    stockFirebaseConfig,
-    "stockSyncApp"
-);
+const syncApp = initializeApp(syncFirebaseConfig, "indexProductSyncApp");
+const syncDb = getFirestore(syncApp);
 
-const stockDb = getFirestore(stockApp);
+function cleanName(value){
+    return String(value || "").trim().toLowerCase();
+}
 
-async function syncIndexStock(){
+function getProductFallback(name){
+    const large = largeProducts.find(p => cleanName(p.name) === cleanName(name));
+    if(large){
+        return {
+            basePrice: Number(large.price) || 0,
+            sizes: Array.isArray(large.sizes) ? large.sizes.slice() : []
+        };
+    }
 
+    const powder = powderProducts.find(p => cleanName(p[0]) === cleanName(name));
+    if(powder){
+        return {
+            basePrice: Number(powder[2]) || 0,
+            sizes: ["250 GM","500 GM","1 KG"]
+        };
+    }
+
+    const atta = attaProducts.find(p => cleanName(p[0]) === cleanName(name));
+    if(atta){
+        return {
+            basePrice: Number(atta[2]) || 0,
+            sizes: ["1 KG","2 KG","3 KG","4 KG","5 KG"]
+        };
+    }
+
+    const whole = wholeSpices.find(p => cleanName(p[0]) === cleanName(name));
+    if(whole){
+        return {
+            basePrice: Number(whole[2]) || 0,
+            sizes: ["50 GM","100 GM","250 GM"]
+        };
+    }
+
+    return {basePrice:0,sizes:["1 KG"]};
+}
+
+function normalizeSizePrices(value){
+    if(!value || typeof value !== "object" || Array.isArray(value)){
+        return {};
+    }
+
+    const result = {};
+
+    Object.keys(value).forEach(function(key){
+        const price = Number(value[key]);
+        if(Number.isFinite(price) && price >= 0){
+            result[String(key).trim()] = Math.round(price);
+        }
+    });
+
+    return result;
+}
+
+function findSizePrice(size, sizePrices){
+    const target = cleanName(size);
+
+    const exactKey = Object.keys(sizePrices).find(function(key){
+        return cleanName(key) === target;
+    });
+
+    if(exactKey !== undefined){
+        const price = Number(sizePrices[exactKey]);
+        if(Number.isFinite(price)) return price;
+    }
+
+    return null;
+}
+
+function getFirebasePrice(size, data, fallbackBasePrice){
+    const sizePrices = normalizeSizePrices(data && data.sizePrices);
+    const savedSizePrice = findSizePrice(size, sizePrices);
+
+    /* Admin Panel ka exact size price sabse pehle use hoga. */
+    if(savedSizePrice !== null){
+        return savedSizePrice;
+    }
+
+    /* Purane products ke liye 1 KG/base price fallback. */
+    const firebaseBase = Number(data && data.price);
+    const basePrice = Number.isFinite(firebaseBase) && firebaseBase >= 0
+        ? firebaseBase
+        : Number(fallbackBasePrice) || 0;
+
+    return basePrice * sizeToKg(size);
+}
+
+function updateCardFromFirebase(card, data){
+    const heading = card.querySelector("h3");
+    const select = card.querySelector(".size-select");
+    const currentPrice = card.querySelector(".current-price");
+
+    if(!heading || !select){
+        return;
+    }
+
+    const productName = heading.textContent.trim();
+    const fallback = getProductFallback(productName);
+
+    /* ------------------------------------------
+       SIZES: Admin Panel me naye sizes hain to
+       index.html me bhi wahi sizes dikhenge.
+    ------------------------------------------ */
+    let sizes = fallback.sizes.slice();
+
+    if(
+        data &&
+        Array.isArray(data.sizes) &&
+        data.sizes.length > 0
+    ){
+        sizes = data.sizes
+            .map(size => String(size).trim())
+            .filter(Boolean);
+    }
+
+    const oldSize = select.value;
+
+    select.innerHTML = "";
+
+    sizes.forEach(function(size){
+        const option = document.createElement("option");
+        option.value = size;
+        option.textContent = size;
+        select.appendChild(option);
+    });
+
+    if(
+        sizes.some(size => cleanName(size) === cleanName(oldSize))
+    ){
+        select.value = sizes.find(size => cleanName(size) === cleanName(oldSize));
+    }
+
+    /* ------------------------------------------
+       STOCK
+    ------------------------------------------ */
+    const available = !data || data.inStock !== false;
+
+    select.disabled = !available;
+
+    let addButton = card.querySelector(".add-btn");
+    let outButton = card.querySelector(".out-of-stock-btn");
+
+    if(!available){
+        if(addButton){
+            outButton = document.createElement("button");
+            outButton.className = "out-of-stock-btn";
+            outButton.disabled = true;
+            outButton.textContent = "❌ Out of Stock";
+            addButton.replaceWith(outButton);
+        }
+    }
+    else{
+        if(outButton){
+            addButton = document.createElement("button");
+            addButton.className = "add-btn";
+            addButton.textContent = "🛒 Add to Cart";
+            outButton.replaceWith(addButton);
+        }
+    }
+
+    /* ------------------------------------------
+       PRICE
+    ------------------------------------------ */
+    function refreshDisplayedPrice(){
+        const selectedSize = select.value || sizes[0] || "1 KG";
+        const normalPrice = getFirebasePrice(
+            selectedSize,
+            data || {},
+            fallback.basePrice
+        );
+        const finalPrice = getFinalPrice(normalPrice);
+
+        if(currentPrice){
+            currentPrice.textContent = formatPrice(finalPrice);
+        }
+    }
+
+    select.onchange = refreshDisplayedPrice;
+
+    /* ------------------------------------------
+       ADD TO CART: customer ko wahi exact price
+       milega jo screen par dikh raha hai.
+    ------------------------------------------ */
+    if(available){
+        const activeButton = card.querySelector(".add-btn");
+
+        if(activeButton){
+            activeButton.onclick = function(){
+                const selectedSize = select.value || "1 KG";
+                const normalPrice = getFirebasePrice(
+                    selectedSize,
+                    data || {},
+                    fallback.basePrice
+                );
+                const finalPrice = getFinalPrice(normalPrice);
+
+                addToCart(
+                    productName,
+                    selectedSize,
+                    formatPrice(finalPrice)
+                );
+            };
+        }
+    }
+
+    refreshDisplayedPrice();
+}
+
+async function syncIndexProducts(){
     try{
         const snapshot = await getDocs(
-            collection(stockDb, "products")
+            collection(syncDb, "products")
         );
 
-        const stockMap = {};
+        const firebaseMap = {};
 
         snapshot.forEach(function(docSnap){
             const data = docSnap.data() || {};
             const name = data.name || docSnap.id;
-
-            stockMap[name] = data.inStock !== false;
+            firebaseMap[cleanName(name)] = data;
         });
 
-        document
-        .querySelectorAll(".product-card")
-        .forEach(function(card){
-
+        document.querySelectorAll(".product-card").forEach(function(card){
             const heading = card.querySelector("h3");
-
-            if(!heading){
-                return;
-            }
+            if(!heading) return;
 
             const productName = heading.textContent.trim();
+            const data = firebaseMap[cleanName(productName)] || null;
 
-            // Firebase me product nahi mila to existing/default state rakhein.
-            if(!Object.prototype.hasOwnProperty.call(stockMap, productName)){
-                return;
-            }
-
-            const available = stockMap[productName];
-            const sizeSelect = card.querySelector(".size-select");
-            const addButton = card.querySelector(".add-btn");
-            const oldOutButton = card.querySelector(".out-of-stock-btn");
-
-            if(!available){
-
-                if(sizeSelect){
-                    sizeSelect.disabled = true;
-                }
-
-                if(addButton){
-                    const outButton = document.createElement("button");
-                    outButton.className = "out-of-stock-btn";
-                    outButton.disabled = true;
-                    outButton.textContent = "❌ Out of Stock";
-                    addButton.replaceWith(outButton);
-                }
-
-                return;
-            }
-
-            if(sizeSelect){
-                sizeSelect.disabled = false;
-            }
-
-            if(oldOutButton){
-                const addButtonNew = document.createElement("button");
-                addButtonNew.className = "add-btn";
-                addButtonNew.textContent = "🛒 Add to Cart";
-
-                const select = card.querySelector(".size-select");
-                const name = productName;
-
-                // Current displayed price is already calculated by the existing card code.
-                // Read it at click time so the cart gets the same price the customer sees.
-                addButtonNew.addEventListener("click", function(){
-
-                    const size = select ? select.value : "1 KG";
-                    const kg = sizeToKg(size);
-                    const baseProduct =
-                        [...largeProducts].find(p => p.name === name) || null;
-
-                    let basePrice = baseProduct ? baseProduct.price : 0;
-
-                    if(!baseProduct){
-                        const powder = powderProducts.find(p => p[0] === name);
-                        const atta = attaProducts.find(p => p[0] === name);
-                        const whole = wholeSpices.find(p => p[0] === name);
-
-                        if(powder) basePrice = powder[2];
-                        else if(atta) basePrice = atta[2];
-                        else if(whole) basePrice = whole[2];
-                    }
-
-                    const finalPrice = getFinalPrice(basePrice * kg);
-                    addToCart(name, size, formatPrice(finalPrice));
-                });
-
-                oldOutButton.replaceWith(addButtonNew);
-            }
+            updateCardFromFirebase(card, data);
         });
 
+        console.log("✅ Index products, prices and sizes synced from Firebase.");
     }
     catch(error){
-        console.error("Index stock sync error:", error);
+        console.error("Index Firebase product sync error:", error);
     }
 }
 
-// Cards are created by the script above before this module runs.
-// Run once immediately and again shortly after page rendering.
-syncIndexStock();
-setTimeout(syncIndexStock, 700);
+/* Initial sync + small delay for page rendering. */
+syncIndexProducts();
+setTimeout(syncIndexProducts, 500);
+setTimeout(syncIndexProducts, 1500);
 
 </script>
 

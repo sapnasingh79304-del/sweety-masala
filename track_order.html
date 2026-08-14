@@ -5,18 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Track Orders | Sweety Masala</title>
-
+<title>Track Order | Sweety Masala</title>
 
 <style>
-
-/* =====================================================
-   BASIC
-===================================================== */
 
 *{
     box-sizing:border-box;
@@ -28,45 +21,36 @@
 body{
     background:#fff8ed;
     color:#333;
-    min-height:100vh;
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
+/* HEADER */
 
 header{
     background:#8b0000;
     color:white;
     text-align:center;
-    padding:22px 15px;
+    padding:20px 15px;
 }
 
 header h1{
-    font-size:28px;
     margin-bottom:6px;
 }
 
 header p{
-    font-size:16px;
+    font-size:15px;
 }
 
 
-/* =====================================================
-   CONTAINER
-===================================================== */
+/* CONTAINER */
 
 .container{
-    max-width:950px;
+    max-width:1000px;
     margin:25px auto;
-    padding:15px;
+    padding:10px 15px 40px;
 }
 
 
-/* =====================================================
-   BOX
-===================================================== */
+/* BOX */
 
 .box{
     background:white;
@@ -78,142 +62,17 @@ header p{
 
 .box h2{
     color:#8b0000;
-    margin-bottom:18px;
-}
-
-
-/* =====================================================
-   FORM
-===================================================== */
-
-.form-group{
     margin-bottom:16px;
 }
 
-.form-group label{
-    display:block;
-    font-weight:bold;
-    margin-bottom:7px;
-}
 
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    padding:13px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
-}
-
-.form-group textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus{
-    outline:none;
-    border-color:#8b0000;
-}
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-.track-btn,
-.cancel-btn,
-.return-btn,
-.submit-return-btn,
-.close-btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:8px;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.track-btn{
-    background:#8b0000;
-}
-
-.track-btn:hover{
-    background:#a50000;
-}
-
-.track-btn:disabled{
-    background:#777;
-    cursor:not-allowed;
-}
-
-
-/* CANCEL */
-
-.cancel-btn{
-    background:#b00020;
-    margin-top:12px;
-}
-
-.cancel-btn:hover{
-    background:#8c001a;
-}
-
-.cancel-btn:disabled{
-    background:#999;
-    cursor:not-allowed;
-}
-
-
-/* RETURN */
-
-.return-btn{
-    background:#d47b00;
-    margin-top:12px;
-}
-
-.return-btn:hover{
-    background:#b96700;
-}
-
-
-/* RETURN SUBMIT */
-
-.submit-return-btn{
-    background:#8b0000;
-    margin-top:10px;
-}
-
-.submit-return-btn:hover{
-    background:#a50000;
-}
-
-
-/* CLOSE */
-
-.close-btn{
-    background:#555;
-    margin-top:10px;
-}
-
-.close-btn:hover{
-    background:#333;
-}
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
+/* MESSAGES */
 
 .message{
     display:none;
     padding:14px;
-    margin-bottom:18px;
     border-radius:8px;
+    margin-bottom:18px;
     text-align:center;
     font-weight:bold;
 }
@@ -224,8 +83,8 @@ header p{
 }
 
 .success{
-    background:#e5f8e8;
-    color:#08751c;
+    background:#e6f8ea;
+    color:#16852d;
 }
 
 .loading{
@@ -234,86 +93,112 @@ header p{
 }
 
 
-/* =====================================================
-   ORDERS HEADER
-===================================================== */
+/* LOGIN */
 
-.orders-heading{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
+.login-required{
+    text-align:center;
+    padding:35px 15px;
 }
 
-.orders-heading h2{
-    margin:0;
+.login-required h2{
+    color:#8b0000;
+    margin-bottom:10px;
 }
 
-.order-count{
+.login-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:13px 25px;
     background:#8b0000;
     color:white;
-    padding:7px 12px;
-    border-radius:20px;
-    font-size:13px;
+    text-decoration:none;
+    border-radius:8px;
     font-weight:bold;
 }
 
 
-/* =====================================================
-   ORDER CARD
-===================================================== */
+/* USER INFO */
+
+.user-info{
+    background:#fff4d6;
+    border:1px solid #e2c766;
+    padding:14px;
+    border-radius:9px;
+    margin-bottom:15px;
+}
+
+.user-info strong{
+    color:#8b0000;
+}
+
+
+/* REFRESH */
+
+.refresh-btn{
+    width:100%;
+    padding:13px;
+    background:#8b0000;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.refresh-btn:hover{
+    background:#a50000;
+}
+
+
+/* ORDER CARD */
 
 .order-card{
     background:white;
-    border:1px solid #ead8bd;
-    border-radius:14px;
-    padding:18px;
+    border:2px solid #ead8bd;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.order-card.cancelled{
+    border-color:#e00000;
+}
+
+.order-card.returned{
+    border-color:#16852d;
+}
+
+
+/* ORDER HEADER */
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
     margin-bottom:18px;
 }
 
-.order-card:last-child{
-    margin-bottom:0;
-}
-
-
-/* =====================================================
-   ORDER TOP
-===================================================== */
-
-.order-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:15px;
-    padding-bottom:15px;
-    border-bottom:1px solid #eee;
-}
-
 .order-id{
-    color:#8b0000;
-    font-size:18px;
-    font-weight:bold;
+    font-size:14px;
+    color:#555;
     word-break:break-all;
 }
 
-.order-date{
-    color:#777;
-    font-size:13px;
-    margin-top:5px;
+.order-id strong{
+    color:#8b0000;
 }
 
 
-/* =====================================================
-   STATUS BADGE
-===================================================== */
+/* STATUS */
 
 .status-badge{
-    padding:8px 12px;
+    display:inline-block;
+    padding:7px 13px;
     border-radius:20px;
-    font-size:13px;
     font-weight:bold;
-    white-space:nowrap;
 }
 
 .status-new{
@@ -322,23 +207,23 @@ header p{
 }
 
 .status-accepted{
-    background:#e7f2ff;
-    color:#1769aa;
+    background:#e7f0ff;
+    color:#1754a6;
 }
 
 .status-preparing{
-    background:#fff0d6;
-    color:#a65b00;
+    background:#fff0d0;
+    color:#a85b00;
 }
 
 .status-shipped{
-    background:#e9e1ff;
-    color:#5d32a8;
+    background:#eee8ff;
+    color:#6841a5;
 }
 
 .status-delivered{
-    background:#e5f8e8;
-    color:#08751c;
+    background:#e6f8ea;
+    color:#16852d;
 }
 
 .status-cancelled{
@@ -347,99 +232,57 @@ header p{
 }
 
 .status-return{
-    background:#fff0d6;
-    color:#a65b00;
+    background:#fff0d0;
+    color:#9b5900;
 }
 
 
-/* =====================================================
-   CUSTOMER
-===================================================== */
+/* CUSTOMER DETAILS */
 
-.customer-info{
+.customer-details{
     background:#fafafa;
+    border:1px solid #eee;
     border-radius:10px;
-    padding:13px;
-    margin-top:15px;
+    padding:15px;
+    margin-bottom:20px;
 }
 
-.customer-info p{
-    margin-bottom:6px;
+.detail-row{
+    margin-bottom:8px;
     line-height:1.5;
 }
 
-.customer-info p:last-child{
+.detail-row:last-child{
     margin-bottom:0;
 }
 
-.customer-label{
+.detail-label{
     font-weight:bold;
     color:#555;
 }
 
 
-/* =====================================================
-   ORDER ITEMS
-===================================================== */
+/* PROGRESS */
 
-.items-title{
-    color:#8b0000;
-    margin-top:18px;
-    margin-bottom:10px;
-    font-size:18px;
+.progress-box{
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    padding:18px 10px;
+    border-radius:12px;
+    margin-bottom:20px;
 }
 
-.order-item{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    padding:12px 0;
-    border-bottom:1px solid #eee;
-}
-
-.order-item:last-child{
-    border-bottom:none;
-}
-
-.item-name{
+.progress-title{
     font-weight:bold;
-    margin-bottom:5px;
+    color:#555;
+    margin-bottom:18px;
+    text-align:center;
 }
-
-.item-info{
-    color:#666;
-    font-size:14px;
-}
-
-.item-price{
-    color:#8b0000;
-    font-weight:bold;
-    white-space:nowrap;
-}
-
-
-/* =====================================================
-   TOTAL
-===================================================== */
-
-.order-total{
-    text-align:right;
-    margin-top:15px;
-    font-size:20px;
-    font-weight:bold;
-    color:#8b0000;
-}
-
-
-/* =====================================================
-   STATUS TRACKER
-===================================================== */
 
 .status-tracker{
     display:flex;
     justify-content:space-between;
-    gap:4px;
-    margin-top:20px;
+    align-items:flex-start;
 }
 
 .status-step{
@@ -449,10 +292,10 @@ header p{
 }
 
 .status-circle{
-    width:35px;
-    height:35px;
+    width:38px;
+    height:38px;
     border-radius:50%;
-    margin:0 auto 7px;
+    margin:0 auto 8px;
     background:#ddd;
     color:#666;
     display:flex;
@@ -467,17 +310,20 @@ header p{
     font-size:11px;
     font-weight:bold;
     color:#777;
-    line-height:1.3;
 }
 
 .status-line{
     position:absolute;
-    top:16px;
+    top:18px;
     left:50%;
     width:100%;
     height:4px;
     background:#ddd;
     z-index:1;
+}
+
+.status-step:last-child .status-line{
+    display:none;
 }
 
 .status-step.completed .status-circle{
@@ -489,135 +335,148 @@ header p{
     color:#16852d;
 }
 
+.status-step.completed .status-line{
+    background:#16852d;
+}
+
 .status-step.current .status-circle{
     background:#8b0000;
     color:white;
-    box-shadow:0 0 0 4px #f3d6d6;
+    box-shadow:0 0 0 5px #f3d6d6;
 }
 
 .status-step.current .status-name{
     color:#8b0000;
 }
 
-.status-step.completed .status-line{
+
+/* ITEMS */
+
+.items-title{
+    color:#8b0000;
+    font-size:20px;
+    margin-bottom:12px;
+}
+
+.order-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:13px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-item:last-child{
+    border-bottom:none;
+}
+
+.item-name{
+    font-weight:bold;
+}
+
+.item-info{
+    color:#666;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.item-price{
+    color:#8b0000;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+
+/* TOTAL */
+
+.total{
+    text-align:right;
+    margin-top:15px;
+    font-size:21px;
+    font-weight:bold;
+    color:#8b0000;
+}
+
+
+/* ACTION BUTTONS */
+
+.action-area{
+    margin-top:20px;
+}
+
+.action-btn{
+    width:100%;
+    border:none;
+    border-radius:8px;
+    padding:14px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.cancel-btn{
+    background:#c40000;
+}
+
+.cancel-btn:hover{
+    background:#a00000;
+}
+
+.return-btn{
     background:#16852d;
 }
 
-.status-step:last-child .status-line{
-    display:none;
+.return-btn:hover{
+    background:#116b24;
 }
 
 
-/* =====================================================
-   ACTION AREA
-===================================================== */
+/* MESSAGES INSIDE ORDER */
 
-.action-area{
-    margin-top:18px;
-    padding-top:15px;
-    border-top:1px solid #eee;
-}
-
-
-/* =====================================================
-   CANCEL INFO
-===================================================== */
-
-.action-info{
-    margin-top:10px;
-    padding:11px;
+.cancelled-message{
+    background:#ffe5e5;
+    color:#a00000;
+    padding:13px;
     border-radius:8px;
-    background:#f7f7f7;
-    color:#666;
-    font-size:13px;
-    line-height:1.5;
-}
-
-
-/* =====================================================
-   RETURN INFO
-===================================================== */
-
-.return-status-box{
     margin-top:15px;
-    padding:14px;
-    border-radius:10px;
-    background:#fff8ed;
-    border:1px solid #ead8bd;
-}
-
-.return-status-title{
     font-weight:bold;
-    color:#8b0000;
-    margin-bottom:6px;
+    text-align:center;
 }
 
-.return-status-text{
-    font-size:14px;
-    line-height:1.5;
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    z-index:9999;
-    padding:20px;
-    overflow:auto;
-}
-
-.modal-content{
-    background:white;
-    max-width:500px;
-    margin:50px auto;
-    border-radius:15px;
-    padding:22px;
-    box-shadow:0 8px 30px rgba(0,0,0,.25);
-}
-
-.modal-content h2{
-    color:#8b0000;
-    margin-bottom:15px;
-}
-
-.modal-order-id{
+.return-message{
     background:#fff4d6;
-    padding:10px;
+    color:#8b5900;
+    padding:13px;
     border-radius:8px;
-    margin-bottom:15px;
-    font-size:14px;
-    word-break:break-all;
+    margin-top:15px;
+    font-weight:bold;
+    text-align:center;
 }
 
 
-/* =====================================================
-   EMPTY
-===================================================== */
+/* EMPTY */
 
-.empty-orders{
+.no-orders{
     text-align:center;
     padding:35px 15px;
-}
-
-.empty-orders h3{
-    color:#8b0000;
-    margin-bottom:10px;
-}
-
-.empty-orders p{
     color:#666;
 }
 
+.shop-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:13px 25px;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
 
-/* =====================================================
-   BACK
-===================================================== */
+
+/* BACK */
 
 .back-btn{
     display:block;
@@ -637,15 +496,9 @@ header p{
 }
 
 
-/* =====================================================
-   MOBILE
-===================================================== */
+/* MOBILE */
 
 @media(max-width:600px){
-
-    header h1{
-        font-size:24px;
-    }
 
     .container{
         padding:10px;
@@ -655,35 +508,26 @@ header p{
         padding:17px;
     }
 
-    .order-top{
-        flex-direction:column;
-    }
-
-    .order-item{
-        flex-direction:column;
-        gap:6px;
-    }
-
-    .item-price{
-        text-align:left;
-    }
-
-    .status-tracker{
-        gap:0;
+    .status-name{
+        font-size:9px;
     }
 
     .status-circle{
-        width:30px;
-        height:30px;
+        width:32px;
+        height:32px;
         font-size:12px;
     }
 
     .status-line{
-        top:13px;
+        top:15px;
     }
 
-    .status-name{
-        font-size:9px;
+    .order-item{
+        flex-direction:column;
+    }
+
+    .item-price{
+        text-align:left;
     }
 
 }
@@ -696,130 +540,139 @@ header p{
 <body>
 
 
+<!-- HEADER -->
+
 <header>
 
-<h1>🌶️ Sweety Masala</h1>
+<h1>
+🌶️ Sweety Masala
+</h1>
 
-<p>📦 My Orders & Track Order</p>
+<p>
+📦 My Orders & Track Order
+</p>
 
 </header>
-
 
 
 <div class="container">
 
 
-<!-- =====================================================
-     SEARCH
-===================================================== -->
+<!-- MESSAGES -->
+
+<div
+id="loadingMessage"
+class="message loading"
+>
+⏳ Aapke orders load ho rahe hain...
+</div>
+
+
+<div
+id="errorMessage"
+class="message error"
+></div>
+
+
+<div
+id="successMessage"
+class="message success"
+></div>
+
+
+
+<!-- LOGIN REQUIRED -->
+
+<div
+id="loginRequired"
+class="box login-required"
+style="display:none;"
+>
+
+<h2>
+👤 Login Required
+</h2>
+
+<p>
+Apne orders dekhne ke liye
+customer account me login karein.
+</p>
+
+<a
+href="login.html"
+class="login-btn"
+>
+👤 Login
+</a>
+
+</div>
+
+
+
+<!-- CUSTOMER AREA -->
+
+<div
+id="customerArea"
+style="display:none;"
+>
+
 
 <div class="box">
 
-<h2>📱 Apne Orders Dekhein</h2>
+<h2>
+📦 My Orders
+</h2>
 
 
-<div
-    id="errorMessage"
-    class="message error">
-</div>
+<div class="user-info">
 
+Logged in as:
 
-<div
-    id="successMessage"
-    class="message success">
-</div>
-
-
-<div
-    id="loadingMessage"
-    class="message loading">
-</div>
-
-
-<div class="form-group">
-
-<label>
-Mobile Number *
-</label>
-
-<input
-    type="tel"
-    id="customerPhone"
-    maxlength="10"
-    inputmode="numeric"
-    placeholder="Order mein diya gaya 10 digit mobile number">
+<strong id="customerEmail">
+-
+</strong>
 
 </div>
 
 
 <button
-    id="trackButton"
-    class="track-btn"
-    type="button">
-
-🔍 Mere Saare Orders Dikhao
-
+type="button"
+id="refreshBtn"
+class="refresh-btn"
+>
+🔄 Refresh Orders
 </button>
 
 </div>
 
 
 
-<!-- =====================================================
-     ORDERS
-===================================================== -->
+<!-- ALL ORDERS -->
 
-<div
-    id="ordersBox"
-    class="box"
-    style="display:none;">
-
-
-<div class="orders-heading">
-
-<h2>
-📦 Mere Orders
-</h2>
-
-<span
-    id="orderCount"
-    class="order-count">
-
-0 Orders
-
-</span>
-
-</div>
-
-
-<div id="ordersList"></div>
+<div id="ordersContainer"></div>
 
 
 </div>
 
 
 
-<!-- =====================================================
-     BACK BUTTONS
-===================================================== -->
+<!-- BOTTOM BUTTONS -->
 
 <div class="box">
 
 <a
-    href="products.html"
-    class="back-btn">
-
+href="products.html"
+class="back-btn"
+>
 🛒 Continue Shopping
-
 </a>
 
 
 <a
-    href="index.html"
-    class="back-btn">
-
+href="index.html"
+class="back-btn"
+>
 🏠 Home Page
-
 </a>
 
 </div>
@@ -828,145 +681,43 @@ Mobile Number *
 </div>
 
 
-
-<!-- =====================================================
-     RETURN MODAL
-===================================================== -->
-
-<div
-    id="returnModal"
-    class="modal">
-
-
-<div class="modal-content">
-
-
-<h2>
-↩️ Return Order
-</h2>
-
-
-<div
-    id="returnModalOrderId"
-    class="modal-order-id">
-
-Order ID: -
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Return Reason *
-</label>
-
-<select id="returnReason">
-
-<option value="">
-Select reason
-</option>
-
-<option value="Product damaged">
-Product damaged hai
-</option>
-
-<option value="Wrong product">
-Wrong product mila
-</option>
-
-<option value="Product missing">
-Product missing hai
-</option>
-
-<option value="Quality issue">
-Quality / quality issue
-</option>
-
-<option value="Other">
-Other
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Additional Details
-</label>
-
-<textarea
-    id="returnDetails"
-    placeholder="Return ke baare mein details likhein..."></textarea>
-
-</div>
-
-
-<button
-    id="submitReturnButton"
-    class="submit-return-btn"
-    type="button">
-
-↩️ Return Request Submit Karein
-
-</button>
-
-
-<button
-    id="closeReturnButton"
-    class="close-btn"
-    type="button">
-
-Close
-
-</button>
-
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
 
 <script type="module">
 
 
-import {
+/* =========================================================
+   FIREBASE
+========================================================= */
 
+import {
     initializeApp
-
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
 import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
+import {
     getFirestore,
     collection,
     query,
     where,
     getDocs,
     doc,
-    updateDoc,
-    serverTimestamp
-
+    updateDoc
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-/* =====================================================
+/* =========================================================
    FIREBASE CONFIG
-===================================================== */
+========================================================= */
 
 const firebaseConfig = {
 
@@ -994,46 +745,27 @@ const firebaseConfig = {
 };
 
 
+
 const app =
-initializeApp(
-    firebaseConfig
-);
+initializeApp(firebaseConfig);
+
+
+const auth =
+getAuth(app);
 
 
 const db =
-getFirestore(
-    app
-);
+getFirestore(app);
 
 
 
-/* =====================================================
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
-const phoneInput =
+const loadingMessage =
 document.getElementById(
-    "customerPhone"
-);
-
-const trackButton =
-document.getElementById(
-    "trackButton"
-);
-
-const ordersBox =
-document.getElementById(
-    "ordersBox"
-);
-
-const ordersList =
-document.getElementById(
-    "ordersList"
-);
-
-const orderCount =
-document.getElementById(
-    "orderCount"
+    "loadingMessage"
 );
 
 const errorMessage =
@@ -1046,189 +778,100 @@ document.getElementById(
     "successMessage"
 );
 
-const loadingMessage =
+const loginRequired =
 document.getElementById(
-    "loadingMessage"
+    "loginRequired"
 );
 
-const returnModal =
+const customerArea =
 document.getElementById(
-    "returnModal"
+    "customerArea"
 );
 
-const returnModalOrderId =
+const customerEmail =
 document.getElementById(
-    "returnModalOrderId"
+    "customerEmail"
 );
 
-const returnReason =
+const ordersContainer =
 document.getElementById(
-    "returnReason"
+    "ordersContainer"
 );
 
-const returnDetails =
+const refreshBtn =
 document.getElementById(
-    "returnDetails"
-);
-
-const submitReturnButton =
-document.getElementById(
-    "submitReturnButton"
-);
-
-const closeReturnButton =
-document.getElementById(
-    "closeReturnButton"
+    "refreshBtn"
 );
 
 
 
-/* =====================================================
-   STATUS LIST
-===================================================== */
-
-const statuses = [
-
-    "New",
-
-    "Accepted",
-
-    "Preparing",
-
-    "Shipped",
-
-    "Delivered"
-
-];
+let currentUser = null;
 
 
 
-/* =====================================================
-   CURRENT RETURN ORDER
-===================================================== */
-
-let selectedReturnOrderId = "";
-
-
-
-/* =====================================================
+/* =========================================================
    MESSAGES
-===================================================== */
+========================================================= */
 
-function clearMessages(){
-
-    errorMessage.style.display =
-    "none";
-
-    successMessage.style.display =
-    "none";
+function hideMessages(){
 
     loadingMessage.style.display =
-    "none";
-
-}
-
-
-function showError(message){
-
-    clearMessages();
-
-    errorMessage.textContent =
-    "❌ " + message;
+        "none";
 
     errorMessage.style.display =
-    "block";
-
-}
-
-
-function showSuccess(message){
-
-    clearMessages();
-
-    successMessage.textContent =
-    "✅ " + message;
+        "none";
 
     successMessage.style.display =
-    "block";
+        "none";
+
+}
+
+
+function showLoading(text){
+
+    hideMessages();
+
+    loadingMessage.textContent =
+        text;
+
+    loadingMessage.style.display =
+        "block";
+
+}
+
+
+function showError(text){
+
+    hideMessages();
+
+    errorMessage.textContent =
+        "❌ " + text;
+
+    errorMessage.style.display =
+        "block";
+
+}
+
+
+function showSuccess(text){
+
+    hideMessages();
+
+    successMessage.textContent =
+        "✅ " + text;
+
+    successMessage.style.display =
+        "block";
 
 }
 
 
 
-/* =====================================================
-   DATE
-===================================================== */
+/* =========================================================
+   STATUS
+========================================================= */
 
-function formatDate(timestamp){
-
-    if(!timestamp){
-
-        return "Date available nahi hai";
-
-    }
-
-
-    try{
-
-        let date;
-
-
-        if(
-            typeof timestamp.toDate ===
-            "function"
-        ){
-
-            date =
-            timestamp.toDate();
-
-        }
-        else{
-
-            date =
-            new Date(timestamp);
-
-        }
-
-
-        if(
-            Number.isNaN(
-                date.getTime()
-            )
-        ){
-
-            return "Date available nahi hai";
-
-        }
-
-
-        return date.toLocaleString(
-            "en-IN",
-            {
-                day:"2-digit",
-                month:"short",
-                year:"numeric",
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        );
-
-    }
-    catch(error){
-
-        return "Date available nahi hai";
-
-    }
-
-}
-
-
-
-/* =====================================================
-   NORMALIZE STATUS
-===================================================== */
-
-function normalizeStatus(status){
+function cleanStatus(status){
 
     return String(
         status || "New"
@@ -1239,41 +882,44 @@ function normalizeStatus(status){
 }
 
 
-
-/* =====================================================
-   STATUS CLASS
-===================================================== */
-
 function getStatusClass(status){
 
-    const value =
-    normalizeStatus(
-        status
-    );
+    const s =
+        cleanStatus(status);
 
 
-    if(value === "new")
+    if(s === "new")
         return "status-new";
 
-    if(value === "accepted")
+
+    if(s === "accepted")
         return "status-accepted";
 
-    if(value === "preparing")
+
+    if(s === "preparing")
         return "status-preparing";
 
-    if(value === "shipped")
+
+    if(s === "shipped")
         return "status-shipped";
 
-    if(value === "delivered")
+
+    if(s === "delivered")
         return "status-delivered";
 
-    if(value === "cancelled")
-        return "status-cancelled";
 
     if(
-        value.includes("return")
+        s === "cancelled" ||
+        s === "canceled"
+    )
+        return "status-cancelled";
+
+
+    if(
+        s.includes("return")
     )
         return "status-return";
+
 
     return "status-new";
 
@@ -1281,1204 +927,749 @@ function getStatusClass(status){
 
 
 
-/* =====================================================
-   CAN CANCEL?
-===================================================== */
+/* =========================================================
+   CUSTOMER CANCEL RULE
+========================================================= */
 
-function canCancel(status){
+function canCustomerCancel(status){
 
-    const value =
-    normalizeStatus(
-        status
-    );
-
-
-    return [
-
-        "new",
-        "accepted",
-        "preparing"
-
-    ].includes(
-        value
-    );
-
-}
-
-
-
-/* =====================================================
-   CAN RETURN?
-===================================================== */
-
-function canReturn(status){
-
-    return normalizeStatus(
-        status
-    ) === "delivered";
-
-}
-
-
-
-/* =====================================================
-   RETURN ALREADY STARTED?
-===================================================== */
-
-function hasReturnRequest(data){
-
-    const returnStatus =
-    String(
-        data.returnStatus || ""
-    )
-    .trim();
+    const s =
+        cleanStatus(status);
 
 
     return (
-        returnStatus !== ""
+
+        s === "new" ||
+
+        s === "accepted" ||
+
+        s === "preparing"
+
     );
 
 }
 
 
 
-/* =====================================================
-   STATUS TRACKER
-===================================================== */
+/* =========================================================
+   CUSTOMER RETURN RULE
+========================================================= */
 
-function createStatusTracker(status){
+function canCustomerReturn(status){
 
-    const normalized =
-    normalizeStatus(
-        status
-    );
+    const s =
+        cleanStatus(status);
+
+
+    return s === "delivered";
+
+}
+
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function createProgress(status){
+
+    const s =
+        cleanStatus(status);
+
+
+    const steps = [
+
+        "new",
+
+        "accepted",
+
+        "preparing",
+
+        "shipped",
+
+        "delivered"
+
+    ];
 
 
     let currentIndex =
-    statuses.findIndex(
-        function(item){
-
-            return normalizeStatus(
-                item
-            ) === normalized;
-
-        }
-    );
+        steps.indexOf(s);
 
 
-    if(currentIndex < 0){
+    if(
+        s === "cancelled" ||
+        s === "canceled"
+    ){
 
-        currentIndex = 0;
+        currentIndex = -1;
 
     }
 
 
-    const wrapper =
-    document.createElement(
-        "div"
-    );
+    if(
+        s.includes("return")
+    ){
 
-    wrapper.className =
-    "status-tracker";
+        currentIndex = 4;
 
-
-    statuses.forEach(
-        function(statusName,index){
-
-            const step =
-            document.createElement(
-                "div"
-            );
-
-            step.className =
-            "status-step";
+    }
 
 
-            if(index < currentIndex){
+    const names = [
 
-                step.classList.add(
-                    "completed"
-                );
+        "New",
+
+        "Accepted",
+
+        "Preparing",
+
+        "Shipped",
+
+        "Delivered"
+
+    ];
+
+
+    let html =
+
+    `
+    <div class="progress-box">
+
+        <div class="progress-title">
+            📌 Order Progress
+        </div>
+
+        <div class="status-tracker">
+    `;
+
+
+    names.forEach(
+        function(name,index){
+
+            let className =
+                "status-step";
+
+
+            if(currentIndex >= 0){
+
+                if(
+                    index < currentIndex
+                ){
+
+                    className +=
+                        " completed";
+
+                }
+
+
+                else if(
+                    index === currentIndex
+                ){
+
+                    className +=
+                        " current";
+
+                }
 
             }
 
 
-            if(index === currentIndex){
+            html +=
 
-                step.classList.add(
-                    "current"
-                );
+            `
+            <div class="${className}">
 
-            }
+                <div class="status-circle">
+                    ${index + 1}
+                </div>
 
+                <div class="status-name">
+                    ${name}
+                </div>
 
-            const circle =
-            document.createElement(
-                "div"
-            );
+                <div class="status-line"></div>
 
-            circle.className =
-            "status-circle";
-
-            circle.textContent =
-            index + 1;
-
-
-            const name =
-            document.createElement(
-                "div"
-            );
-
-            name.className =
-            "status-name";
-
-            name.textContent =
-            statusName;
-
-
-            const line =
-            document.createElement(
-                "div"
-            );
-
-            line.className =
-            "status-line";
-
-
-            step.appendChild(
-                circle
-            );
-
-            step.appendChild(
-                name
-            );
-
-            step.appendChild(
-                line
-            );
-
-
-            wrapper.appendChild(
-                step
-            );
+            </div>
+            `;
 
         }
     );
 
 
-    return wrapper;
+    html +=
+
+    `
+        </div>
+    </div>
+    `;
+
+
+    return html;
 
 }
 
 
 
-/* =====================================================
-   SHOW ITEMS
-===================================================== */
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(timestamp){
+
+    if(!timestamp)
+        return "-";
+
+
+    try{
+
+        const date =
+            timestamp.toDate();
+
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric",
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+    }
+    catch(error){
+
+        return "-";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
 
 function createItems(items){
-
-    const wrapper =
-    document.createElement(
-        "div"
-    );
-
 
     if(
         !Array.isArray(items) ||
         items.length === 0
     ){
 
-        wrapper.textContent =
-        "Order items available nahi hain.";
-
-        return wrapper;
+        return `
+        <div class="no-orders">
+            Order items nahi mile.
+        </div>
+        `;
 
     }
+
+
+    let html = "";
 
 
     items.forEach(
         function(item){
 
-            const row =
-            document.createElement(
-                "div"
-            );
-
-            row.className =
-            "order-item";
-
-
-            const left =
-            document.createElement(
-                "div"
-            );
-
-
             const name =
-            document.createElement(
-                "div"
-            );
-
-            name.className =
-            "item-name";
-
-            name.textContent =
-            item.name ||
-            "Product";
-
-
-            const info =
-            document.createElement(
-                "div"
-            );
-
-            info.className =
-            "item-info";
-
-            info.textContent =
-
-                "Size: " +
-                (
-                    item.size ||
-                    "-"
-                ) +
-
-                " | Qty: " +
-
-                (
-                    Number(
-                        item.quantity
-                    ) || 1
+                escapeHtml(
+                    item.name ||
+                    "Product"
                 );
 
 
-            left.appendChild(
-                name
-            );
-
-            left.appendChild(
-                info
-            );
-
-
-            const price =
-            document.createElement(
-                "div"
-            );
-
-            price.className =
-            "item-price";
-
-
-            const itemPrice =
-            Number(
-                item.price
-            ) || 0;
+            const size =
+                escapeHtml(
+                    item.size ||
+                    "-"
+                );
 
 
             const quantity =
-            Math.max(
-                1,
                 Number(
                     item.quantity
-                ) || 1
-            );
+                ) || 1;
 
 
-            price.textContent =
-            "₹" +
-            Math.round(
-                itemPrice *
-                quantity
-            );
+            const price =
+                Number(
+                    item.price
+                ) || 0;
 
 
-            row.appendChild(
-                left
-            );
-
-            row.appendChild(
-                price
-            );
+            const itemTotal =
+                price * quantity;
 
 
-            wrapper.appendChild(
-                row
-            );
+            html +=
+
+            `
+            <div class="order-item">
+
+                <div>
+
+                    <div class="item-name">
+                        ${name}
+                    </div>
+
+                    <div class="item-info">
+                        Size: ${size}
+                    </div>
+
+                    <div class="item-info">
+                        Quantity: ${quantity}
+                    </div>
+
+                </div>
+
+                <div class="item-price">
+                    ₹${Math.round(itemTotal)}
+                </div>
+
+            </div>
+            `;
 
         }
     );
 
 
-    return wrapper;
+    return html;
 
 }
 
 
 
-/* =====================================================
-   CANCEL ORDER
-===================================================== */
-
-async function cancelOrder(
-    orderId,
-    status
-){
-
-    if(
-        !canCancel(
-            status
-        )
-    ){
-
-        showError(
-            "Is stage par order cancel nahi kiya ja sakta."
-        );
-
-        return;
-
-    }
-
-
-    const confirmCancel =
-    confirm(
-
-        "Kya aap Order ID " +
-        orderId +
-        " ko cancel karna chahte hain?"
-
-    );
-
-
-    if(!confirmCancel){
-
-        return;
-
-    }
-
-
-    try{
-
-        clearMessages();
-
-
-        loadingMessage.textContent =
-        "⏳ Order cancel ho raha hai...";
-
-
-        loadingMessage.style.display =
-        "block";
-
-
-        const orderRef =
-        doc(
-            db,
-            "orders",
-            orderId
-        );
-
-
-        await updateDoc(
-
-            orderRef,
-
-            {
-
-                status:
-                "Cancelled",
-
-                cancelledBy:
-                "Customer",
-
-                cancelledAt:
-                serverTimestamp()
-
-            }
-
-        );
-
-
-        showSuccess(
-            "Order successfully cancel kar diya gaya hai."
-        );
-
-
-        await loadOrders(
-            phoneInput.value.trim()
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "CANCEL ERROR:",
-            error
-        );
-
-
-        showError(
-
-            "Order cancel nahi hua. " +
-            "Firebase Rules check karein."
-
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   OPEN RETURN MODAL
-===================================================== */
-
-function openReturnModal(
-    orderId
-){
-
-    selectedReturnOrderId =
-    orderId;
-
-
-    returnModalOrderId.textContent =
-    "Order ID: " +
-    orderId;
-
-
-    returnReason.value =
-    "";
-
-
-    returnDetails.value =
-    "";
-
-
-    returnModal.style.display =
-    "block";
-
-}
-
-
-
-/* =====================================================
-   CLOSE RETURN MODAL
-===================================================== */
-
-function closeReturnModal(){
-
-    returnModal.style.display =
-    "none";
-
-
-    selectedReturnOrderId =
-    "";
-
-}
-
-
-
-/* =====================================================
-   SUBMIT RETURN
-===================================================== */
-
-async function submitReturn(){
-
-    if(
-        !selectedReturnOrderId
-    ){
-
-        showError(
-            "Order select nahi hua."
-        );
-
-        closeReturnModal();
-
-        return;
-
-    }
-
-
-    const reason =
-    returnReason.value.trim();
-
-
-    const details =
-    returnDetails.value.trim();
-
-
-    if(!reason){
-
-        alert(
-            "Please return reason select karein."
-        );
-
-        return;
-
-    }
-
-
-    const confirmed =
-    confirm(
-
-        "Kya aap is order ke liye return request submit karna chahte hain?"
-
-    );
-
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-
-    submitReturnButton.disabled =
-    true;
-
-
-    submitReturnButton.textContent =
-    "⏳ Submitting...";
-
-
-    try{
-
-        const orderRef =
-        doc(
-            db,
-            "orders",
-            selectedReturnOrderId
-        );
-
-
-        await updateDoc(
-
-            orderRef,
-
-            {
-
-                returnStatus:
-                "Return Requested",
-
-                returnReason:
-                reason,
-
-                returnDetails:
-                details,
-
-                returnRequestedAt:
-                serverTimestamp(),
-
-                returnRequestedBy:
-                "Customer"
-
-            }
-
-        );
-
-
-        closeReturnModal();
-
-
-        showSuccess(
-            "Return request successfully submit ho gayi hai."
-        );
-
-
-        await loadOrders(
-            phoneInput.value.trim()
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "RETURN ERROR:",
-            error
-        );
-
-
-        showError(
-
-            "Return request submit nahi hui. " +
-            "Firebase Rules check karein."
-
-        );
-
-    }
-    finally{
-
-        submitReturnButton.disabled =
-        false;
-
-
-        submitReturnButton.textContent =
-        "↩️ Return Request Submit Karein";
-
-    }
-
-}
-
-
-
-/* =====================================================
+/* =========================================================
    CREATE ORDER CARD
-===================================================== */
+========================================================= */
 
-function createOrderCard(
-    order
-){
+function createOrderCard(order){
 
     const data =
-    order.data;
+        order.data();
 
 
     const orderId =
-    order.id;
+        order.id;
 
 
     const status =
-    data.status ||
-    "New";
+        data.status ||
+        "New";
 
 
-    const card =
-    document.createElement(
-        "div"
-    );
-
-    card.className =
-    "order-card";
+    const normalizedStatus =
+        cleanStatus(status);
 
 
-    /* =================================================
-       TOP
-    ================================================= */
-
-    const top =
-    document.createElement(
-        "div"
-    );
-
-    top.className =
-    "order-top";
-
-
-    const idArea =
-    document.createElement(
-        "div"
-    );
-
-
-    const idText =
-    document.createElement(
-        "div"
-    );
-
-    idText.className =
-    "order-id";
-
-    idText.textContent =
-    "🧾 " + orderId;
-
-
-    const date =
-    document.createElement(
-        "div"
-    );
-
-    date.className =
-    "order-date";
-
-    date.textContent =
-    "📅 " +
-    formatDate(
-        data.createdAt
-    );
-
-
-    idArea.appendChild(
-        idText
-    );
-
-    idArea.appendChild(
-        date
-    );
-
-
-    const badge =
-    document.createElement(
-        "div"
-    );
-
-    badge.className =
-    "status-badge " +
-    getStatusClass(
-        status
-    );
-
-    badge.textContent =
-    status;
-
-
-    top.appendChild(
-        idArea
-    );
-
-    top.appendChild(
-        badge
-    );
-
-
-    card.appendChild(
-        top
-    );
-
-
-
-    /* =================================================
-       CUSTOMER
-    ================================================= */
-
-    const customer =
-    document.createElement(
-        "div"
-    );
-
-    customer.className =
-    "customer-info";
-
-
-    const customerName =
-    document.createElement(
-        "p"
-    );
-
-    customerName.innerHTML =
-    "<span class='customer-label'>Name:</span> " +
-    (
-        data.customerName ||
-        "-"
-    );
+    const name =
+        escapeHtml(
+            data.customerName ||
+            data.name ||
+            "-"
+        );
 
 
     const phone =
-    document.createElement(
-        "p"
-    );
+        escapeHtml(
+            data.customerPhone ||
+            data.phone ||
+            "-"
+        );
 
-    phone.innerHTML =
-    "<span class='customer-label'>Mobile:</span> " +
-    (
-        data.customerPhone ||
-        "-"
-    );
+
+    const address =
+        escapeHtml(
+            data.customerAddress ||
+            data.address ||
+            "-"
+        );
 
 
     const city =
-    document.createElement(
-        "p"
-    );
-
-    city.innerHTML =
-    "<span class='customer-label'>City:</span> " +
-    (
-        data.customerCity ||
-        "-"
-    );
-
-
-    customer.appendChild(
-        customerName
-    );
-
-    customer.appendChild(
-        phone
-    );
-
-    customer.appendChild(
-        city
-    );
-
-
-    card.appendChild(
-        customer
-    );
-
-
-
-    /* =================================================
-       STATUS TRACKER
-    ================================================= */
-
-    if(
-        normalizeStatus(
-            status
-        ) !== "cancelled"
-    ){
-
-        card.appendChild(
-            createStatusTracker(
-                status
-            )
+        escapeHtml(
+            data.customerCity ||
+            data.city ||
+            "-"
         );
 
-    }
+
+    const pin =
+        escapeHtml(
+            data.customerPin ||
+            data.pin ||
+            "-"
+        );
 
 
+    const payment =
+        escapeHtml(
+            data.paymentMethod ||
+            "Cash on Delivery"
+        );
 
-    /* =================================================
-       ITEMS
-    ================================================= */
-
-    const title =
-    document.createElement(
-        "div"
-    );
-
-    title.className =
-    "items-title";
-
-    title.textContent =
-    "🛒 Order Items";
-
-
-    card.appendChild(
-        title
-    );
-
-
-    card.appendChild(
-        createItems(
-            data.items || []
-        )
-    );
-
-
-
-    /* =================================================
-       TOTAL
-    ================================================= */
 
     const total =
-    document.createElement(
-        "div"
-    );
-
-    total.className =
-    "order-total";
-
-    total.textContent =
-    "Total: ₹" +
-    Math.round(
         Number(
             data.total
-        ) || 0
-    );
+        ) || 0;
 
 
-    card.appendChild(
-        total
-    );
+    let actionHtml = "";
 
 
 
-    /* =================================================
-       ACTION AREA
-    ================================================= */
-
-    const actionArea =
-    document.createElement(
-        "div"
-    );
-
-    actionArea.className =
-    "action-area";
-
-
-
-    /* =================================================
+    /* =====================================================
        CANCEL BUTTON
-    ================================================= */
+    ===================================================== */
 
     if(
-        canCancel(
-            status
-        )
+        canCustomerCancel(status)
     ){
 
-        const cancelButton =
-        document.createElement(
-            "button"
-        );
+        actionHtml +=
 
-        cancelButton.className =
-        "cancel-btn";
-
-        cancelButton.type =
-        "button";
-
-        cancelButton.textContent =
-        "❌ Cancel Order";
-
-
-        cancelButton.addEventListener(
-
-            "click",
-
-            function(){
-
-                cancelOrder(
-                    orderId,
-                    status
-                );
-
-            }
-
-        );
-
-
-        actionArea.appendChild(
-            cancelButton
-        );
-
-
-        const info =
-        document.createElement(
-            "div"
-        );
-
-        info.className =
-        "action-info";
-
-        info.textContent =
-        "Aap New, Accepted aur Preparing stage mein order cancel kar sakte hain.";
-
-        actionArea.appendChild(
-            info
-        );
-
-    }
-    else
-    if(
-        normalizeStatus(
-            status
-        ) === "shipped"
-    ){
-
-        const info =
-        document.createElement(
-            "div"
-        );
-
-        info.className =
-        "action-info";
-
-        info.textContent =
-        "🚚 Order shipped ho chuka hai, isliye ab customer cancellation nahi kar sakta.";
-
-        actionArea.appendChild(
-            info
-        );
-
-    }
-    else
-    if(
-        normalizeStatus(
-            status
-        ) === "cancelled"
-    ){
-
-        const info =
-        document.createElement(
-            "div"
-        );
-
-        info.className =
-        "action-info";
-
-        info.textContent =
-        "❌ Ye order cancel ho chuka hai.";
-
-        actionArea.appendChild(
-            info
-        );
+        `
+        <button
+            type="button"
+            class="action-btn cancel-btn"
+            data-action="cancel"
+            data-order-id="${escapeHtml(orderId)}"
+        >
+            ❌ Cancel Order
+        </button>
+        `;
 
     }
 
 
 
-    /* =================================================
-       RETURN
-    ================================================= */
+    /* =====================================================
+       RETURN BUTTON
+    ===================================================== */
 
     if(
-        canReturn(
-            status
-        )
+        canCustomerReturn(status)
     ){
 
-        if(
-            !hasReturnRequest(
-                data
-            )
-        ){
+        actionHtml +=
 
-            const returnButton =
-            document.createElement(
-                "button"
-            );
-
-            returnButton.className =
-            "return-btn";
-
-            returnButton.type =
-            "button";
-
-            returnButton.textContent =
-            "↩️ Return Order";
-
-
-            returnButton.addEventListener(
-
-                "click",
-
-                function(){
-
-                    openReturnModal(
-                        orderId
-                    );
-
-                }
-
-            );
-
-
-            actionArea.appendChild(
-                returnButton
-            );
-
-
-            const info =
-            document.createElement(
-                "div"
-            );
-
-            info.className =
-            "action-info";
-
-            info.textContent =
-            "Product delivered hone ke baad hi return request ki ja sakti hai.";
-
-            actionArea.appendChild(
-                info
-            );
-
-        }
+        `
+        <button
+            type="button"
+            class="action-btn return-btn"
+            data-action="return"
+            data-order-id="${escapeHtml(orderId)}"
+        >
+            🔄 Return Product
+        </button>
+        `;
 
     }
 
 
 
-    /* =================================================
+    /* =====================================================
+       CANCELLED MESSAGE
+    ===================================================== */
+
+    if(
+        normalizedStatus === "cancelled" ||
+        normalizedStatus === "canceled"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="cancelled-message">
+            ❌ Ye order cancel ho chuka hai.
+        </div>
+        `;
+
+    }
+
+
+
+    /* =====================================================
        RETURN STATUS
-    ================================================= */
+    ===================================================== */
 
     if(
-        hasReturnRequest(
-            data
-        )
+        normalizedStatus ===
+        "return requested"
     ){
 
-        const returnBox =
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            🔄 Return request submit ho chuki hai.
+            Admin request check karega.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "return approved"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return request approve ho gayi hai.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "return picked"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            📦 Return pickup process me hai.
+        </div>
+        `;
+
+    }
+
+
+    if(
+        normalizedStatus ===
+        "returned"
+    ){
+
+        actionHtml +=
+
+        `
+        <div class="return-message">
+            ✅ Return complete ho gaya hai.
+        </div>
+        `;
+
+    }
+
+
+
+    const card =
         document.createElement(
             "div"
         );
 
-        returnBox.className =
-        "return-status-box";
+
+    card.className =
+        "order-card";
 
 
-        const returnTitle =
-        document.createElement(
-            "div"
+    if(
+        normalizedStatus ===
+        "cancelled" ||
+        normalizedStatus ===
+        "canceled"
+    ){
+
+        card.classList.add(
+            "cancelled"
         );
 
-        returnTitle.className =
-        "return-status-title";
-
-        returnTitle.textContent =
-        "↩️ Return Status";
+    }
 
 
-        const returnText =
-        document.createElement(
-            "div"
-        );
+    if(
+        normalizedStatus.includes(
+            "return"
+        ) ||
+        normalizedStatus ===
+        "returned"
+    ){
 
-        returnText.className =
-        "return-status-text";
-
-
-        returnText.innerHTML =
-
-            "<strong>Status:</strong> " +
-
-            (
-                data.returnStatus ||
-                "Return Requested"
-            ) +
-
-            "<br><br>" +
-
-            "<strong>Reason:</strong> " +
-
-            (
-                data.returnReason ||
-                "-"
-            );
-
-
-        if(
-            data.returnDetails
-        ){
-
-            returnText.innerHTML +=
-
-                "<br><br><strong>Details:</strong> " +
-
-                data.returnDetails;
-
-        }
-
-
-        returnBox.appendChild(
-            returnTitle
-        );
-
-        returnBox.appendChild(
-            returnText
-        );
-
-
-        actionArea.appendChild(
-            returnBox
+        card.classList.add(
+            "returned"
         );
 
     }
 
 
 
-    if(
-        actionArea.children.length > 0
-    ){
+    card.innerHTML =
 
-        card.appendChild(
-            actionArea
-        );
+    `
+    <div class="order-header">
 
+        <div class="order-id">
+
+            🧾 Order ID:
+
+            <strong>
+                ${escapeHtml(orderId)}
+            </strong>
+
+            <br>
+
+            🕒 ${formatDate(
+                data.createdAt
+            )}
+
+        </div>
+
+
+        <div
+            class="status-badge
+            ${getStatusClass(status)}"
+        >
+
+            ${escapeHtml(status)}
+
+        </div>
+
+    </div>
+
+
+
+    <div class="customer-details">
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Name:
+            </span>
+
+            ${name}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Mobile:
+            </span>
+
+            ${phone}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Address:
+            </span>
+
+            ${address}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                City:
+            </span>
+
+            ${city}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                PIN:
+            </span>
+
+            ${pin}
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span class="detail-label">
+                Payment:
+            </span>
+
+            ${payment}
+
+        </div>
+
+    </div>
+
+
+
+    ${createProgress(status)}
+
+
+
+    <h3 class="items-title">
+        🛒 Order Items
+    </h3>
+
+
+    <div>
+
+        ${createItems(
+            data.items
+        )}
+
+    </div>
+
+
+    <div class="total">
+
+        Total:
+        ₹${Math.round(total)}
+
+    </div>
+
+
+
+    ${
+        actionHtml
+        ?
+        `
+        <div class="action-area">
+
+            ${actionHtml}
+
+        </div>
+        `
+        :
+        ""
     }
+
+    `;
 
 
     return card;
@@ -2487,174 +1678,132 @@ function createOrderCard(
 
 
 
-/* =====================================================
-   LOAD ALL ORDERS
-===================================================== */
+/* =========================================================
+   LOAD ORDERS
+========================================================= */
 
-async function loadOrders(
-    phone
-){
+async function loadOrders(){
 
-    clearMessages();
-
-
-    ordersBox.style.display =
-    "none";
-
-
-    ordersList.innerHTML =
-    "";
-
-
-    if(
-        !/^[0-9]{10}$/.test(
-            phone
-        )
-    ){
-
-        showError(
-            "Please valid 10 digit mobile number likhein."
-        );
+    if(!currentUser){
 
         return;
 
     }
 
 
-    trackButton.disabled =
-    true;
+    showLoading(
+        "⏳ Aapke saare orders load ho rahe hain..."
+    );
 
 
-    trackButton.textContent =
-    "⏳ Searching...";
-
-
-    loadingMessage.textContent =
-    "⏳ Aapke saare orders search ho rahe hain...";
-
-
-    loadingMessage.style.display =
-    "block";
+    ordersContainer.innerHTML = "";
 
 
     try{
 
-        const ordersRef =
-        collection(
-            db,
-            "orders"
-        );
+        /*
+        IMPORTANT:
 
+        Ye customer ke account ke UID
+        wale orders search karega.
+        */
 
         const ordersQuery =
-        query(
+            query(
+                collection(
+                    db,
+                    "orders"
+                ),
 
-            ordersRef,
-
-            where(
-                "customerPhone",
-                "==",
-                phone
-            )
-
-        );
+                where(
+                    "uid",
+                    "==",
+                    currentUser.uid
+                )
+            );
 
 
         const snapshot =
-        await getDocs(
-            ordersQuery
-        );
+            await getDocs(
+                ordersQuery
+            );
 
 
         const orders = [];
 
 
         snapshot.forEach(
-            function(docSnap){
+            function(order){
 
-                orders.push({
-
-                    id:
-                    docSnap.id,
-
-                    data:
-                    docSnap.data()
-
-                });
+                orders.push(order);
 
             }
         );
 
 
-        /* =================================================
-           SORT LATEST FIRST
-        ================================================= */
+        /* NEWEST ORDER FIRST */
 
         orders.sort(
             function(a,b){
 
                 const aTime =
-                a.data.createdAt &&
-                typeof a.data.createdAt.toMillis ===
-                "function"
-
-                ?
-                a.data.createdAt.toMillis()
-
-                :
-                0;
-
+                    a.data().createdAt;
 
                 const bTime =
-                b.data.createdAt &&
-                typeof b.data.createdAt.toMillis ===
-                "function"
-
-                ?
-                b.data.createdAt.toMillis()
-
-                :
-                0;
+                    b.data().createdAt;
 
 
-                return bTime - aTime;
+                if(
+                    !aTime ||
+                    !bTime
+                ){
+
+                    return 0;
+
+                }
+
+
+                return (
+                    bTime.toMillis()
+                    -
+                    aTime.toMillis()
+                );
 
             }
         );
 
+
+        hideMessages();
 
 
         if(
             orders.length === 0
         ){
 
-            ordersBox.style.display =
-            "block";
+            ordersContainer.innerHTML =
+
+            `
+            <div class="box no-orders">
+
+                <h2>
+                    📦 Abhi koi order nahi mila
+                </h2>
+
+                <p>
+                    Is account se abhi koi order
+                    place nahi hua hai.
+                </p>
 
 
-            orderCount.textContent =
-            "0 Orders";
+                <a
+                    href="products.html"
+                    class="shop-btn"
+                >
+                    🛒 Order Now
+                </a>
 
-
-            ordersList.innerHTML = `
-
-                <div class="empty-orders">
-
-                    <h3>
-                        📦 Koi order nahi mila
-                    </h3>
-
-                    <p>
-                        Is mobile number se abhi koi order nahi mila.
-                    </p>
-
-                </div>
-
+            </div>
             `;
-
-
-            clearMessages();
-
 
             return;
 
@@ -2662,50 +1811,18 @@ async function loadOrders(
 
 
 
-        /* =================================================
-           SHOW ORDERS
-        ================================================= */
-
         orders.forEach(
             function(order){
 
-                ordersList.appendChild(
-
-                    createOrderCard(
-                        order
-                    )
-
+                ordersContainer.appendChild(
+                    createOrderCard(order)
                 );
 
             }
         );
 
 
-        orderCount.textContent =
-        orders.length +
-        (
-            orders.length === 1
-            ?
-            " Order"
-            :
-            " Orders"
-        );
-
-
-        ordersBox.style.display =
-        "block";
-
-
-        clearMessages();
-
-
-        ordersBox.scrollIntoView({
-
-            behavior:"smooth",
-
-            block:"start"
-
-        });
+        attachActionButtons();
 
     }
     catch(error){
@@ -2717,21 +1834,8 @@ async function loadOrders(
 
 
         showError(
-
-            "Orders load nahi hue. " +
-            "Firebase Firestore Rules check karein."
-
+            "Orders load nahi ho pa rahe. Firebase Rules check karein."
         );
-
-    }
-    finally{
-
-        trackButton.disabled =
-        false;
-
-
-        trackButton.textContent =
-        "🔍 Mere Saare Orders Dikhao";
 
     }
 
@@ -2739,186 +1843,326 @@ async function loadOrders(
 
 
 
-/* =====================================================
-   TRACK BUTTON
-===================================================== */
+/* =========================================================
+   CANCEL ORDER
+========================================================= */
 
-trackButton.addEventListener(
+async function cancelOrder(orderId){
 
-    "click",
+    if(!currentUser){
 
-    function(){
+        showError(
+            "Pehle login karein."
+        );
 
-        loadOrders(
-            phoneInput.value.trim()
+        return;
+
+    }
+
+
+    const confirmCancel =
+        confirm(
+            "Kya aap is order ko cancel karna chahte hain?"
+        );
+
+
+    if(!confirmCancel){
+
+        return;
+
+    }
+
+
+    showLoading(
+        "⏳ Order cancel ho raha hai..."
+    );
+
+
+    try{
+
+        const orderRef =
+            doc(
+                db,
+                "orders",
+                orderId
+            );
+
+
+        await updateDoc(
+            orderRef,
+            {
+
+                status:
+                    "Cancelled",
+
+                cancelledBy:
+                    "customer",
+
+                cancelledAt:
+                    new Date()
+
+            }
+        );
+
+
+        showSuccess(
+            "Order successfully cancel ho gaya."
+        );
+
+
+        await loadOrders();
+
+    }
+    catch(error){
+
+        console.error(
+            "CANCEL ERROR:",
+            error
+        );
+
+
+        showError(
+            "Order cancel nahi hua. Firebase Rules check karein."
         );
 
     }
 
-);
+}
 
 
 
-/* =====================================================
-   PHONE INPUT
-===================================================== */
+/* =========================================================
+   RETURN ORDER
+========================================================= */
 
-phoneInput.addEventListener(
+async function returnOrder(orderId){
 
-    "input",
+    if(!currentUser){
 
-    function(){
+        showError(
+            "Pehle login karein."
+        );
 
-        this.value =
-        this.value
-        .replace(
-            /[^0-9]/g,
-            ""
-        )
-        .slice(
-            0,
-            10
+        return;
+
+    }
+
+
+    const confirmReturn =
+        confirm(
+            "Kya aap is delivered product ko return karna chahte hain?"
+        );
+
+
+    if(!confirmReturn){
+
+        return;
+
+    }
+
+
+    const reason =
+        prompt(
+            "Return ka reason likhein:"
+        );
+
+
+    if(
+        reason === null ||
+        !reason.trim()
+    ){
+
+        return;
+
+    }
+
+
+    showLoading(
+        "⏳ Return request submit ho rahi hai..."
+    );
+
+
+    try{
+
+        const orderRef =
+            doc(
+                db,
+                "orders",
+                orderId
+            );
+
+
+        await updateDoc(
+            orderRef,
+            {
+
+                status:
+                    "Return Requested",
+
+                returnRequestedBy:
+                    "customer",
+
+                returnReason:
+                    reason.trim(),
+
+                returnRequestedAt:
+                    new Date()
+
+            }
+        );
+
+
+        showSuccess(
+            "Return request successfully submit ho gayi."
+        );
+
+
+        await loadOrders();
+
+    }
+    catch(error){
+
+        console.error(
+            "RETURN ERROR:",
+            error
+        );
+
+
+        showError(
+            "Return request submit nahi hui. Firebase Rules check karein."
         );
 
     }
 
-);
+}
 
 
 
-/* =====================================================
-   ENTER KEY
-===================================================== */
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
 
-phoneInput.addEventListener(
+function attachActionButtons(){
 
-    "keydown",
+    const buttons =
+        document.querySelectorAll(
+            "[data-action]"
+        );
 
-    function(event){
 
-        if(
-            event.key ===
-            "Enter"
-        ){
+    buttons.forEach(
+        function(button){
 
-            event.preventDefault();
+            button.addEventListener(
+                "click",
+                function(){
 
-            loadOrders(
-                phoneInput.value.trim()
+                    const action =
+                        button.dataset.action;
+
+
+                    const orderId =
+                        button.dataset.orderId;
+
+
+                    if(
+                        action === "cancel"
+                    ){
+
+                        cancelOrder(
+                            orderId
+                        );
+
+                    }
+
+
+                    if(
+                        action === "return"
+                    ){
+
+                        returnOrder(
+                            orderId
+                        );
+
+                    }
+
+                }
             );
 
         }
-
-    }
-
-);
-
-
-
-/* =====================================================
-   RETURN BUTTON
-===================================================== */
-
-submitReturnButton.addEventListener(
-
-    "click",
-
-    submitReturn
-
-);
-
-
-closeReturnButton.addEventListener(
-
-    "click",
-
-    closeReturnModal
-
-);
-
-
-
-/* =====================================================
-   CLICK OUTSIDE MODAL
-===================================================== */
-
-returnModal.addEventListener(
-
-    "click",
-
-    function(event){
-
-        if(
-            event.target ===
-            returnModal
-        ){
-
-            closeReturnModal();
-
-        }
-
-    }
-
-);
-
-
-
-/* =====================================================
-   URL ORDER ID SUPPORT
-===================================================== */
-
-const urlParams =
-new URLSearchParams(
-    window.location.search
-);
-
-
-const urlOrderId =
-urlParams.get(
-    "orderId"
-);
-
-
-const urlPhone =
-urlParams.get(
-    "phone"
-);
-
-
-if(
-    urlPhone &&
-    /^[0-9]{10}$/.test(
-        urlPhone
-    )
-){
-
-    phoneInput.value =
-    urlPhone;
-
-}
-
-
-/* =====================================================
-   AUTO SEARCH WHEN PHONE EXISTS
-===================================================== */
-
-if(
-    urlPhone &&
-    /^[0-9]{10}$/.test(
-        urlPhone
-    )
-){
-
-    loadOrders(
-        urlPhone
     );
 
 }
 
 
-console.log(
-    "Sweety Masala Track Orders loaded."
+
+/* =========================================================
+   LOGIN STATE
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        currentUser =
+            user;
+
+
+        if(!user){
+
+            hideMessages();
+
+
+            customerArea.style.display =
+                "none";
+
+
+            loginRequired.style.display =
+                "block";
+
+
+            return;
+
+        }
+
+
+        loginRequired.style.display =
+            "none";
+
+
+        customerArea.style.display =
+            "block";
+
+
+        customerEmail.textContent =
+            user.email ||
+            "Customer";
+
+
+        await loadOrders();
+
+    }
 );
+
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshBtn.addEventListener(
+    "click",
+    function(){
+
+        if(currentUser){
+
+            loadOrders();
+
+        }
+
+    }
+);
+
 
 </script>
 

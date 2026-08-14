@@ -484,6 +484,40 @@ header h1{
     background:#333;
 }
 
+
+/* =====================================================
+   DELETE ORDER BUTTON
+===================================================== */
+
+.delete-order-btn{
+    margin-top:15px;
+    padding:11px 16px;
+    border:none;
+    border-radius:8px;
+    background:#d00000;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.delete-order-btn:hover{
+    background:#a00000;
+}
+
+.delete-order-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.delete-message{
+    margin-left:10px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+
+
 @media(max-width:700px){
 
     header{
@@ -540,6 +574,17 @@ header h1{
 
     .status-save-btn{
         width:100%;
+    }
+
+    .delete-order-btn{
+        width:100%;
+        margin-top:15px;
+    }
+
+    .delete-message{
+        display:block;
+        margin-left:0;
+        margin-top:8px;
     }
 
 }
@@ -1468,92 +1513,345 @@ function renderSizeList(
 ===================================================== */
 
 function sizeToKgForAdmin(size){
-    const s = String(size || "").toUpperCase().trim();
 
-    // Longest / more specific units first.
-    let match = s.match(/(\d+(?:\.\d+)?)\s*KG/);
-    if(match) return Number(match[1]);
+    const s =
+    String(
+        size || ""
+    )
+    .toUpperCase()
+    .trim();
 
-    match = s.match(/(\d+(?:\.\d+)?)\s*GM/);
-    if(match) return Number(match[1]) / 1000;
 
-    match = s.match(/(\d+(?:\.\d+)?)\s*G/);
-    if(match) return Number(match[1]) / 1000;
+    let match =
+    s.match(
+        /(\d+(?:\.\d+)?)\s*KG/
+    );
+
+
+    if(
+        match
+    ){
+
+        return Number(
+            match[1]
+        );
+
+    }
+
+
+    match =
+    s.match(
+        /(\d+(?:\.\d+)?)\s*GM/
+    );
+
+
+    if(
+        match
+    ){
+
+        return Number(
+            match[1]
+        ) / 1000;
+
+    }
+
+
+    match =
+    s.match(
+        /(\d+(?:\.\d+)?)\s*G/
+    );
+
+
+    if(
+        match
+    ){
+
+        return Number(
+            match[1]
+        ) / 1000;
+
+    }
+
 
     return null;
+
 }
 
-function makeLegacySizePrices(sizes, basePrice){
-    const result = {};
-    const base = Number(basePrice);
 
-    if(!Number.isFinite(base) || base < 0) return result;
 
-    sizes.forEach(function(size){
-        const kg = sizeToKgForAdmin(size);
-        if(kg !== null){
-            result[size] = Math.round(base * kg);
+function makeLegacySizePrices(
+    sizes,
+    basePrice
+){
+
+    const result =
+    {};
+
+    const base =
+    Number(
+        basePrice
+    );
+
+
+    if(
+        !Number.isFinite(
+            base
+        ) ||
+        base < 0
+    ){
+
+        return result;
+
+    }
+
+
+    sizes.forEach(
+        function(size){
+
+            const kg =
+            sizeToKgForAdmin(
+                size
+            );
+
+
+            if(
+                kg !== null
+            ){
+
+                result[size] =
+                Math.round(
+                    base * kg
+                );
+
+            }
+
         }
-    });
+    );
+
 
     return result;
+
 }
 
-function normalizeSizePrices(value){
-    if(!value || typeof value !== "object" || Array.isArray(value)){
+
+
+function normalizeSizePrices(
+    value
+){
+
+    if(
+        !value ||
+        typeof value !== "object" ||
+        Array.isArray(value)
+    ){
+
         return {};
+
     }
 
-    const result = {};
 
-    Object.keys(value).forEach(function(size){
-        const price = Number(value[size]);
-        if(Number.isFinite(price) && price >= 0){
-            result[String(size).trim()] = Math.round(price);
+    const result =
+    {};
+
+
+    Object.keys(
+        value
+    )
+    .forEach(
+        function(size){
+
+            const price =
+            Number(
+                value[size]
+            );
+
+
+            if(
+                Number.isFinite(
+                    price
+                ) &&
+                price >= 0
+            ){
+
+                result[
+                    String(
+                        size
+                    ).trim()
+                ] =
+                Math.round(
+                    price
+                );
+
+            }
+
         }
-    });
+    );
+
 
     return result;
+
 }
 
-function renderSizePriceList(container, sizes, sizePrices){
-    container.innerHTML = "";
 
-    if(!sizes.length){
-        container.innerHTML = '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+
+function renderSizePriceList(
+    container,
+    sizes,
+    sizePrices
+){
+
+    container.innerHTML =
+    "";
+
+
+    if(
+        !sizes.length
+    ){
+
+        container.innerHTML =
+        '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+
         return;
+
     }
 
-    sizes.forEach(function(size){
-        const row = document.createElement("div");
-        row.className = "size-price-row";
 
-        const label = document.createElement("span");
-        label.className = "size-price-label";
-        label.textContent = size;
+    sizes.forEach(
+        function(size){
 
-        const current = document.createElement("span");
-        current.className = "size-price-current";
-        const currentPrice = sizePrices[size];
-        current.textContent = Number.isFinite(Number(currentPrice)) ? "₹" + Math.round(Number(currentPrice)) : "Not set";
+            const row =
+            document.createElement(
+                "div"
+            );
 
-        const input = document.createElement("input");
-        input.type = "number";
-        input.min = "0";
-        input.step = "1";
-        input.className = "size-price-input";
-        input.placeholder = "Price";
-        if(Number.isFinite(Number(currentPrice))){
-            input.value = Math.round(Number(currentPrice));
+
+            row.className =
+            "size-price-row";
+
+
+            const label =
+            document.createElement(
+                "span"
+            );
+
+
+            label.className =
+            "size-price-label";
+
+
+            label.textContent =
+            size;
+
+
+            const current =
+            document.createElement(
+                "span"
+            );
+
+
+            current.className =
+            "size-price-current";
+
+
+            const currentPrice =
+            sizePrices[
+                size
+            ];
+
+
+            current.textContent =
+            Number.isFinite(
+                Number(
+                    currentPrice
+                )
+            )
+
+            ?
+
+            "₹" +
+            Math.round(
+                Number(
+                    currentPrice
+                )
+            )
+
+            :
+
+            "Not set";
+
+
+            const input =
+            document.createElement(
+                "input"
+            );
+
+
+            input.type =
+            "number";
+
+
+            input.min =
+            "0";
+
+
+            input.step =
+            "1";
+
+
+            input.className =
+            "size-price-input";
+
+
+            input.placeholder =
+            "Price";
+
+
+            if(
+                Number.isFinite(
+                    Number(
+                        currentPrice
+                    )
+                )
+            ){
+
+                input.value =
+                Math.round(
+                    Number(
+                        currentPrice
+                    )
+                );
+
+            }
+
+
+            input.dataset.size =
+            size;
+
+
+            row.appendChild(
+                label
+            );
+
+
+            row.appendChild(
+                current
+            );
+
+
+            row.appendChild(
+                input
+            );
+
+
+            container.appendChild(
+                row
+            );
+
         }
-        input.dataset.size = size;
+    );
 
-        row.appendChild(label);
-        row.appendChild(current);
-        row.appendChild(input);
-        container.appendChild(row);
-    });
 }
+
 
 
 /* =====================================================
@@ -1590,8 +1888,10 @@ document
             message.textContent =
             "Password likhein.";
 
+
             message.style.color =
             "#a00000";
+
 
             return;
 
@@ -1831,18 +2131,10 @@ async function loadProducts(){
 
 
 
-    /* ==============================================
-       RESET LIST
-    ============================================== */
-
     list.innerHTML =
     "";
 
 
-
-    /* ==============================================
-       RENDER PRODUCTS
-    ============================================== */
 
     for(
         const product of products
@@ -2002,8 +2294,7 @@ async function loadProducts(){
 
             <button
                 type="button"
-                class="stock-btn
-                ${stock ? "in-stock" : "out-stock"}"
+                class="stock-btn ${stock ? "in-stock" : "out-stock"}"
             >
 
                 ${
@@ -2017,10 +2308,6 @@ async function loadProducts(){
         `;
 
 
-
-        /* ==============================================
-           ELEMENTS
-        ============================================== */
 
         const priceValue =
         row.querySelector(
@@ -2077,9 +2364,7 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           CURRENT PRICE
-        ============================================== */
+        /* CURRENT PRICE */
 
         if(
             data &&
@@ -2124,9 +2409,7 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           SIZES
-        ============================================== */
+        /* SIZES */
 
         let productSizes =
         normalizeSizes(
@@ -2148,18 +2431,22 @@ async function loadProducts(){
         );
 
 
-        // Old products me agar sizePrices nahi hai, to existing 1 KG/base price
-        // se temporary legacy prices dikha do. Admin baad me exact prices save kar sakta hai.
+
         if(
-            Object.keys(sizePrices).length === 0 &&
+            Object.keys(
+                sizePrices
+            ).length === 0 &&
             data &&
             data.price !== undefined &&
             data.price !== null
         ){
-            sizePrices = makeLegacySizePrices(
+
+            sizePrices =
+            makeLegacySizePrices(
                 productSizes,
                 data.price
             );
+
         }
 
 
@@ -2177,9 +2464,7 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           ADD SIZE
-        ============================================== */
+        /* ADD SIZE */
 
         sizeAddButton.addEventListener(
             "click",
@@ -2244,6 +2529,7 @@ async function loadProducts(){
                     productSizes
                 );
 
+
                 renderSizePriceList(
                     sizePriceList,
                     productSizes,
@@ -2255,9 +2541,7 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           ENTER = ADD SIZE
-        ============================================== */
+        /* ENTER = ADD SIZE */
 
         sizeInput.addEventListener(
             "keydown",
@@ -2279,79 +2563,173 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           SAVE SIZES & PRICES
-        ============================================== */
+        /* SAVE SIZES & PRICES */
 
         sizeSaveButton.addEventListener(
             "click",
             async function(){
 
-                if(!productSizes.length){
+                if(
+                    !productSizes.length
+                ){
+
                     alert(
                         "Kam se kam ek size hona chahiye."
                     );
+
                     return;
+
                 }
+
 
                 const inputs =
                 sizePriceList.querySelectorAll(
                     ".size-price-input"
                 );
 
-                const newSizePrices = {};
-                let invalid = false;
-                let invalidSize = "";
 
-                inputs.forEach(function(input){
-                    const size = input.dataset.size;
-                    const value = Number(input.value);
+                const newSizePrices =
+                {};
 
-                    if(
-                        !Number.isFinite(value) ||
-                        value < 0
-                    ){
-                        invalid = true;
-                        invalidSize = size;
-                        return;
+
+                let invalid =
+                false;
+
+
+                let invalidSize =
+                "";
+
+
+                inputs.forEach(
+                    function(input){
+
+                        const size =
+                        input.dataset.size;
+
+
+                        const value =
+                        Number(
+                            input.value
+                        );
+
+
+                        if(
+
+                            !Number.isFinite(
+                                value
+                            ) ||
+
+                            value < 0
+
+                        ){
+
+                            invalid =
+                            true;
+
+
+                            invalidSize =
+                            size;
+
+
+                            return;
+
+                        }
+
+
+                        newSizePrices[size] =
+                        Math.round(
+                            value
+                        );
+
                     }
+                );
 
-                    newSizePrices[size] = Math.round(value);
-                });
 
-                if(invalid || Object.keys(newSizePrices).length !== productSizes.length){
+                if(
+
+                    invalid ||
+
+                    Object.keys(
+                        newSizePrices
+                    ).length !==
+                    productSizes.length
+
+                ){
+
                     alert(
                         "Har size ke saamne valid price likhein. Example: 25 KG = 3800"
                     );
+
                     return;
+
                 }
 
-                sizeSaveButton.disabled = true;
-                sizeSaveButton.textContent = "⏳ Saving...";
+
+                sizeSaveButton.disabled =
+                true;
+
+
+                sizeSaveButton.textContent =
+                "⏳ Saving...";
+
 
                 try{
+
                     await setDoc(
+
                         doc(
                             db,
                             "products",
                             product.id
                         ),
+
                         {
-                            name: product.name,
-                            sizes: productSizes,
-                            sizePrices: newSizePrices,
-                            // 1 KG price ko old 'price' field me bhi rakhein,
-                            // taaki purana website/base break na ho.
-                            price: newSizePrices["1 KG"] !== undefined
-                                ? newSizePrices["1 KG"]
-                                : (data && data.price !== undefined ? Number(data.price) : 0)
+
+                            name:
+                            product.name,
+
+                            sizes:
+                            productSizes,
+
+                            sizePrices:
+                            newSizePrices,
+
+                            price:
+                            newSizePrices["1 KG"] !== undefined
+
+                            ?
+
+                            newSizePrices["1 KG"]
+
+                            :
+
+                            (
+                                data &&
+                                data.price !== undefined
+
+                                ?
+
+                                Number(
+                                    data.price
+                                )
+
+                                :
+
+                                0
+                            )
+
                         },
+
                         {
                             merge:true
                         }
+
                     );
 
-                    sizePrices = newSizePrices;
+
+                    sizePrices =
+                    newSizePrices;
+
 
                     renderSizePriceList(
                         sizePriceList,
@@ -2359,36 +2737,56 @@ async function loadProducts(){
                         sizePrices
                     );
 
-                    if(newSizePrices["1 KG"] !== undefined){
-                        priceValue.textContent = Math.round(newSizePrices["1 KG"]);
+
+                    if(
+                        newSizePrices["1 KG"] !==
+                        undefined
+                    ){
+
+                        priceValue.textContent =
+                        Math.round(
+                            newSizePrices["1 KG"]
+                        );
+
                     }
+
 
                     alert(
                         "✅ " +
                         product.name +
                         " ke sizes aur prices successfully save ho gaye."
                     );
+
                 }
+
                 catch(error){
+
                     console.error(
                         "Size/price update error:",
                         error
                     );
 
+
                     alert(
                         "❌ Sizes/prices save nahi hue. Firebase Firestore Rules check karein."
                     );
+
                 }
 
-                sizeSaveButton.disabled = false;
-                sizeSaveButton.textContent = "💾 Save Sizes & Prices";
+
+                sizeSaveButton.disabled =
+                false;
+
+
+                sizeSaveButton.textContent =
+                "💾 Save Sizes & Prices";
+
             }
         );
 
 
-        /* ==============================================
-           SAVE PRICE
-        ============================================== */
+
+        /* SAVE PRICE */
 
         priceSaveButton.addEventListener(
             "click",
@@ -2401,10 +2799,13 @@ async function loadProducts(){
 
 
                 if(
+
                     !Number.isFinite(
                         newPrice
                     ) ||
+
                     newPrice < 0
+
                 ){
 
                     alert(
@@ -2496,9 +2897,7 @@ async function loadProducts(){
 
 
 
-        /* ==============================================
-           STOCK
-        ============================================== */
+        /* STOCK */
 
         stockButton.addEventListener(
             "click",
@@ -2525,9 +2924,7 @@ async function loadProducts(){
 
 
 
-    /* ==============================================
-       STATISTICS
-    ============================================== */
+    /* STATISTICS */
 
     document
     .getElementById(
@@ -2601,13 +2998,17 @@ async function toggleStock(
 
             newStock
 
-            ? "✅ " +
-              product.name +
-              " In Stock ho gaya."
+            ?
 
-            : "❌ " +
-              product.name +
-              " Out of Stock ho gaya."
+            "✅ " +
+            product.name +
+            " In Stock ho gaya."
+
+            :
+
+            "❌ " +
+            product.name +
+            " Out of Stock ho gaya."
 
         );
 
@@ -2692,12 +3093,33 @@ async function loadOrders(){
         "";
 
 
+        let visibleOrders =
+        0;
+
+
 
         snapshot.forEach(
             function(order){
 
                 const data =
                 order.data();
+
+
+                /* =================================================
+                   IMPORTANT:
+                   ADMIN-DELETED ORDER KO PANEL ME MAT DIKHAO
+                ================================================= */
+
+                if(
+                    data.adminDeleted === true
+                ){
+
+                    return;
+
+                }
+
+
+                visibleOrders++;
 
 
                 const div =
@@ -2711,18 +3133,19 @@ async function loadOrders(){
 
 
 
-                /* ======================================
-                   DATE
-                ====================================== */
+                /* DATE */
 
                 let orderDate =
                 "Date unavailable";
 
 
                 if(
+
                     data.createdAt &&
+
                     typeof data.createdAt.toDate ===
                     "function"
+
                 ){
 
                     orderDate =
@@ -2736,34 +3159,37 @@ async function loadOrders(){
 
 
 
-                /* ======================================
-                   STATUS
-                ====================================== */
+                /* STATUS */
 
                 const currentStatus =
                 ORDER_STATUSES.includes(
                     data.status
                 )
 
-                ? data.status
+                ?
 
-                : "New";
+                data.status
+
+                :
+
+                "New";
 
 
 
-                /* ======================================
-                   ITEMS
-                ====================================== */
+                /* ITEMS */
 
                 let itemsHTML =
                 "";
 
 
                 if(
+
                     Array.isArray(
                         data.items
                     ) &&
+
                     data.items.length
+
                 ){
 
                     data.items.forEach(
@@ -2845,9 +3271,7 @@ async function loadOrders(){
 
 
 
-                /* ======================================
-                   ORDER HTML
-                ====================================== */
+                /* ORDER HTML */
 
                 div.innerHTML = `
 
@@ -3017,13 +3441,34 @@ async function loadOrders(){
 
                     </div>
 
+
+                    <!-- ==========================================
+                         DELETE ORDER
+                    =========================================== -->
+
+                    <div>
+
+                        <button
+                            type="button"
+                            class="delete-order-btn"
+                        >
+
+                            🗑️ Delete Order From Admin Panel
+
+                        </button>
+
+
+                        <span
+                            class="delete-message"
+                        ></span>
+
+                    </div>
+
                 `;
 
 
 
-                /* ======================================
-                   STATUS ELEMENTS
-                ====================================== */
+                /* STATUS ELEMENTS */
 
                 const statusSelect =
                 div.querySelector(
@@ -3044,9 +3489,7 @@ async function loadOrders(){
 
 
 
-                /* ======================================
-                   SAVE STATUS
-                ====================================== */
+                /* SAVE STATUS */
 
                 statusSaveButton.addEventListener(
                     "click",
@@ -3151,12 +3594,211 @@ async function loadOrders(){
 
 
 
+                /* =================================================
+                   DELETE ORDER
+                ================================================= */
+
+                const deleteOrderButton =
+                div.querySelector(
+                    ".delete-order-btn"
+                );
+
+
+                const deleteMessage =
+                div.querySelector(
+                    ".delete-message"
+                );
+
+
+                deleteOrderButton.addEventListener(
+                    "click",
+                    async function(){
+
+                        const customerName =
+                        data.customerName ||
+                        data.name ||
+                        "Customer";
+
+
+                        const confirmDelete =
+                        confirm(
+
+                            "⚠️ Kya aap is order ko Admin Panel se hide karna chahte hain?\n\n" +
+
+                            "Order ID: " +
+                            order.id +
+                            "\n" +
+
+                            "Customer: " +
+                            customerName +
+                            "\n\n" +
+
+                            "Order Admin Panel se remove ho jayega."
+
+                        );
+
+
+                        if(
+                            !confirmDelete
+                        ){
+
+                            return;
+
+                        }
+
+
+                        deleteOrderButton.disabled =
+                        true;
+
+
+                        deleteOrderButton.textContent =
+                        "⏳ Deleting...";
+
+
+                        deleteMessage.textContent =
+                        "";
+
+
+                        try{
+
+                            /* ======================================
+                               SAFE SOFT DELETE
+
+                               Firestore document delete nahi kar rahe.
+                               Sirf adminDeleted = true set kar rahe hain.
+                            ====================================== */
+
+                            await setDoc(
+
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+
+                                {
+
+                                    adminDeleted:
+                                    true,
+
+                                    adminDeletedAt:
+                                    new Date()
+
+                                },
+
+                                {
+
+                                    merge:true
+
+                                }
+
+                            );
+
+
+                            deleteMessage.textContent =
+                            "✅ Order deleted";
+
+
+                            deleteMessage.style.color =
+                            "#16752b";
+
+
+                            /* ======================================
+                               ADMIN PANEL SE TURANT REMOVE
+                            ====================================== */
+
+                            div.remove();
+
+
+                            visibleOrders--;
+
+
+                            if(
+                                visibleOrders <= 0
+                            ){
+
+                                ordersList.innerHTML =
+                                `
+
+                                    <div class="no-orders">
+
+                                        Abhi koi active order nahi hai.
+
+                                    </div>
+
+                                `;
+
+                            }
+
+                        }
+
+                        catch(error){
+
+                            console.error(
+                                "Order delete error:",
+                                error
+                            );
+
+
+                            deleteMessage.textContent =
+                            "❌ Delete nahi hua";
+
+
+                            deleteMessage.style.color =
+                            "#a00000";
+
+
+                            alert(
+
+                                "❌ Order delete nahi hua.\n\n" +
+
+                                "Firebase Firestore Rules check karein."
+
+                            );
+
+
+                            deleteOrderButton.disabled =
+                            false;
+
+
+                            deleteOrderButton.textContent =
+                            "🗑️ Delete Order From Admin Panel";
+
+                        }
+
+                    }
+                );
+
+
+
                 ordersList.appendChild(
                     div
                 );
 
             }
         );
+
+
+        /* =====================================================
+           AGAR SAB ORDERS ADMIN-DELETED HAIN
+        ===================================================== */
+
+        if(
+            visibleOrders === 0
+        ){
+
+            ordersList.innerHTML =
+            `
+
+                <div class="no-orders">
+
+                    Abhi koi active order nahi hai.
+
+                </div>
+
+            `;
+
+        }
 
     }
 

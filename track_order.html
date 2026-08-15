@@ -545,12 +545,43 @@ submitReturnButton.addEventListener("click",async function(){
 const urlParams=new URLSearchParams(window.location.search);
 const urlOrderId=urlParams.get("orderId");
 
-if(urlOrderId){
-    startOrderListener(urlOrderId);
+/* =====================================================
+   AUTOMATIC CUSTOMER ORDER
+
+   Priority:
+   1. Checkout se aaya hua URL Order ID
+   2. Same device/browser ka latest saved Order ID
+
+   Isliye customer Track Order page kholte hi
+   apna latest order dekh sakta hai.
+   Mobile number ya Order ID enter karne ki zarurat nahi.
+   ===================================================== */
+let savedOrderId="";
+try{
+    savedOrderId=String(localStorage.getItem("sweetyLastOrderId")||"").trim();
+}catch(error){
+    console.warn("localStorage unavailable:",error);
+}
+
+const autoOrderId=urlOrderId||savedOrderId;
+
+if(autoOrderId){
+    /* URL mein ID na ho to bhi latest order ko URL mein add kar do.
+       Isse refresh karne par bhi wahi order open rahega. */
+    if(!urlOrderId){
+        try{
+            const newUrl=new URL(window.location.href);
+            newUrl.searchParams.set("orderId",autoOrderId);
+            window.history.replaceState({},"",newUrl.toString());
+        }catch(error){
+            console.warn("URL update failed:",error);
+        }
+    }
+    startOrderListener(autoOrderId);
 }else{
     clearMessages();
     if(directTrackInfo){
-        directTrackInfo.innerHTML="❌ Order link mein Order ID nahi mili.<br><br>Order place karne ke baad <b>📦 Track My Order</b> button se is page par aayein.";
+        directTrackInfo.innerHTML="❌ Abhi koi saved order nahi mila.<br><br>Order place karte hi aapka order yahan automatically dikhega.";
     }
 }
 

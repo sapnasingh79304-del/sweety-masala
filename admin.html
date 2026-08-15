@@ -3169,12 +3169,15 @@ async function loadReturnRequests(){
         "returnRequestsCount"
     );
 
-    list.innerHTML=`
+    if(!list){
+        console.error("returnRequestsList element nahi mila.");
+        return;
+    }
 
+    list.innerHTML=`
         <div class="return-request-list-empty">
             ⏳ Return requests loading...
         </div>
-
     `;
 
     try{
@@ -3200,13 +3203,39 @@ async function loadReturnRequests(){
                 return;
             }
 
-            if(!data.returnStatus){
+            /*
+               IMPORTANT:
+               New customer returns save returnStatus="Pending".
+               Purane returns mein sirf status="Return Requested"
+               ho sakta hai. Dono ko support kar rahe hain.
+            */
+            let currentReturnStatus=
+                String(data.returnStatus || "").trim();
+
+            const mainStatus=
+                String(data.status || "")
+                .trim()
+                .toLowerCase();
+
+            if(
+                !currentReturnStatus &&
+                mainStatus === "return requested"
+            ){
+                currentReturnStatus="Pending";
+            }
+
+            /*
+               Agar returnStatus missing hai lekin order ka status
+               return request wala hai, to Admin Panel us request ko
+               Pending ke roop mein dikhayega.
+            */
+            if(!currentReturnStatus){
                 return;
             }
 
             totalReturns++;
 
-            if(data.returnStatus==="Pending"){
+            if(currentReturnStatus === "Pending"){
                 pendingCount++;
             }
 
@@ -3222,12 +3251,10 @@ async function loadReturnRequests(){
                 data.createdAt &&
                 typeof data.createdAt.toDate==="function"
             ){
-
                 orderDate=
-                data.createdAt
-                .toDate()
-                .toLocaleString("en-IN");
-
+                    data.createdAt
+                    .toDate()
+                    .toLocaleString("en-IN");
             }
 
             let requestDate="";
@@ -3236,26 +3263,24 @@ async function loadReturnRequests(){
                 data.returnRequestedAt &&
                 typeof data.returnRequestedAt.toDate==="function"
             ){
-
                 requestDate=
-                data.returnRequestedAt
-                .toDate()
-                .toLocaleString("en-IN");
-
+                    data.returnRequestedAt
+                    .toDate()
+                    .toLocaleString("en-IN");
             }
 
             let statusClass=
-            "return-pending";
+                "return-pending";
 
-            if(data.returnStatus==="Approved"){
+            if(currentReturnStatus==="Approved"){
                 statusClass="return-approved";
             }
 
-            if(data.returnStatus==="Rejected"){
+            if(currentReturnStatus==="Rejected"){
                 statusClass="return-rejected";
             }
 
-            if(data.returnStatus==="Returned"){
+            if(currentReturnStatus==="Returned"){
                 statusClass="return-completed";
             }
 
@@ -3265,40 +3290,37 @@ async function loadReturnRequests(){
                 Array.isArray(data.items) &&
                 data.items.length
             ){
-
                 data.items.forEach(function(item){
 
                     itemsHTML+=`
-
                         <div class="order-product">
-
                             <strong>
                                 ${escapeHTML(
                                     item.name||
                                     "Product"
                                 )}
                             </strong>
-
                             <br>
-
                             Size:
                             ${escapeHTML(
                                 item.size||"-"
                             )}
-
                             |
-
                             Qty:
                             ${Number(
                                 item.quantity
                             )||1}
-
                         </div>
-
                     `;
 
                 });
-
+            }
+            else{
+                itemsHTML=`
+                    <div class="order-product">
+                        Product details nahi mile.
+                    </div>
+                `;
             }
 
             div.innerHTML=`
@@ -3306,21 +3328,16 @@ async function loadReturnRequests(){
                 <div class="order-header">
 
                     <div class="order-id">
-
                         🧾 Order ID:
                         ${escapeHTML(order.id)}
-
                     </div>
 
                     <div class="order-date">
-
                         Order:
                         ${escapeHTML(orderDate)}
-
                     </div>
 
                 </div>
-
 
                 <div class="customer-box">
 
@@ -3357,7 +3374,6 @@ async function loadReturnRequests(){
 
                 </div>
 
-
                 <div class="order-products">
 
                     <strong>
@@ -3370,7 +3386,6 @@ async function loadReturnRequests(){
 
                 </div>
 
-
                 <div class="return-section">
 
                     <div class="return-title">
@@ -3378,17 +3393,14 @@ async function loadReturnRequests(){
                     </div>
 
                     <div>
-
                         Status:
-
                         <span
                             class="return-status ${statusClass}"
                         >
                             ${escapeHTML(
-                                data.returnStatus
+                                currentReturnStatus
                             )}
                         </span>
-
                     </div>
 
                     ${
@@ -3396,17 +3408,13 @@ async function loadReturnRequests(){
                         ?
                         `
                         <div class="return-reason">
-
                             <strong>
                                 Customer Reason:
                             </strong>
-
                             <br>
-
                             ${escapeHTML(
                                 data.returnReason
                             )}
-
                         </div>
                         `
                         :
@@ -3418,12 +3426,8 @@ async function loadReturnRequests(){
                         ?
                         `
                         <div class="return-request-time">
-
                             Requested:
-                            ${escapeHTML(
-                                requestDate
-                            )}
-
+                            ${escapeHTML(requestDate)}
                         </div>
                         `
                         :
@@ -3435,47 +3439,82 @@ async function loadReturnRequests(){
                         ?
                         `
                         <div class="return-reason">
-
                             <strong>
                                 Reject Reason:
                             </strong>
-
                             <br>
-
                             ${escapeHTML(
                                 data.returnRejectReason
                             )}
-
                         </div>
                         `
                         :
                         ""
                     }
 
-
                     <div class="status-box">
-                        <span class="status-label">📌 Return Status:</span>
+
+                        <span class="status-label">
+                            📌 Return Status:
+                        </span>
+
                         <select class="status-select return-status-select">
                             ${RETURN_STATUSES.map(function(status){
-                                return `<option value="${status}" ${status===data.returnStatus ? "selected" : ""}>${status}</option>`;
+                                return `
+                                    <option
+                                        value="${status}"
+                                        ${
+                                            status===currentReturnStatus
+                                            ? "selected"
+                                            : ""
+                                        }
+                                    >
+                                        ${status}
+                                    </option>
+                                `;
                             }).join("")}
                         </select>
-                        <button type="button" class="status-save-btn return-status-save-btn">💾 Save Return Status</button>
-                        <span class="status-message return-status-message"></span>
+
+                        <button
+                            type="button"
+                            class="status-save-btn return-status-save-btn"
+                        >
+                            💾 Save Return Status
+                        </button>
+
+                        <span
+                            class="status-message return-status-message"
+                        ></span>
+
                     </div>
 
-                    ${data.returnStatus==="Pending" ? `
+                    ${currentReturnStatus==="Pending" ? `
+
                     <div class="return-actions">
-                        <button type="button" class="return-accept-btn">✅ Accept Return</button>
-                        <button type="button" class="return-reject-btn">❌ Reject Return</button>
+
+                        <button
+                            type="button"
+                            class="return-accept-btn"
+                        >
+                            ✅ Accept Return
+                        </button>
+
+                        <button
+                            type="button"
+                            class="return-reject-btn"
+                        >
+                            ❌ Reject Return
+                        </button>
+
                     </div>
+
                     <div class="return-message"></div>
+
                     ` : ""}
 
                 </div>
 
             `;
-
 
             const acceptBtn=
             div.querySelector(
@@ -3492,37 +3531,137 @@ async function loadReturnRequests(){
                 ".return-message"
             );
 
-            const returnStatusSelect=div.querySelector(".return-status-select");
-            const returnStatusSaveButton=div.querySelector(".return-status-save-btn");
-            const returnStatusMessage=div.querySelector(".return-status-message");
+            const returnStatusSelect=
+            div.querySelector(
+                ".return-status-select"
+            );
 
-            if(returnStatusSelect && returnStatusSaveButton){
-                returnStatusSaveButton.addEventListener("click",async function(){
-                    const newStatus=returnStatusSelect.value;
-                    returnStatusSaveButton.disabled=true;
-                    returnStatusSaveButton.textContent="⏳ Saving...";
-                    returnStatusMessage.textContent="";
-                    try{
-                        await setDoc(doc(db,"orders",order.id),{
-                            returnStatus:newStatus,
-                            returnStatusUpdatedAt:new Date()
-                        },{merge:true});
-                        returnStatusMessage.textContent="✅ Return status saved";
-                        returnStatusMessage.style.color="#16752b";
-                        setTimeout(function(){ loadOrders(); loadReturnRequests(); },500);
-                    }catch(error){
-                        console.error(error);
-                        returnStatusMessage.textContent="❌ Save nahi hua";
-                        returnStatusMessage.style.color="#a00000";
-                        alert("Return status update nahi hua. Firebase Firestore Rules check karein.");
-                    }finally{
-                        returnStatusSaveButton.disabled=false;
-                        returnStatusSaveButton.textContent="💾 Save Return Status";
-                    }
-                });
+            const returnStatusSaveButton=
+            div.querySelector(
+                ".return-status-save-btn"
+            );
+
+            const returnStatusMessage=
+            div.querySelector(
+                ".return-status-message"
+            );
+
+            /*
+               Admin manually status change kare to main order status
+               bhi sync hoga. Isse Track Order page par customer ko
+               Return Requested / Approved / Rejected / Return Picked /
+               Returned status correctly dikhega.
+            */
+            function getMainStatusForReturn(returnStatus){
+
+                if(returnStatus==="Pending"){
+                    return "Return Requested";
+                }
+
+                if(returnStatus==="Approved"){
+                    return "Return Approved";
+                }
+
+                if(returnStatus==="Rejected"){
+                    return "Return Rejected";
+                }
+
+                if(returnStatus==="Pickup/Processing"){
+                    return "Return Picked";
+                }
+
+                if(returnStatus==="Returned"){
+                    return "Returned";
+                }
+
+                return "Return Requested";
             }
 
+            if(
+                returnStatusSelect &&
+                returnStatusSaveButton
+            ){
 
+                returnStatusSaveButton.addEventListener(
+                    "click",
+                    async function(){
+
+                        const newStatus=
+                            returnStatusSelect.value;
+
+                        returnStatusSaveButton.disabled=true;
+                        returnStatusSaveButton.textContent=
+                            "⏳ Saving...";
+                        returnStatusMessage.textContent="";
+
+                        try{
+
+                            await setDoc(
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+                                {
+                                    returnStatus:newStatus,
+                                    status:getMainStatusForReturn(
+                                        newStatus
+                                    ),
+                                    returnStatusUpdatedAt:new Date(),
+                                    updatedAt:new Date()
+                                },
+                                {
+                                    merge:true
+                                }
+                            );
+
+                            returnStatusMessage.textContent=
+                                "✅ Return status saved";
+
+                            returnStatusMessage.style.color=
+                                "#16752b";
+
+                            setTimeout(
+                                function(){
+                                    loadOrders();
+                                    loadReturnRequests();
+                                },
+                                500
+                            );
+
+                        }
+                        catch(error){
+
+                            console.error(
+                                "RETURN STATUS SAVE ERROR:",
+                                error
+                            );
+
+                            returnStatusMessage.textContent=
+                                "❌ Save nahi hua";
+
+                            returnStatusMessage.style.color=
+                                "#a00000";
+
+                            alert(
+                                "Return status update nahi hua. Firebase Firestore Rules check karein."
+                            );
+
+                        }
+                        finally{
+
+                            returnStatusSaveButton.disabled=false;
+                            returnStatusSaveButton.textContent=
+                                "💾 Save Return Status";
+
+                        }
+
+                    }
+                );
+
+            }
+
+            /* ACCEPT RETURN */
             if(acceptBtn){
 
                 acceptBtn.addEventListener(
@@ -3538,10 +3677,13 @@ async function loadReturnRequests(){
                         }
 
                         acceptBtn.disabled=true;
-                        rejectBtn.disabled=true;
+
+                        if(rejectBtn){
+                            rejectBtn.disabled=true;
+                        }
 
                         acceptBtn.textContent=
-                        "⏳ Saving...";
+                            "⏳ Saving...";
 
                         try{
 
@@ -3553,39 +3695,58 @@ async function loadReturnRequests(){
                                 ),
                                 {
                                     returnStatus:"Approved",
-                                    returnApprovedAt:new Date()
+                                    status:"Return Approved",
+                                    returnApprovedAt:new Date(),
+                                    returnStatusUpdatedAt:new Date(),
+                                    updatedAt:new Date()
                                 },
                                 {
                                     merge:true
                                 }
                             );
 
-                            message.textContent=
-                            "✅ Return Accepted";
+                            if(message){
+                                message.textContent=
+                                    "✅ Return Accepted";
+                                message.style.color=
+                                    "#16752b";
+                            }
 
-                            message.style.color=
-                            "#16752b";
-
-                            loadOrders();
-                            loadReturnRequests();
+                            setTimeout(
+                                function(){
+                                    loadOrders();
+                                    loadReturnRequests();
+                                },
+                                500
+                            );
 
                         }
-
                         catch(error){
 
-                            console.error(error);
+                            console.error(
+                                "RETURN ACCEPT ERROR:",
+                                error
+                            );
 
-                            message.textContent=
-                            "❌ Return accept nahi hua";
-
-                            message.style.color=
-                            "#a00000";
+                            if(message){
+                                message.textContent=
+                                    "❌ Return accept nahi hua";
+                                message.style.color=
+                                    "#a00000";
+                            }
 
                             acceptBtn.disabled=false;
-                            rejectBtn.disabled=false;
+
+                            if(rejectBtn){
+                                rejectBtn.disabled=false;
+                            }
 
                             acceptBtn.textContent=
-                            "✅ Accept Return";
+                                "✅ Accept Return";
+
+                            alert(
+                                "Return accept nahi hua. Firebase Firestore Rules check karein."
+                            );
 
                         }
 
@@ -3594,7 +3755,7 @@ async function loadReturnRequests(){
 
             }
 
-
+            /* REJECT RETURN */
             if(rejectBtn){
 
                 rejectBtn.addEventListener(
@@ -3602,19 +3763,29 @@ async function loadReturnRequests(){
                     async function(){
 
                         const reason=
-                        prompt(
-                            "Return reject karne ka reason likhein:"
-                        );
+                            prompt(
+                                "Return reject karne ka reason likhein:"
+                            );
 
                         if(reason===null){
                             return;
                         }
 
-                        acceptBtn.disabled=true;
+                        if(!reason.trim()){
+                            alert(
+                                "Reject reason likhna zaroori hai."
+                            );
+                            return;
+                        }
+
+                        if(acceptBtn){
+                            acceptBtn.disabled=true;
+                        }
+
                         rejectBtn.disabled=true;
 
                         rejectBtn.textContent=
-                        "⏳ Saving...";
+                            "⏳ Saving...";
 
                         try{
 
@@ -3626,41 +3797,60 @@ async function loadReturnRequests(){
                                 ),
                                 {
                                     returnStatus:"Rejected",
+                                    status:"Return Rejected",
                                     returnRejectedAt:new Date(),
                                     returnRejectReason:
-                                    reason.trim()
+                                        reason.trim(),
+                                    returnStatusUpdatedAt:new Date(),
+                                    updatedAt:new Date()
                                 },
                                 {
                                     merge:true
                                 }
                             );
 
-                            message.textContent=
-                            "❌ Return Rejected";
+                            if(message){
+                                message.textContent=
+                                    "❌ Return Rejected";
+                                message.style.color=
+                                    "#a00000";
+                            }
 
-                            message.style.color=
-                            "#a00000";
-
-                            loadOrders();
-                            loadReturnRequests();
+                            setTimeout(
+                                function(){
+                                    loadOrders();
+                                    loadReturnRequests();
+                                },
+                                500
+                            );
 
                         }
-
                         catch(error){
 
-                            console.error(error);
+                            console.error(
+                                "RETURN REJECT ERROR:",
+                                error
+                            );
 
-                            message.textContent=
-                            "❌ Return reject nahi hua";
+                            if(message){
+                                message.textContent=
+                                    "❌ Return reject nahi hua";
+                                message.style.color=
+                                    "#a00000";
+                            }
 
-                            message.style.color=
-                            "#a00000";
+                            if(acceptBtn){
+                                acceptBtn.disabled=false;
+                            }
 
-                            acceptBtn.disabled=false;
                             rejectBtn.disabled=false;
 
                             rejectBtn.textContent=
-                            "❌ Reject Return";
+                                "❌ Reject Return";
+
+                            alert(
+                                "Return reject nahi hua. Firebase Firestore Rules check karein."
+                            );
 
                         }
 
@@ -3669,188 +3859,48 @@ async function loadReturnRequests(){
 
             }
 
-
             list.appendChild(div);
 
         });
 
+        if(count){
+            count.textContent=
+                String(pendingCount);
+        }
 
-        count.textContent=
-        pendingCount;
-
-
-        if(totalReturns===0){
+        if(!totalReturns){
 
             list.innerHTML=`
-
                 <div class="return-request-list-empty">
-
-                    ✅ Abhi koi return request nahi hai.
-
+                    📦 Abhi koi customer return request nahi hai.
                 </div>
-
             `;
 
         }
 
     }
-
     catch(error){
 
         console.error(
-            "Return requests error:",
+            "LOAD RETURN REQUESTS ERROR:",
             error
         );
 
+        if(count){
+            count.textContent="0";
+        }
+
         list.innerHTML=`
-
             <div class="return-request-list-empty">
-
                 ❌ Return requests load nahi ho pa rahi hain.
-
                 <br><br>
-
                 Firebase Firestore Rules check karein.
-
             </div>
-
         `;
 
-        count.textContent="0";
-
     }
-
 }
 
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHTML(value){
-
-    const div=
-    document.createElement("div");
-
-    div.textContent=
-    String(value??"");
-
-    return div.innerHTML;
-
-}
-
-
-/* =====================================================
-   REFRESH PRODUCTS
-===================================================== */
-
-document
-.getElementById("refreshProductsButton")
-.addEventListener(
-    "click",
-    async function(){
-
-        const button=this;
-
-        button.disabled=true;
-
-        button.textContent=
-        "⏳ Refreshing...";
-
-        try{
-
-            await loadProducts();
-
-        }
-
-        finally{
-
-            button.disabled=false;
-
-            button.textContent=
-            "🔄 Refresh Products";
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   REFRESH ORDERS
-===================================================== */
-
-document
-.getElementById("refreshOrdersButton")
-.addEventListener(
-    "click",
-    async function(){
-
-        const button=this;
-
-        button.disabled=true;
-
-        button.textContent=
-        "⏳ Refreshing...";
-
-        try{
-
-            await loadOrders();
-
-        }
-
-        finally{
-
-            button.disabled=false;
-
-            button.textContent=
-            "🔄 Refresh Orders";
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   REFRESH RETURNS
-===================================================== */
-
-document
-.getElementById("refreshReturnsButton")
-.addEventListener(
-    "click",
-    async function(){
-
-        const button=this;
-
-        button.disabled=true;
-
-        button.textContent=
-        "⏳ Refreshing...";
-
-        try{
-
-            await loadReturnRequests();
-
-        }
-
-        finally{
-
-            button.disabled=false;
-
-            button.textContent=
-            "🔄 Refresh Return Requests";
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   LOAD CUSTOMER REVIEWS
-===================================================== */
 async function loadReviews(){
     const list=document.getElementById("reviewsList");
     if(!list) return;

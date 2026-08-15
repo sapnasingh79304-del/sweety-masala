@@ -148,7 +148,8 @@ Order place karne ke baad yahan aapka order automatically open ho jayega.
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, addDoc, collection, setDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, addDoc, collection, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
@@ -162,6 +163,7 @@ measurementId:"G-NQ82YZCKG3"
 
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
+const auth=getAuth(app);
 
 const directTrackInfo=document.getElementById("directTrackInfo");
 const errorMessage=document.getElementById("errorMessage");
@@ -465,49 +467,67 @@ async function startOrderListener(orderId){
     stopOrderListener();
     clearMessages();
     orderResult.style.display="none";
-
     orderId=String(orderId||"").trim();
-
     if(!orderId){
-        showError("Order link nahi mila. Checkout ke Order Success page se 'Track My Order' button dabayein.");
-        if(directTrackInfo){
-            directTrackInfo.innerHTML="❌ Order ID available nahi hai.<br><br>Kripya apne order ke success page par jaakar <b>📦 Track My Order</b> button dabayein.";
-        }
+        showError("Order ID available nahi hai.");
         return;
     }
-
-    if(directTrackInfo){
-        directTrackInfo.innerHTML="🔐 Aapke order ki details Firebase se securely load ho rahi hain...";
-    }
-
-    showLoading("Aapka order Firebase se check ho raha hai...");
-
+    showLoading("Aapka order realtime load ho raha hai...");
     const orderRef=doc(db,"orders",orderId);
-
     unsubscribeOrder=onSnapshot(orderRef,orderSnap=>{
         if(!orderSnap.exists()){
             stopOrderListener();
-            showError("Order nahi mila. Kripya dobara order place karne ke baad Track My Order button dabayein.");
-            if(directTrackInfo){
-                directTrackInfo.innerHTML="❌ Ye order abhi Firebase mein nahi mila.";
-            }
+            showError("Order nahi mila.");
             return;
         }
-
         const data=orderSnap.data();
         renderOrder(orderId,data);
-
-        if(directTrackInfo){
-            directTrackInfo.innerHTML="✅ Order automatically load ho gaya hai. Status admin panel se realtime update hoga.";
-        }
+        if(directTrackInfo) directTrackInfo.innerHTML="✅ Aapka order automatically load ho gaya hai. Status realtime update hoga.";
     },error=>{
         console.error("TRACK ORDER ERROR:",error);
         stopOrderListener();
-        showError("Order load nahi hua. Firebase Firestore Rules check karein.");
-        if(directTrackInfo){
-            directTrackInfo.innerHTML="❌ Order load nahi ho paya.";
-        }
+        showError("Order load nahi hua. Firebase Authentication/Firestore Rules check karein.");
     });
+}
+
+async function findMyLatestOrder(){
+    try{
+        showLoading("🔐 Aapke account ko securely connect kiya ja raha hai...");
+        const credential=await signInAnonymously(auth);
+        const uid=credential.user.uid;
+        const q=query(collection(db,"orders"),where("uid","==",uid));
+        const snap=await getDocs(q);
+        if(snap.empty){
+            // Backward compatibility: old orders saved before UID system.
+            let oldId="";
+            try{ oldId=String(localStorage.getItem("sweetyLastOrderId")||"").trim(); }catch(e){}
+            if(oldId){
+                startOrderListener(oldId);
+                return;
+            }
+            clearMessages();
+            orderResult.style.display="none";
+            if(directTrackInfo) directTrackInfo.innerHTML="ℹ️ Is browser mein abhi koi order nahi mila.<br><br>Pehle order place karein. Uske baad Track Your Order kholte hi aapka order automatically dikhega.";
+            return;
+        }
+        const orders=snap.docs.map(d=>({id:d.id,data:d.data()}));
+        orders.sort((a,b)=>{
+            const ta=timestampDate(a.data.createdAt)?.getTime()||0;
+            const tb=timestampDate(b.data.createdAt)?.getTime()||0;
+            return tb-ta;
+        });
+        const latest=orders[0];
+        try{ localStorage.setItem("sweetyLastOrderId",latest.id); }catch(e){}
+        startOrderListener(latest.id);
+    }catch(error){
+        console.error("FIND MY ORDER ERROR:",error);
+        // If anonymous auth is unavailable, use the saved ID fallback.
+        let oldId="";
+        try{ oldId=String(localStorage.getItem("sweetyLastOrderId")||"").trim(); }catch(e){}
+        if(oldId){ startOrderListener(oldId); return; }
+        showError("Aapka order automatically nahi mil pa raha. Firebase Authentication mein Anonymous sign-in enable karein.");
+        if(directTrackInfo) directTrackInfo.innerHTML="❌ Automatic order tracking ke liye Firebase Authentication → Anonymous sign-in ON karna zaroori hai.";
+    }
 }
 
 submitReviewButton.addEventListener("click",async function(){
@@ -538,51 +558,21 @@ submitReturnButton.addEventListener("click",async function(){
 });
 
 /* =====================================================
-   DIRECT AUTO TRACKING
-   Checkout page already sends: track_order.html?orderId=XXXX
-   Isliye customer ko Order ID / Mobile Number bharne ki zarurat nahi.
+   AUTOMATIC CUSTOMER ORDER TRACKING
+
+   1. Checkout URL ka orderId sabse pehle use hoga.
+   2. Direct Track Your Order kholne par anonymous Firebase user
+      ke UID se us customer ka latest order milega.
+   3. Purane orders ke liye localStorage fallback rakha gaya hai.
    ===================================================== */
 const urlParams=new URLSearchParams(window.location.search);
 const urlOrderId=urlParams.get("orderId");
 
-/* =====================================================
-   AUTOMATIC CUSTOMER ORDER
-
-   Priority:
-   1. Checkout se aaya hua URL Order ID
-   2. Same device/browser ka latest saved Order ID
-
-   Isliye customer Track Order page kholte hi
-   apna latest order dekh sakta hai.
-   Mobile number ya Order ID enter karne ki zarurat nahi.
-   ===================================================== */
-let savedOrderId="";
-try{
-    savedOrderId=String(localStorage.getItem("sweetyLastOrderId")||"").trim();
-}catch(error){
-    console.warn("localStorage unavailable:",error);
-}
-
-const autoOrderId=urlOrderId||savedOrderId;
-
-if(autoOrderId){
-    /* URL mein ID na ho to bhi latest order ko URL mein add kar do.
-       Isse refresh karne par bhi wahi order open rahega. */
-    if(!urlOrderId){
-        try{
-            const newUrl=new URL(window.location.href);
-            newUrl.searchParams.set("orderId",autoOrderId);
-            window.history.replaceState({},"",newUrl.toString());
-        }catch(error){
-            console.warn("URL update failed:",error);
-        }
-    }
-    startOrderListener(autoOrderId);
+if(urlOrderId){
+    try{ localStorage.setItem("sweetyLastOrderId",urlOrderId); }catch(e){}
+    startOrderListener(urlOrderId);
 }else{
-    clearMessages();
-    if(directTrackInfo){
-        directTrackInfo.innerHTML="❌ Abhi koi saved order nahi mila.<br><br>Order place karte hi aapka order yahan automatically dikhega.";
-    }
+    findMyLatestOrder();
 }
 
 window.addEventListener("beforeunload",stopOrderListener);

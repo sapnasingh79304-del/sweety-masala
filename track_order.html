@@ -308,22 +308,131 @@ function timestampDate(value){
     if(typeof value.seconds==="number") return new Date(value.seconds*1000);
     return null;
 }
+function escapeHTML(value){
+    return String(value ?? "").replace(/[&<>'"]/g,character=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        "'":"&#39;",
+        '"':"&quot;"
+    }[character]));
+}
+
+function getReturnTime(data){
+    return timestampDate(data.deliveredAt)
+        || timestampDate(data.returnDeliveredAt)
+        || timestampDate(data.statusUpdatedAt)
+        || timestampDate(data.updatedAt);
+}
+
+function renderReturnStatus(data){
+    const status=String(data.returnStatus||"").trim();
+    const normalized=status.toLowerCase();
+
+    returnReason.style.display="none";
+    submitReturnButton.style.display="none";
+    submitReturnButton.disabled=false;
+    submitReturnButton.textContent="🔄 Submit Return Request";
+
+    if(normalized==="pending" || normalized==="requested" || normalized==="request submitted"){
+        returnInfo.innerHTML="<strong>⏳ Return Request Pending</strong><br><br>Aapki return request Admin Panel mein bhej di gayi hai. Admin request check karke decision lega.";
+        returnInfo.style.color="#8a5a00";
+        returnMessage.textContent="📌 Abhi aapko kuch aur submit karne ki zarurat nahi hai.";
+        returnMessage.style.color="#8a5a00";
+        return;
+    }
+
+    if(normalized==="approved" || normalized==="accepted" || normalized==="return approved" || normalized==="return accepted"){
+        returnInfo.innerHTML="<strong>✅ Return Approved</strong><br><br>Admin ne aapki return request approve kar di hai.";
+        returnInfo.style.color="#16752b";
+        returnMessage.textContent="📦 Return process ke liye Admin ke instructions follow karein.";
+        returnMessage.style.color="#16752b";
+        return;
+    }
+
+    if(normalized==="rejected" || normalized==="declined" || normalized==="return rejected"){
+        returnInfo.innerHTML="<strong>❌ Return Rejected</strong><br><br>Admin ne aapki return request reject kar di hai.";
+        if(data.returnAdminReason || data.returnRejectReason){
+            returnInfo.innerHTML += "<br><br><strong>Admin Reason:</strong> " + escapeHTML(data.returnAdminReason || data.returnRejectReason);
+        }
+        returnInfo.style.color="#a00000";
+        returnMessage.textContent="Agar aapko lagta hai ki decision galat hai, Admin se contact karein.";
+        returnMessage.style.color="#a00000";
+        return;
+    }
+
+    if(normalized==="completed" || normalized==="returned" || normalized==="return completed"){
+        returnInfo.innerHTML="<strong>🎉 Return Completed</strong><br><br>Aapka return process complete ho gaya hai.";
+        returnInfo.style.color="#16752b";
+        returnMessage.textContent="✅ Return successfully complete ho gaya.";
+        returnMessage.style.color="#16752b";
+        return;
+    }
+
+    if(normalized==="refunded" || normalized==="refund processed"){
+        returnInfo.innerHTML="<strong>💰 Refund Processed</strong><br><br>Aapke return ka refund process kar diya gaya hai.";
+        returnInfo.style.color="#16752b";
+        returnMessage.textContent="💰 Refund details ke liye Admin se contact karein.";
+        returnMessage.style.color="#16752b";
+        return;
+    }
+
+    returnInfo.innerHTML="<strong>🔄 Return Status: " + escapeHTML(status) + "</strong>" + (data.returnReason ? "<br><br>Reason: " + escapeHTML(data.returnReason) : "");
+    returnInfo.style.color="#555";
+    returnMessage.textContent="Admin aapki return request process kar raha hai.";
+    returnMessage.style.color="#555";
+}
+
 function renderCustomerActions(orderId,data){
     currentOrderId=orderId; currentOrderData=data; customerActions.style.display="block";
     reviewBox.style.display="none"; returnBox.style.display="none"; reviewMessage.textContent=""; returnMessage.textContent="";
-    reviewText.value=""; reviewText.disabled=false; submitReviewButton.disabled=false; submitReviewButton.style.display="block"; returnReason.value=""; returnReason.style.display="block"; submitReturnButton.style.display="block"; selectedRating=0;
+    reviewText.value=""; reviewText.disabled=false; submitReviewButton.disabled=false; submitReviewButton.style.display="block"; submitReviewButton.textContent="⭐ Submit Review";
+    returnReason.value=""; returnReason.style.display="block"; submitReturnButton.style.display="block"; submitReturnButton.disabled=false; submitReturnButton.textContent="🔄 Submit Return Request"; selectedRating=0;
+
     const delivered=String(data.status||"").toLowerCase()==="delivered";
     if(!delivered) return;
+
     setupReviewStars(); reviewBox.style.display="block";
-    if(data.reviewSubmitted){ reviewText.disabled=true; submitReviewButton.disabled=true; submitReviewButton.textContent="✅ Review Submitted"; reviewMessage.textContent="✅ Aapka review pehle hi submit ho chuka hai."; reviewMessage.style.color="#16752b"; }
-    const deliveredAt=timestampDate(data.deliveredAt);
+    if(data.reviewSubmitted){
+        reviewText.disabled=true;
+        submitReviewButton.disabled=true;
+        submitReviewButton.textContent="✅ Review Submitted";
+        reviewMessage.textContent="✅ Aapka review pehle hi submit ho chuka hai.";
+        reviewMessage.style.color="#16752b";
+    }
+
+    // Return section Delivered order ke liye hamesha visible rahega.
     returnBox.style.display="block";
-    if(data.returnStatus){ returnInfo.textContent="🔄 Return Status: "+data.returnStatus+(data.returnReason?" — "+data.returnReason:""); returnReason.style.display="none"; submitReturnButton.style.display="none"; returnMessage.textContent=""; return; }
-    if(!deliveredAt){ returnInfo.textContent="❌ Delivered time available nahi hai. Admin panel me order ko Delivered save karein."; returnReason.style.display="none"; submitReturnButton.style.display="none"; return; }
+
+    // Agar customer ne already return request bheji hai, uska latest status realtime dikhayenge.
+    if(data.returnStatus){
+        renderReturnStatus(data);
+        return;
+    }
+
+    // Delivered time ke liye multiple possible fields support kiye gaye hain.
+    const deliveredAt=getReturnTime(data);
+
+    // Purane orders mein deliveredAt na ho to return option ko hide nahi karenge.
+    // updatedAt/statusUpdatedAt available ho to usse 24-hour window calculate hogi.
+    if(!deliveredAt){
+        returnInfo.textContent="🔄 Aapka order Delivered hai. Return request ke liye reason likhkar neeche button dabayein.";
+        returnInfo.style.color="#555";
+        return;
+    }
+
     const remaining=24*60*60*1000-(Date.now()-deliveredAt.getTime());
-    if(remaining<=0){ returnInfo.textContent="❌ Return window 24 hours ke baad khatam ho chuki hai."; returnReason.style.display="none"; submitReturnButton.style.display="none"; return; }
+    if(remaining<=0){
+        returnInfo.textContent="❌ Return window 24 hours ke baad khatam ho chuki hai.";
+        returnInfo.style.color="#a00000";
+        returnReason.style.display="none";
+        submitReturnButton.style.display="none";
+        return;
+    }
+
     const hours=Math.floor(remaining/3600000), minutes=Math.floor((remaining%3600000)/60000);
     returnInfo.textContent="Return sirf Delivered hone ke 24 hours ke andar request kiya ja sakta hai. Abhi lagbhag "+hours+" hours "+minutes+" minutes bache hain.";
+    returnInfo.style.color="#555";
 }
 
 function renderOrder(orderId,data){
@@ -415,14 +524,16 @@ submitReviewButton.addEventListener("click",async function(){
 });
 submitReturnButton.addEventListener("click",async function(){
     if(!currentOrderData || String(currentOrderData.status||"").toLowerCase()!=="delivered"){ returnMessage.textContent="❌ Return sirf Delivered order ke liye hai."; returnMessage.style.color="#a00000"; return; }
-    const deliveredAt=timestampDate(currentOrderData.deliveredAt); if(!deliveredAt){ returnMessage.textContent="❌ Delivered time available nahi hai."; returnMessage.style.color="#a00000"; return; }
-    if(Date.now()-deliveredAt.getTime()>24*60*60*1000){ returnMessage.textContent="❌ Return window 24 hours ke baad khatam ho gayi hai."; returnMessage.style.color="#a00000"; return; }
-    if(currentOrderData.returnStatus){ returnMessage.textContent="ℹ️ Return request already submitted hai."; returnMessage.style.color="#8a5a00"; return; }
+    const deliveredAt=getReturnTime(currentOrderData);
+    if(deliveredAt && Date.now()-deliveredAt.getTime()>24*60*60*1000){ returnMessage.textContent="❌ Return window 24 hours ke baad khatam ho gayi hai."; returnMessage.style.color="#a00000"; return; }
+    if(currentOrderData.returnStatus){ renderReturnStatus(currentOrderData); return; }
     const reason=returnReason.value.trim(); if(!reason){ returnMessage.textContent="❌ Return ka reason likhein."; returnMessage.style.color="#a00000"; return; }
     submitReturnButton.disabled=true; submitReturnButton.textContent="⏳ Submitting...";
     try{
         await setDoc(doc(db,"orders",currentOrderId),{returnStatus:"Pending",returnReason:reason,returnRequestedAt:new Date(),returnRequestedBy:currentOrderData.customerPhone||currentOrderData.phone||"customer"},{merge:true});
-        currentOrderData.returnStatus="Pending"; returnInfo.textContent="✅ Return request Admin Panel ko bhej di gayi hai."; returnReason.style.display="none"; submitReturnButton.style.display="none"; returnMessage.textContent="Admin aapki return request check karega."; returnMessage.style.color="#16752b";
+        currentOrderData.returnStatus="Pending";
+        currentOrderData.returnReason=reason;
+        renderReturnStatus(currentOrderData);
     }catch(error){ console.error("Return request error:",error); returnMessage.textContent="❌ Return request submit nahi hui. Firebase Firestore Rules check karein."; returnMessage.style.color="#a00000"; submitReturnButton.disabled=false; submitReturnButton.textContent="🔄 Submit Return Request"; }
 });
 

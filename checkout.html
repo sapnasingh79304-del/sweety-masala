@@ -85,6 +85,7 @@ header h1{margin-bottom:5px}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {getFirestore,collection,addDoc,serverTimestamp,doc,getDoc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
@@ -96,7 +97,9 @@ appId:"1:152835150862:web:bdd6bafcc074aeb37e585f",
 measurementId:"G-NQ82YZCKG3"
 };
 
-const db=getFirestore(initializeApp(firebaseConfig));
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
 
 let cart=[];
 try{cart=JSON.parse(localStorage.getItem("sweetyCart"))||[]}catch(e){cart=[]}
@@ -181,6 +184,8 @@ placeOrderBtn.disabled=true;placeOrderBtn.textContent="⏳ Checking...";
 loadingMessage.textContent="⏳ Latest price aur stock check ho raha hai...";loadingMessage.style.display="block";
 
 try{
+const userCredential=await signInAnonymously(auth);
+const customerUid=userCredential.user.uid;
 const verifiedItems=[];
 for(const item of cart)verifiedItems.push(await getLatestProduct(item));
 
@@ -204,7 +209,7 @@ loadingMessage.textContent="⏳ Order save ho raha hai...";
 
 const orderRef=await addDoc(collection(db,"orders"),{
 customerName:name,customerPhone:phone,customerAddress:address,customerCity:city,customerPin:pin,
-paymentMethod:"Cash on Delivery",items:verifiedItems,total:total,status:"New",createdAt:serverTimestamp()
+paymentMethod:"Cash on Delivery",items:verifiedItems,total:total,status:"New",uid:customerUid,createdAt:serverTimestamp()
 });
 
 createdOrderId.textContent=orderRef.id;

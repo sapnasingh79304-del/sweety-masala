@@ -1496,6 +1496,42 @@ function renderSizePriceList(
 
 
 /* =====================================================
+   SAFE HTML HELPER
+
+   IMPORTANT:
+   Product/Order/Return/Review rendering uses escapeHTML().
+   This function was missing in the previous admin.html,
+   which caused the dashboard loaders to stop with a
+   JavaScript ReferenceError.
+===================================================== */
+function escapeHTML(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function getFirestoreErrorMessage(error){
+    const code=
+        error && error.code
+        ?
+        String(error.code)
+        :
+        "unknown-error";
+
+    const message=
+        error && error.message
+        ?
+        String(error.message)
+        :
+        "Unknown Firebase error.";
+
+    return "Firebase error: "+code+" — "+message;
+}
+
+/* =====================================================
    LOGIN
 ===================================================== */
 
@@ -1624,463 +1660,309 @@ async function loadProducts(){
     document.getElementById("productList");
 
     list.innerHTML=
-    "<p style='text-align:center;'>⏳ Products loading...</p>";
+        "<p style='text-align:center;'>⏳ Products loading...</p>";
 
-    let inStock=0;
-    let outStock=0;
+    try{
 
-    for(const product of products){
-
-        let stock=true;
-        let productData=null;
-
-        try{
-
-            const snap=
-            await getDoc(
-                doc(
+        /*
+           Pehle har product ke liye alag-alag getDoc chal raha tha.
+           Ab products collection ek hi baar read hogi.
+           Isse mobile par loading bahut fast aur reliable rahegi.
+        */
+        const snapshot=
+            await getDocs(
+                collection(
                     db,
-                    "products",
-                    product.id
+                    "products"
                 )
             );
 
-            if(snap.exists()){
+        const productMap={};
 
-                productData=snap.data();
+        snapshot.forEach(function(productDoc){
+            productMap[productDoc.id]=productDoc.data();
+        });
 
-                stock=
-                productData.inStock!==false;
+        list.innerHTML="";
 
+        let inStock=0;
+        let outStock=0;
+
+        for(const product of products){
+
+            const data=
+                productMap[product.id] || null;
+
+            const stock=
+                data
+                ?
+                data.inStock!==false
+                :
+                true;
+
+            if(stock){
+                inStock++;
+            }
+            else{
+                outStock++;
             }
 
-        }
+            const row=
+                document.createElement("div");
 
-        catch(error){
+            row.className="product-row";
 
-            console.error(
-                "Product read error:",
-                error
-            );
+            row.innerHTML=`
 
-        }
+                <div class="product-info">
 
-        if(stock){
-            inStock++;
-        }
-        else{
-            outStock++;
-        }
-
-    }
-
-    list.innerHTML="";
-
-    for(const product of products){
-
-        let stock=true;
-        let data=null;
-
-        try{
-
-            const snap=
-            await getDoc(
-                doc(
-                    db,
-                    "products",
-                    product.id
-                )
-            );
-
-            if(snap.exists()){
-
-                data=snap.data();
-
-                stock=data.inStock!==false;
-
-            }
-
-        }
-
-        catch(error){
-
-            console.error(error);
-
-        }
-
-        const row=document.createElement("div");
-
-        row.className="product-row";
-
-        row.innerHTML=`
-
-            <div class="product-info">
-
-                <div class="product-name">
-                    ${escapeHTML(product.name)}
-                </div>
-
-                <div class="product-id">
-                    Product ID: ${escapeHTML(product.id)}
-                </div>
-
-                <div class="price-editor">
-
-                    <span class="current-price">
-
-                        1 KG / Base Price: ₹
-
-                        <span class="price-value">
-                            Loading...
-                        </span>
-
-                    </span>
-
-                    <input
-                        type="number"
-                        class="price-input"
-                        min="0"
-                        step="1"
-                        placeholder="1 KG price"
-                    >
-
-                    <button
-                        type="button"
-                        class="price-save-btn"
-                    >
-                        💾 Save 1 KG Price
-                    </button>
-
-                </div>
-
-                <div class="size-editor">
-
-                    <div class="size-title">
-                        📦 Product Sizes & Prices
+                    <div class="product-name">
+                        ${escapeHTML(product.name)}
                     </div>
 
-                    <div class="size-add-row">
+                    <div class="product-id">
+                        Product ID: ${escapeHTML(product.id)}
+                    </div>
+
+                    <div class="price-editor">
+
+                        <span class="current-price">
+
+                            1 KG / Base Price: ₹
+
+                            <span class="price-value">
+                                Loading...
+                            </span>
+
+                        </span>
 
                         <input
-                            type="text"
-                            class="size-input"
-                            placeholder="Example: 750 GM / 7 KG / 50 KG"
+                            type="number"
+                            class="price-input"
+                            min="0"
+                            step="1"
+                            placeholder="1 KG price"
                         >
 
                         <button
                             type="button"
-                            class="size-add-btn"
+                            class="price-save-btn"
                         >
-                            ➕ Add Size
+                            💾 Save 1 KG Price
                         </button>
 
                     </div>
 
-                    <div class="size-list">
-                        <span style="color:#777;font-size:13px;">
-                            Sizes loading...
-                        </span>
-                    </div>
+                    <div class="size-editor">
 
-                    <div class="size-price-list">
-                        <span style="color:#777;font-size:13px;">
-                            Size prices loading...
-                        </span>
-                    </div>
+                        <div class="size-title">
+                            📦 Product Sizes & Prices
+                        </div>
 
-                    <button
-                        type="button"
-                        class="size-save-btn"
-                    >
-                        💾 Save Sizes & Prices
-                    </button>
+                        <div class="size-add-row">
 
-                    <div class="size-help">
-                        Har size ke saamne uska exact price likhein. Aap koi bhi size add kar sakte hain.
+                            <input
+                                type="text"
+                                class="size-input"
+                                placeholder="Example: 750 GM / 7 KG / 50 KG"
+                            >
+
+                            <button
+                                type="button"
+                                class="size-add-btn"
+                            >
+                                ➕ Add Size
+                            </button>
+
+                        </div>
+
+                        <div class="size-list">
+                            <span style="color:#777;font-size:13px;">
+                                Sizes loading...
+                            </span>
+                        </div>
+
+                        <div class="size-price-list">
+                            <span style="color:#777;font-size:13px;">
+                                Size prices loading...
+                            </span>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="size-save-btn"
+                        >
+                            💾 Save Sizes & Prices
+                        </button>
+
+                        <div class="size-help">
+                            Har size ke saamne uska exact price likhein. Aap koi bhi size add kar sakte hain.
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
+                <button
+                    type="button"
+                    class="stock-btn ${stock ? "in-stock" : "out-stock"}"
+                >
+                    ${
+                        stock
+                        ? "✅ In Stock"
+                        : "❌ Out of Stock"
+                    }
+                </button>
 
-            <button
-                type="button"
-                class="stock-btn ${stock ? "in-stock" : "out-stock"}"
-            >
+            `;
 
-                ${
-                    stock
-                    ? "✅ In Stock"
-                    : "❌ Out of Stock"
-                }
+            const priceValue=
+                row.querySelector(".price-value");
 
-            </button>
+            const priceInput=
+                row.querySelector(".price-input");
 
-        `;
+            const priceSaveButton=
+                row.querySelector(".price-save-btn");
 
-        const priceValue=
-        row.querySelector(".price-value");
+            const sizeInput=
+                row.querySelector(".size-input");
 
-        const priceInput=
-        row.querySelector(".price-input");
+            const sizeAddButton=
+                row.querySelector(".size-add-btn");
 
-        const priceSaveButton=
-        row.querySelector(".price-save-btn");
+            const sizeSaveButton=
+                row.querySelector(".size-save-btn");
 
-        const sizeInput=
-        row.querySelector(".size-input");
+            const sizeList=
+                row.querySelector(".size-list");
 
-        const sizeAddButton=
-        row.querySelector(".size-add-btn");
+            const sizePriceList=
+                row.querySelector(".size-price-list");
 
-        const sizeSaveButton=
-        row.querySelector(".size-save-btn");
-
-        const sizeList=
-        row.querySelector(".size-list");
-
-        const sizePriceList=
-        row.querySelector(".size-price-list");
-
-        const stockButton=
-        row.querySelector(".stock-btn");
-
-        if(
-            data &&
-            data.price!==undefined &&
-            data.price!==null
-        ){
-
-            const currentPrice=
-            Number(data.price);
+            const stockButton=
+                row.querySelector(".stock-btn");
 
             if(
-                Number.isFinite(currentPrice)
+                data &&
+                data.price!==undefined &&
+                data.price!==null
             ){
 
-                priceValue.textContent=
-                Math.round(currentPrice);
+                const currentPrice=
+                    Number(data.price);
+
+                if(
+                    Number.isFinite(currentPrice)
+                ){
+
+                    priceValue.textContent=
+                        Math.round(currentPrice);
+
+                }
+                else{
+
+                    priceValue.textContent=
+                        "Not set";
+
+                }
 
             }
             else{
 
-                priceValue.textContent="Not set";
+                priceValue.textContent=
+                    "Not set";
 
             }
 
-        }
-        else{
+            let productSizes=
+                normalizeSizes(
+                    data ? data.sizes : null,
+                    product.id
+                );
 
-            priceValue.textContent="Not set";
+            let sizePrices=
+                normalizeSizePrices(
+                    data ? data.sizePrices : null
+                );
 
-        }
+            if(
+                Object.keys(sizePrices).length===0 &&
+                data &&
+                data.price!==undefined &&
+                data.price!==null
+            ){
 
-        let productSizes=
-        normalizeSizes(
-            data ? data.sizes : null,
-            product.id
-        );
+                sizePrices=
+                    makeLegacySizePrices(
+                        productSizes,
+                        data.price
+                    );
 
-        let sizePrices=
-        normalizeSizePrices(
-            data ? data.sizePrices : null
-        );
+            }
 
-        if(
-            Object.keys(sizePrices).length===0 &&
-            data &&
-            data.price!==undefined &&
-            data.price!==null
-        ){
-
-            sizePrices=
-            makeLegacySizePrices(
-                productSizes,
-                data.price
+            renderSizeList(
+                sizeList,
+                productSizes
             );
 
-        }
+            renderSizePriceList(
+                sizePriceList,
+                productSizes,
+                sizePrices
+            );
 
-        renderSizeList(
-            sizeList,
-            productSizes
-        );
-
-        renderSizePriceList(
-            sizePriceList,
-            productSizes,
-            sizePrices
-        );
-
-        sizeAddButton.addEventListener(
-            "click",
-            function(){
-
-                const value=
-                sizeInput.value.trim();
-
-                if(!value){
-
-                    alert(
-                        "Pehle size likhein. Example: 750 GM"
-                    );
-
-                    return;
-
-                }
-
-                const duplicate=
-                productSizes.some(
-                    function(size){
-
-                        return(
-                            size.toLowerCase()===
-                            value.toLowerCase()
-                        );
-
-                    }
-                );
-
-                if(duplicate){
-
-                    alert(
-                        "Ye size already added hai."
-                    );
-
-                    return;
-
-                }
-
-                productSizes.push(value);
-
-                if(sizePrices[value]===undefined){
-                    sizePrices[value]="";
-                }
-
-                sizeInput.value="";
-
-                renderSizeList(
-                    sizeList,
-                    productSizes
-                );
-
-                renderSizePriceList(
-                    sizePriceList,
-                    productSizes,
-                    sizePrices
-                );
-
-            }
-        );
-
-        sizeInput.addEventListener(
-            "keydown",
-            function(event){
-
-                if(event.key==="Enter"){
-
-                    event.preventDefault();
-
-                    sizeAddButton.click();
-
-                }
-
-            }
-        );
-
-        sizeSaveButton.addEventListener(
-            "click",
-            async function(){
-
-                if(!productSizes.length){
-
-                    alert(
-                        "Kam se kam ek size hona chahiye."
-                    );
-
-                    return;
-
-                }
-
-                const inputs=
-                sizePriceList.querySelectorAll(
-                    ".size-price-input"
-                );
-
-                const newSizePrices={};
-
-                let invalid=false;
-
-                inputs.forEach(function(input){
-
-                    const size=input.dataset.size;
+            sizeAddButton.addEventListener(
+                "click",
+                function(){
 
                     const value=
-                    Number(input.value);
+                        sizeInput.value.trim();
 
-                    if(
-                        !Number.isFinite(value) ||
-                        value<0
-                    ){
+                    if(!value){
 
-                        invalid=true;
+                        alert(
+                            "Pehle size likhein. Example: 750 GM"
+                        );
+
                         return;
 
                     }
 
-                    newSizePrices[size]=
-                    Math.round(value);
+                    const duplicate=
+                        productSizes.some(
+                            function(size){
 
-                });
+                                return(
+                                    size.toLowerCase()===
+                                    value.toLowerCase()
+                                );
 
-                if(
-                    invalid ||
-                    Object.keys(newSizePrices).length!==
-                    productSizes.length
-                ){
+                            }
+                        );
 
-                    alert(
-                        "Har size ke saamne valid price likhein."
+                    if(duplicate){
+
+                        alert(
+                            "Ye size already added hai."
+                        );
+
+                        return;
+
+                    }
+
+                    productSizes.push(value);
+
+                    if(sizePrices[value]===undefined){
+                        sizePrices[value]="";
+                    }
+
+                    sizeInput.value="";
+
+                    renderSizeList(
+                        sizeList,
+                        productSizes
                     );
-
-                    return;
-
-                }
-
-                sizeSaveButton.disabled=true;
-                sizeSaveButton.textContent="⏳ Saving...";
-
-                try{
-
-                    await setDoc(
-                        doc(
-                            db,
-                            "products",
-                            product.id
-                        ),
-                        {
-                            name:product.name,
-                            sizes:productSizes,
-                            sizePrices:newSizePrices,
-
-                            price:
-                            newSizePrices["1 KG"]!==undefined
-                            ?
-                            newSizePrices["1 KG"]
-                            :
-                            (
-                                data &&
-                                data.price!==undefined
-                                ?
-                                Number(data.price)
-                                :
-                                0
-                            )
-                        },
-                        {merge:true}
-                    );
-
-                    sizePrices=newSizePrices;
 
                     renderSizePriceList(
                         sizePriceList,
@@ -2088,159 +1970,319 @@ async function loadProducts(){
                         sizePrices
                     );
 
+                }
+            );
+
+            sizeInput.addEventListener(
+                "keydown",
+                function(event){
+
+                    if(event.key==="Enter"){
+
+                        event.preventDefault();
+
+                        sizeAddButton.click();
+
+                    }
+
+                }
+            );
+
+            sizeSaveButton.addEventListener(
+                "click",
+                async function(){
+
+                    if(!productSizes.length){
+
+                        alert(
+                            "Kam se kam ek size hona chahiye."
+                        );
+
+                        return;
+
+                    }
+
+                    const inputs=
+                        sizePriceList.querySelectorAll(
+                            ".size-price-input"
+                        );
+
+                    const newSizePrices={};
+
+                    let invalid=false;
+
+                    inputs.forEach(function(input){
+
+                        const size=
+                            input.dataset.size;
+
+                        const value=
+                            Number(input.value);
+
+                        if(
+                            !Number.isFinite(value) ||
+                            value<0
+                        ){
+
+                            invalid=true;
+                            return;
+
+                        }
+
+                        newSizePrices[size]=
+                            Math.round(value);
+
+                    });
+
                     if(
-                        newSizePrices["1 KG"]!==undefined
+                        invalid ||
+                        Object.keys(newSizePrices).length!==
+                        productSizes.length
                     ){
 
-                        priceValue.textContent=
-                        Math.round(
-                            newSizePrices["1 KG"]
+                        alert(
+                            "Har size ke saamne valid price likhein."
+                        );
+
+                        return;
+
+                    }
+
+                    sizeSaveButton.disabled=true;
+                    sizeSaveButton.textContent=
+                        "⏳ Saving...";
+
+                    try{
+
+                        await setDoc(
+                            doc(
+                                db,
+                                "products",
+                                product.id
+                            ),
+                            {
+                                name:product.name,
+                                sizes:productSizes,
+                                sizePrices:newSizePrices,
+
+                                price:
+                                    newSizePrices["1 KG"]!==undefined
+                                    ?
+                                    newSizePrices["1 KG"]
+                                    :
+                                    (
+                                        data &&
+                                        data.price!==undefined
+                                        ?
+                                        Number(data.price)
+                                        :
+                                        0
+                                    )
+                            },
+                            {
+                                merge:true
+                            }
+                        );
+
+                        sizePrices=
+                            newSizePrices;
+
+                        renderSizePriceList(
+                            sizePriceList,
+                            productSizes,
+                            sizePrices
+                        );
+
+                        if(
+                            newSizePrices["1 KG"]!==undefined
+                        ){
+
+                            priceValue.textContent=
+                                Math.round(
+                                    newSizePrices["1 KG"]
+                                );
+
+                        }
+
+                        alert(
+                            "✅ "+
+                            product.name+
+                            " ke sizes aur prices successfully save ho gaye."
                         );
 
                     }
 
-                    alert(
-                        "✅ "+
-                        product.name+
-                        " ke sizes aur prices successfully save ho gaye."
-                    );
+                    catch(error){
+
+                        console.error(
+                            "Size/price update error:",
+                            error
+                        );
+
+                        alert(
+                            "❌ Sizes/prices save nahi hue.\n\n"+
+                            getFirestoreErrorMessage(error)
+                        );
+
+                    }
+
+                    sizeSaveButton.disabled=false;
+                    sizeSaveButton.textContent=
+                        "💾 Save Sizes & Prices";
 
                 }
+            );
 
-                catch(error){
+            priceSaveButton.addEventListener(
+                "click",
+                async function(){
 
-                    console.error(
-                        "Size/price update error:",
-                        error
-                    );
+                    const newPrice=
+                        Number(priceInput.value);
 
-                    alert(
-                        "❌ Sizes/prices save nahi hue. Firebase Firestore Rules check karein."
-                    );
+                    if(
+                        !Number.isFinite(newPrice) ||
+                        newPrice<0
+                    ){
 
-                }
+                        alert(
+                            "Please valid price likhein."
+                        );
 
-                sizeSaveButton.disabled=false;
-                sizeSaveButton.textContent=
-                "💾 Save Sizes & Prices";
+                        return;
 
-            }
-        );
+                    }
 
-        priceSaveButton.addEventListener(
-            "click",
-            async function(){
+                    priceSaveButton.disabled=true;
+                    priceSaveButton.textContent=
+                        "⏳ Saving...";
 
-                const newPrice=
-                Number(priceInput.value);
+                    try{
 
-                if(
-                    !Number.isFinite(newPrice) ||
-                    newPrice<0
-                ){
-
-                    alert(
-                        "Please valid price likhein."
-                    );
-
-                    return;
-
-                }
-
-                priceSaveButton.disabled=true;
-                priceSaveButton.textContent="⏳ Saving...";
-
-                try{
-
-                    await setDoc(
-                        doc(
-                            db,
-                            "products",
-                            product.id
-                        ),
-                        {
-                            name:product.name,
-                            price:newPrice,
-                            sizePrices:{
-                                ...(sizePrices || {}),
-                                "1 KG":newPrice
+                        await setDoc(
+                            doc(
+                                db,
+                                "products",
+                                product.id
+                            ),
+                            {
+                                name:product.name,
+                                price:newPrice,
+                                sizePrices:{
+                                    ...(sizePrices || {}),
+                                    "1 KG":newPrice
+                                }
+                            },
+                            {
+                                merge:true
                             }
-                        },
-                        {merge:true}
-                    );
+                        );
 
-                    sizePrices={
-                        ...(sizePrices || {}),
-                        "1 KG":Math.round(newPrice)
-                    };
+                        sizePrices={
+                            ...(sizePrices || {}),
+                            "1 KG":Math.round(newPrice)
+                        };
 
-                    renderSizePriceList(
-                        sizePriceList,
-                        productSizes,
-                        sizePrices
-                    );
+                        renderSizePriceList(
+                            sizePriceList,
+                            productSizes,
+                            sizePrices
+                        );
 
-                    priceValue.textContent=
-                    Math.round(newPrice);
+                        priceValue.textContent=
+                            Math.round(newPrice);
 
-                    priceInput.value="";
+                        priceInput.value="";
 
-                    alert(
-                        "✅ Price successfully update ho gaya."
+                        alert(
+                            "✅ Price successfully update ho gaya."
+                        );
+
+                    }
+
+                    catch(error){
+
+                        console.error(
+                            "Price update error:",
+                            error
+                        );
+
+                        alert(
+                            "❌ Price update nahi hua.\n\n"+
+                            getFirestoreErrorMessage(error)
+                        );
+
+                    }
+
+                    priceSaveButton.disabled=false;
+                    priceSaveButton.textContent=
+                        "💾 Save 1 KG Price";
+
+                }
+            );
+
+            stockButton.addEventListener(
+                "click",
+                async function(){
+
+                    await toggleStock(
+                        product,
+                        !stock
                     );
 
                 }
+            );
 
-                catch(error){
+            list.appendChild(row);
 
-                    console.error(
-                        "Price update error:",
-                        error
-                    );
+        }
 
-                    alert(
-                        "❌ Price update nahi hua. Firebase Firestore Rules check karein."
-                    );
+        document.getElementById(
+            "totalProducts"
+        ).textContent=products.length;
 
-                }
+        document.getElementById(
+            "inStockProducts"
+        ).textContent=inStock;
 
-                priceSaveButton.disabled=false;
-                priceSaveButton.textContent=
-                "💾 Save 1 KG Price";
-
-            }
-        );
-
-        stockButton.addEventListener(
-            "click",
-            async function(){
-
-                await toggleStock(
-                    product,
-                    !stock
-                );
-
-            }
-        );
-
-        list.appendChild(row);
+        document.getElementById(
+            "outStockProducts"
+        ).textContent=outStock;
 
     }
 
-    document.getElementById(
-        "totalProducts"
-    ).textContent=products.length;
+    catch(error){
 
-    document.getElementById(
-        "inStockProducts"
-    ).textContent=inStock;
+        console.error(
+            "Products load error:",
+            error
+        );
 
-    document.getElementById(
-        "outStockProducts"
-    ).textContent=outStock;
+        list.innerHTML=`
+            <div class="no-orders">
+                ❌ Products load nahi ho pa rahe.
+                <br><br>
+                ${escapeHTML(
+                    getFirestoreErrorMessage(error)
+                )}
+            </div>
+        `;
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent="0";
+
+        document.getElementById(
+            "inStockProducts"
+        ).textContent="0";
+
+        document.getElementById(
+            "outStockProducts"
+        ).textContent="0";
+
+    }
 
 }
-
 
 /* =====================================================
    TOGGLE STOCK
@@ -3894,7 +3936,7 @@ async function loadReturnRequests(){
             <div class="return-request-list-empty">
                 ❌ Return requests load nahi ho pa rahi hain.
                 <br><br>
-                Firebase Firestore Rules check karein.
+                ${escapeHTML(getFirestoreErrorMessage(error))}
             </div>
         `;
 
@@ -3988,7 +4030,13 @@ async function loadReviews(){
         }
     }catch(error){
         console.error("Reviews error:",error);
-        list.innerHTML='<div class="return-request-list-empty">❌ Reviews load nahi ho pa rahe hain. Firebase Firestore Rules check karein.</div>';
+        list.innerHTML=`
+            <div class="return-request-list-empty">
+                ❌ Reviews load nahi ho pa rahe hain.
+                <br><br>
+                ${escapeHTML(getFirestoreErrorMessage(error))}
+            </div>
+        `;
     }
 }
 
@@ -4002,6 +4050,77 @@ document.getElementById("refreshReviewsButton")?.addEventListener("click",async 
         button.textContent="🔄 Refresh Reviews";
     }
 });
+
+/* =====================================================
+   REFRESH BUTTONS
+===================================================== */
+
+document
+.getElementById("refreshProductsButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+        button.textContent="⏳ Refreshing...";
+
+        try{
+            await loadProducts();
+        }
+        finally{
+            button.disabled=false;
+            button.textContent="🔄 Refresh Products";
+        }
+
+    }
+);
+
+document
+.getElementById("refreshOrdersButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+        button.textContent="⏳ Refreshing...";
+
+        try{
+            await loadOrders();
+        }
+        finally{
+            button.disabled=false;
+            button.textContent="🔄 Refresh Orders";
+        }
+
+    }
+);
+
+document
+.getElementById("refreshReturnsButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+        button.textContent="⏳ Refreshing...";
+
+        try{
+            await loadReturnRequests();
+        }
+        finally{
+            button.disabled=false;
+            button.textContent="🔄 Refresh Return Requests";
+        }
+
+    }
+);
+
 
 /* =====================================================
    LOGOUT

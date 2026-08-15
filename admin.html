@@ -1,0 +1,4068 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | Sweety Masala</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#fff8ed;
+    color:#333;
+    min-height:100vh;
+}
+
+header{
+    background:#8b0000;
+    color:white;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+header h1{
+    font-size:24px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:15px;
+}
+
+.login-box{
+    max-width:430px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.login-box h2{
+    text-align:center;
+    color:#8b0000;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:16px;
+}
+
+.btn{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:#8b0000;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#a50000;
+}
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.dashboard{
+    display:none;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+    text-align:center;
+}
+
+.stat-box h3{
+    color:#8b0000;
+    margin-bottom:8px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.return-stat{
+    color:#a00000;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+}
+
+.box h2{
+    color:#8b0000;
+    margin-bottom:18px;
+}
+
+.product-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.product-info{
+    flex:1;
+}
+
+.product-name{
+    font-weight:bold;
+    font-size:17px;
+}
+
+.product-id{
+    color:#666;
+    margin-top:4px;
+    font-size:13px;
+}
+
+.stock-btn{
+    min-width:140px;
+    padding:10px;
+    border:none;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.in-stock{
+    background:#d8f5dc;
+    color:#16752b;
+}
+
+.out-stock{
+    background:#ffdede;
+    color:#a00000;
+}
+
+.price-editor{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:9px;
+    flex-wrap:wrap;
+}
+
+.price-input{
+    width:120px;
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+}
+
+.price-save-btn{
+    padding:9px 12px;
+    border:none;
+    border-radius:7px;
+    background:#8b0000;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.price-save-btn:hover{
+    background:#a50000;
+}
+
+.current-price{
+    color:#8b0000;
+    font-weight:bold;
+}
+
+.logout-btn{
+    padding:9px 14px;
+    border:none;
+    border-radius:7px;
+    background:#f4b400;
+    color:#222;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.home-btn{
+    display:block;
+    padding:10px 15px;
+    background:#555;
+    color:white;
+    text-decoration:none;
+    border-radius:7px;
+    text-align:center;
+}
+
+.order-item{
+    padding:18px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-item:last-child{
+    border-bottom:none;
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.order-id{
+    font-weight:bold;
+    color:#8b0000;
+    word-break:break-all;
+}
+
+.order-date{
+    color:#666;
+    font-size:13px;
+}
+
+.customer-box{
+    background:#fff8ed;
+    padding:12px;
+    border-radius:8px;
+    margin-top:12px;
+    line-height:1.7;
+}
+
+.order-products{
+    margin-top:12px;
+    background:#f8f8f8;
+    padding:12px;
+    border-radius:8px;
+}
+
+.order-product{
+    padding:7px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.order-product:last-child{
+    border-bottom:none;
+}
+
+.order-total{
+    margin-top:12px;
+    font-size:18px;
+    font-weight:bold;
+    color:#8b0000;
+}
+
+.status-box{
+    margin-top:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.status-label{
+    font-weight:bold;
+}
+
+.status-select{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+    min-width:180px;
+    background:white;
+}
+
+.status-save-btn{
+    padding:10px 14px;
+    border:none;
+    border-radius:7px;
+    background:#16852d;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.status-save-btn:hover{
+    background:#126b24;
+}
+
+.status-message{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.no-orders{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+.size-editor{
+    margin-top:12px;
+    padding:12px;
+    background:#fff8ed;
+    border:1px solid #ead8bd;
+    border-radius:9px;
+}
+
+.size-title{
+    font-weight:bold;
+    color:#8b0000;
+    margin-bottom:8px;
+}
+
+.size-add-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.size-input{
+    flex:1;
+    min-width:170px;
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.size-add-btn,
+.size-save-btn{
+    border:none;
+    border-radius:7px;
+    padding:9px 12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.size-add-btn{
+    background:#16852d;
+    color:white;
+}
+
+.size-save-btn{
+    background:#f4b400;
+    color:#222;
+    margin-top:8px;
+}
+
+.size-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+
+.size-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:18px;
+    padding:6px 9px;
+    font-size:13px;
+}
+
+.size-remove-btn{
+    border:0;
+    background:#d00000;
+    color:white;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.size-help{
+    color:#666;
+    font-size:12px;
+    margin-top:7px;
+}
+
+.size-price-list{
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.size-price-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.size-price-label{
+    flex:1;
+    font-weight:bold;
+    color:#333;
+}
+
+.size-price-input{
+    width:130px;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.size-price-current{
+    min-width:90px;
+    text-align:right;
+    color:#8b0000;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.refresh-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#555;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+.refresh-btn:hover{
+    background:#333;
+}
+
+.delete-order-btn{
+    margin-top:15px;
+    padding:11px 16px;
+    border:none;
+    border-radius:8px;
+    background:#d00000;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.delete-order-btn:hover{
+    background:#a00000;
+}
+
+.delete-order-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.delete-message{
+    margin-left:10px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* =====================================================
+   RETURN MANAGEMENT
+===================================================== */
+
+.return-section{
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    background:#fff4d6;
+    border:1px solid #e2c766;
+}
+
+.return-title{
+    color:#8b0000;
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.return-info{
+    line-height:1.7;
+    font-size:14px;
+}
+
+.return-status{
+    display:inline-block;
+    padding:7px 11px;
+    border-radius:20px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.return-pending{
+    background:#fff0c2;
+    color:#8a5a00;
+}
+
+.return-approved{
+    background:#d8f5dc;
+    color:#16752b;
+}
+
+.return-rejected{
+    background:#ffdede;
+    color:#a00000;
+}
+
+.return-completed{
+    background:#d9eaff;
+    color:#07549a;
+}
+
+.return-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+.return-accept-btn,
+.return-reject-btn{
+    padding:10px 14px;
+    border:none;
+    border-radius:7px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.return-accept-btn{
+    background:#16852d;
+}
+
+.return-reject-btn{
+    background:#d00000;
+}
+
+.return-accept-btn:hover{
+    background:#126b24;
+}
+
+.return-reject-btn:hover{
+    background:#a00000;
+}
+
+.return-accept-btn:disabled,
+.return-reject-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.return-message{
+    margin-top:10px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.return-reason{
+    background:white;
+    padding:10px;
+    border-radius:7px;
+    margin-top:8px;
+    border:1px solid #ddd;
+}
+
+.return-request-time{
+    color:#666;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.return-request-box{
+    border-left:5px solid #d00000;
+}
+
+.return-request-list-empty{
+    text-align:center;
+    color:#777;
+    padding:20px;
+}
+
+.review-preview{
+    margin-top:8px;
+    font-size:13px;
+    color:#555;
+}
+
+.review-card{margin-top:12px;padding:14px;background:#fff8ed;border:1px solid #ead8bd;border-radius:10px;}
+.review-stars{color:#f4b400;font-size:20px;letter-spacing:2px;}
+.review-meta{font-size:13px;color:#666;margin-top:5px;line-height:1.5;}
+.review-text{margin-top:10px;line-height:1.6;white-space:pre-wrap;}
+.review-product{font-weight:bold;color:#8b0000;margin-top:5px;}
+.review-delete-btn{margin-top:10px;padding:9px 13px;border:0;border-radius:7px;background:#d00000;color:#fff;font-weight:bold;cursor:pointer;}
+.review-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.review-public-btn{padding:9px 13px;border:0;border-radius:7px;background:#16852d;color:#fff;font-weight:bold;cursor:pointer;}
+.review-hidden-btn{background:#777;}
+.review-delete-btn:hover{background:#a00000;}
+
+@media(max-width:900px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .product-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .stock-btn{
+        width:100%;
+    }
+
+    .price-editor{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .price-input{
+        width:100%;
+    }
+
+    .price-save-btn{
+        width:100%;
+    }
+
+    .size-add-row{
+        flex-direction:column;
+    }
+
+    .size-input{
+        width:100%;
+    }
+
+    .size-add-btn{
+        width:100%;
+    }
+
+    .status-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .status-select{
+        width:100%;
+    }
+
+    .status-save-btn{
+        width:100%;
+    }
+
+    .delete-order-btn{
+        width:100%;
+        margin-top:15px;
+    }
+
+    .delete-message{
+        display:block;
+        margin-left:0;
+        margin-top:8px;
+    }
+
+    .return-actions{
+        flex-direction:column;
+    }
+
+    .return-accept-btn,
+    .return-reject-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     ADMIN LOGIN
+===================================================== -->
+
+<div id="loginSection">
+
+    <div class="login-box">
+
+        <div style="text-align:center;font-size:45px;">
+            🌶️
+        </div>
+
+        <h2>
+            Sweety Masala
+            <br>
+            Admin Panel
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Admin Email
+            </label>
+
+            <input
+                type="email"
+                id="adminEmail"
+                value="sapnasingh79304@gmail.com"
+                readonly
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Firebase password"
+            >
+
+        </div>
+
+        <button
+            class="btn"
+            id="adminLoginButton"
+            type="button"
+        >
+            🔐 Admin Login
+        </button>
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
+        <a
+            href="index.html"
+            class="home-btn"
+            style="margin-top:20px;"
+        >
+            ← Website par wapas
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div
+    id="dashboard"
+    class="dashboard"
+>
+
+<header>
+
+    <div>
+
+        <h1>
+            🌶️ Sweety Masala
+        </h1>
+
+        <div>
+            Admin Panel
+        </div>
+
+    </div>
+
+    <button
+        class="logout-btn"
+        id="logoutButton"
+        type="button"
+    >
+        🚪 Logout
+    </button>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-box">
+
+            <h3>
+                Products
+            </h3>
+
+            <div
+                class="stat-number"
+                id="totalProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <h3>
+                In Stock
+            </h3>
+
+            <div
+                class="stat-number"
+                id="inStockProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <h3>
+                Out of Stock
+            </h3>
+
+            <div
+                class="stat-number"
+                id="outStockProducts"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <h3>
+                Return Requests
+            </h3>
+
+            <div
+                class="stat-number return-stat"
+                id="returnRequestsCount"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT MANAGEMENT -->
+
+    <div class="box">
+
+        <h2>
+            📦 Product Stock & Price Management
+        </h2>
+
+        <button
+            id="refreshProductsButton"
+            class="refresh-btn"
+            type="button"
+        >
+            🔄 Refresh Products
+        </button>
+
+        <div id="productList"></div>
+
+    </div>
+
+
+
+    <!-- ORDERS -->
+
+    <div class="box">
+
+        <h2>
+            🛒 Customer Orders
+        </h2>
+
+        <button
+            id="refreshOrdersButton"
+            class="refresh-btn"
+            type="button"
+        >
+            🔄 Refresh Orders
+        </button>
+
+        <div id="ordersList">
+
+            <div class="no-orders">
+                Orders yahan dikhenge.
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         RETURN REQUESTS
+    ================================================== -->
+
+    <div class="box return-request-box">
+
+        <h2>
+            🔄 Customer Return Requests
+        </h2>
+
+        <button
+            id="refreshReturnsButton"
+            class="refresh-btn"
+            type="button"
+        >
+            🔄 Refresh Return Requests
+        </button>
+
+        <div id="returnRequestsList">
+
+            <div class="return-request-list-empty">
+                Return requests yahan dikhenge.
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <a
+        href="index.html"
+        class="home-btn"
+    >
+        🏠 Website Open Karein
+    </a>
+
+
+</div>
+
+    <div class="box" id="reviewsAdminBox">
+        <h2>⭐ Customer Reviews</h2>
+        <button id="refreshReviewsButton" class="refresh-btn" type="button">🔄 Refresh Reviews</button>
+        <div id="reviewsList"><div class="return-request-list-empty">Reviews yahan dikhenge.</div></div>
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+
+/* =====================================================
+   IMPORT FIREBASE APP
+===================================================== */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+/* =====================================================
+   FIREBASE AUTH
+===================================================== */
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+/* =====================================================
+   FIRESTORE
+===================================================== */
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    getDoc,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
+
+    authDomain:
+    "sweety-masala.firebaseapp.com",
+
+    projectId:
+    "sweety-masala",
+
+    storageBucket:
+    "sweety-masala.firebasestorage.app",
+
+    messagingSenderId:
+    "152835150862",
+
+    appId:
+    "1:152835150862:web:bdd6bafcc074aeb37e585f",
+
+    measurementId:
+    "G-NQ82YZCKG3"
+
+};
+
+
+const app =
+initializeApp(
+    firebaseConfig
+);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+/* =====================================================
+   ADMIN EMAIL
+===================================================== */
+
+const ADMIN_EMAIL =
+"sapnasingh79304@gmail.com";
+
+
+/* =====================================================
+   PRODUCT LIST
+===================================================== */
+
+const products = [
+
+    {id:"haldi",name:"Haldi Powder"},
+    {id:"dhaniya",name:"Dhaniya Powder"},
+    {id:"lal-mirch",name:"Lal Mirch Powder"},
+    {id:"sattu",name:"Chana Sattu"},
+    {id:"besan",name:"Chana Besan"},
+    {id:"mix-masala",name:"Mix Masala"},
+    {id:"sabji-masala",name:"Sabji Masala"},
+    {id:"kali-mirch-powder",name:"Kali Mirch Powder"},
+    {id:"jeera-powder",name:"Jeera Powder"},
+    {id:"garam-masala",name:"Garam Masala"},
+    {id:"chicken-masala",name:"Chicken Masala"},
+    {id:"chat-masala",name:"Chat Masala"},
+    {id:"machali-masala",name:"Machali Masala"},
+    {id:"meat-masala",name:"Meat Masala"},
+    {id:"aamchur-powder",name:"Aamchur Powder"},
+    {id:"hing",name:"Hing"},
+    {id:"chhola-masala",name:"Chhola Masala"},
+    {id:"pav-bhaji-masala",name:"Pav Bhaji Masala"},
+    {id:"sambhar-masala",name:"Sambhar Masala"},
+    {id:"kasuri-methi",name:"Kasuri Methi"},
+    {id:"biryani-masala",name:"Biryani Masala"},
+    {id:"kashmiri-lal-mirch",name:"Kashmiri Lal Mirch"},
+    {id:"kala-namak-powder",name:"Kala Namak Powder"},
+    {id:"sendha-namak-powder",name:"Sendha Namak Powder"},
+    {id:"lahsun-powder",name:"Lahsun Powder"},
+    {id:"payz-powder",name:"Payz Powder"},
+    {id:"maggi-masala-powder",name:"Maggi Masala Powder"},
+    {id:"tandoori-masala-powder",name:"Tandoori Masala Powder"},
+    {id:"jaljeer-powder",name:"Jaljeer Powder"},
+    {id:"mix-aata",name:"Mix Aata"},
+    {id:"ragi-aata",name:"Ragi Aata"},
+    {id:"makka-aata",name:"Makka Aata"},
+    {id:"jowar-aata",name:"Jowar Aata"},
+    {id:"bajara-aata",name:"Bajara Aata"},
+    {id:"jo-aata",name:"Jo Aata"},
+    {id:"gehun-aata",name:"Gehun Aata"},
+    {id:"makka-sattu",name:"Makka Sattu"},
+    {id:"jeera",name:"Jeera"},
+    {id:"garam-masala khara",name:"Garam-masala khara"},
+    {id:"shah-jeera",name:"Shah Jeera"},
+    {id:"laung",name:"Laung"},
+    {id:"badi-elaichi",name:"Badi Elaichi"},
+    {id:"chhoti-elaichi",name:"Chhoti Elaichi"},
+    {id:"dalchini",name:"Dalchini"},
+    {id:"kali-mirch",name:"Kali Mirch"},
+    {id:"safed-mirch",name:"Safed Mirch"},
+    {id:"tejpatta",name:"Tejpatta"},
+    {id:"chakraphool",name:"Chakraphool"},
+    {id:"javitri",name:"Javitri"},
+    {id:"jaiphal",name:"Jaiphal"},
+    {id:"kabab-chini",name:"Kabab Chini"},
+    {id:"sabut-dhaniya",name:"Sabut Dhaniya"},
+    {id:"sabut-lal-mirch",name:"Sabut Lal Mirch"},
+    {id:"rai",name:"Rai"},
+    {id:"pili-sarson",name:"Pili Sarson"},
+    {id:"methi-dana",name:"Methi Dana"},
+    {id:"saunf",name:"Saunf"},
+    {id:"ajwain",name:"Ajwain"},
+    {id:"kalonji",name:"Kalonji"},
+    {id:"dagad-phool",name:"Dagad Phool"},
+    {id:"anardana",name:"Anardana"},
+    {id:"nagkesar",name:"Nagkesar"}
+
+];
+
+
+/* =====================================================
+   ORDER STATUS
+===================================================== */
+
+const ORDER_STATUSES = [
+
+    "New",
+    "Accepted",
+    "Preparing",
+    "Shipped",
+    "Delivered",
+    "Cancelled"
+
+];
+
+
+/* =====================================================
+   RETURN STATUS
+===================================================== */
+
+const RETURN_STATUSES = [
+    "Pending",
+    "Approved",
+    "Rejected",
+    "Pickup/Processing",
+    "Returned"
+];
+
+function getReturnStatusClass(status){
+    if(status === "Approved") return "return-approved";
+    if(status === "Rejected") return "return-rejected";
+    if(status === "Pickup/Processing") return "return-completed";
+    if(status === "Returned") return "return-completed";
+    return "return-pending";
+}
+
+
+/* =====================================================
+   DEFAULT SIZES
+===================================================== */
+
+function getDefaultSizes(productId){
+    const largeIds=["haldi","dhaniya","lal-mirch","sattu","besan"];
+    if(largeIds.includes(productId)) return ["1 KG","5 KG","10 KG","15 KG","20 KG","25 KG","30 KG"];
+    const attaIds=["mix-aata","ragi-aata","makka-aata","jowar-aata","bajara-aata","jo-aata","gehun-aata","makka-sattu"];
+    if(attaIds.includes(productId)) return ["1 KG","2 KG","3 KG","4 KG","5 KG"];
+    const wholeIds=["jeera","garam-masala khara","shah-jeera","laung","badi-elaichi","chhoti-elaichi","dalchini","kali-mirch","safed-mirch","tejpatta","chakraphool","javitri","jaiphal","kabab-chini","sabut-dhaniya","sabut-lal-mirch","rai","pili-sarson","methi-dana","saunf","ajwain","kalonji","dagad-phool","anardana","nagkesar"];
+    if(wholeIds.includes(productId)) return ["50 GM","100 GM","250 GM"];
+    return ["250 GM","500 GM","1 KG"];
+}
+
+
+/* =====================================================
+   NORMALIZE SIZES
+===================================================== */
+
+function normalizeSizes(value,productId){
+
+    if(
+        Array.isArray(value) &&
+        value.length
+    ){
+
+        return value
+        .map(function(size){
+            return String(size).trim();
+        })
+        .filter(Boolean);
+
+    }
+
+    return getDefaultSizes(productId);
+
+}
+
+
+/* =====================================================
+   RENDER SIZE LIST
+===================================================== */
+
+function renderSizeList(container,sizes){
+
+    container.innerHTML="";
+
+    if(!sizes.length){
+
+        container.innerHTML=
+        '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+
+        return;
+
+    }
+
+    sizes.forEach(function(size,index){
+
+        const chip=document.createElement("span");
+        chip.className="size-chip";
+
+        const text=document.createElement("span");
+        text.textContent=size;
+
+        const remove=document.createElement("button");
+
+        remove.type="button";
+        remove.className="size-remove-btn";
+        remove.textContent="×";
+        remove.title="Remove "+size;
+
+        remove.addEventListener("click",function(){
+
+            sizes.splice(index,1);
+
+            renderSizeList(
+                container,
+                sizes
+            );
+
+        });
+
+        chip.appendChild(text);
+        chip.appendChild(remove);
+        container.appendChild(chip);
+
+    });
+
+}
+
+
+/* =====================================================
+   SIZE PRICE HELPERS
+===================================================== */
+
+function sizeToKgForAdmin(size){
+
+    const s=String(size||"")
+    .toUpperCase()
+    .trim();
+
+    let match=s.match(/(\d+(?:\.\d+)?)\s*KG/);
+
+    if(match){
+        return Number(match[1]);
+    }
+
+    match=s.match(/(\d+(?:\.\d+)?)\s*GM/);
+
+    if(match){
+        return Number(match[1])/1000;
+    }
+
+    match=s.match(/(\d+(?:\.\d+)?)\s*G/);
+
+    if(match){
+        return Number(match[1])/1000;
+    }
+
+    return null;
+
+}
+
+
+function makeLegacySizePrices(sizes,basePrice){
+
+    const result={};
+
+    const base=Number(basePrice);
+
+    if(
+        !Number.isFinite(base) ||
+        base<0
+    ){
+        return result;
+    }
+
+    sizes.forEach(function(size){
+
+        const kg=sizeToKgForAdmin(size);
+
+        if(kg!==null){
+
+            result[size]=Math.round(base*kg);
+
+        }
+
+    });
+
+    return result;
+
+}
+
+
+function normalizeSizePrices(value){
+
+    if(
+        !value ||
+        typeof value!=="object" ||
+        Array.isArray(value)
+    ){
+        return {};
+    }
+
+    const result={};
+
+    Object.keys(value).forEach(function(size){
+
+        const price=Number(value[size]);
+
+        if(
+            Number.isFinite(price) &&
+            price>=0
+        ){
+
+            result[String(size).trim()]=
+            Math.round(price);
+
+        }
+
+    });
+
+    return result;
+
+}
+
+
+function renderSizePriceList(
+    container,
+    sizes,
+    sizePrices
+){
+
+    container.innerHTML="";
+
+    if(!sizes.length){
+
+        container.innerHTML=
+        '<span style="color:#777;font-size:13px;">No sizes added.</span>';
+
+        return;
+
+    }
+
+    sizes.forEach(function(size){
+
+        const row=document.createElement("div");
+        row.className="size-price-row";
+
+        const label=document.createElement("span");
+        label.className="size-price-label";
+        label.textContent=size;
+
+        const current=document.createElement("span");
+        current.className="size-price-current";
+
+        const currentPrice=sizePrices[size];
+
+        current.textContent=
+        Number.isFinite(Number(currentPrice))
+        ? "₹"+Math.round(Number(currentPrice))
+        : "Not set";
+
+        const input=document.createElement("input");
+
+        input.type="number";
+        input.min="0";
+        input.step="1";
+        input.className="size-price-input";
+        input.placeholder="Price";
+
+        if(
+            Number.isFinite(
+                Number(currentPrice)
+            )
+        ){
+
+            input.value=
+            Math.round(
+                Number(currentPrice)
+            );
+
+        }
+
+        input.dataset.size=size;
+
+        row.appendChild(label);
+        row.appendChild(current);
+        row.appendChild(input);
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+.getElementById("adminLoginButton")
+.addEventListener("click",async function(){
+
+    const password=
+    document
+    .getElementById("adminPassword")
+    .value;
+
+    const message=
+    document
+    .getElementById("loginMessage");
+
+    if(!password){
+
+        message.textContent="Password likhein.";
+        message.style.color="#a00000";
+        return;
+
+    }
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            ADMIN_EMAIL,
+            password
+        );
+
+        message.textContent=
+        "✅ Login successful!";
+
+        message.style.color="#16752b";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        message.textContent=
+        getErrorMessage(error.code);
+
+        message.style.color="#a00000";
+
+    }
+
+});
+
+
+/* =====================================================
+   ENTER KEY LOGIN
+===================================================== */
+
+document
+.getElementById("adminPassword")
+.addEventListener("keydown",function(event){
+
+    if(event.key==="Enter"){
+
+        document
+        .getElementById("adminLoginButton")
+        .click();
+
+    }
+
+});
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(
+            user &&
+            user.email &&
+            user.email.toLowerCase()===
+            ADMIN_EMAIL.toLowerCase()
+        ){
+
+            document
+            .getElementById("loginSection")
+            .style.display="none";
+
+            document
+            .getElementById("dashboard")
+            .style.display="block";
+
+            loadProducts();
+            loadOrders();
+            loadReturnRequests();
+            loadReviews();
+
+        }
+
+        else{
+
+            document
+            .getElementById("loginSection")
+            .style.display="block";
+
+            document
+            .getElementById("dashboard")
+            .style.display="none";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+async function loadProducts(){
+
+    const list=
+    document.getElementById("productList");
+
+    list.innerHTML=
+    "<p style='text-align:center;'>⏳ Products loading...</p>";
+
+    let inStock=0;
+    let outStock=0;
+
+    for(const product of products){
+
+        let stock=true;
+        let productData=null;
+
+        try{
+
+            const snap=
+            await getDoc(
+                doc(
+                    db,
+                    "products",
+                    product.id
+                )
+            );
+
+            if(snap.exists()){
+
+                productData=snap.data();
+
+                stock=
+                productData.inStock!==false;
+
+            }
+
+        }
+
+        catch(error){
+
+            console.error(
+                "Product read error:",
+                error
+            );
+
+        }
+
+        if(stock){
+            inStock++;
+        }
+        else{
+            outStock++;
+        }
+
+    }
+
+    list.innerHTML="";
+
+    for(const product of products){
+
+        let stock=true;
+        let data=null;
+
+        try{
+
+            const snap=
+            await getDoc(
+                doc(
+                    db,
+                    "products",
+                    product.id
+                )
+            );
+
+            if(snap.exists()){
+
+                data=snap.data();
+
+                stock=data.inStock!==false;
+
+            }
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+        }
+
+        const row=document.createElement("div");
+
+        row.className="product-row";
+
+        row.innerHTML=`
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    ${escapeHTML(product.name)}
+                </div>
+
+                <div class="product-id">
+                    Product ID: ${escapeHTML(product.id)}
+                </div>
+
+                <div class="price-editor">
+
+                    <span class="current-price">
+
+                        1 KG / Base Price: ₹
+
+                        <span class="price-value">
+                            Loading...
+                        </span>
+
+                    </span>
+
+                    <input
+                        type="number"
+                        class="price-input"
+                        min="0"
+                        step="1"
+                        placeholder="1 KG price"
+                    >
+
+                    <button
+                        type="button"
+                        class="price-save-btn"
+                    >
+                        💾 Save 1 KG Price
+                    </button>
+
+                </div>
+
+                <div class="size-editor">
+
+                    <div class="size-title">
+                        📦 Product Sizes & Prices
+                    </div>
+
+                    <div class="size-add-row">
+
+                        <input
+                            type="text"
+                            class="size-input"
+                            placeholder="Example: 750 GM / 7 KG / 50 KG"
+                        >
+
+                        <button
+                            type="button"
+                            class="size-add-btn"
+                        >
+                            ➕ Add Size
+                        </button>
+
+                    </div>
+
+                    <div class="size-list">
+                        <span style="color:#777;font-size:13px;">
+                            Sizes loading...
+                        </span>
+                    </div>
+
+                    <div class="size-price-list">
+                        <span style="color:#777;font-size:13px;">
+                            Size prices loading...
+                        </span>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="size-save-btn"
+                    >
+                        💾 Save Sizes & Prices
+                    </button>
+
+                    <div class="size-help">
+                        Har size ke saamne uska exact price likhein. Aap koi bhi size add kar sakte hain.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="stock-btn ${stock ? "in-stock" : "out-stock"}"
+            >
+
+                ${
+                    stock
+                    ? "✅ In Stock"
+                    : "❌ Out of Stock"
+                }
+
+            </button>
+
+        `;
+
+        const priceValue=
+        row.querySelector(".price-value");
+
+        const priceInput=
+        row.querySelector(".price-input");
+
+        const priceSaveButton=
+        row.querySelector(".price-save-btn");
+
+        const sizeInput=
+        row.querySelector(".size-input");
+
+        const sizeAddButton=
+        row.querySelector(".size-add-btn");
+
+        const sizeSaveButton=
+        row.querySelector(".size-save-btn");
+
+        const sizeList=
+        row.querySelector(".size-list");
+
+        const sizePriceList=
+        row.querySelector(".size-price-list");
+
+        const stockButton=
+        row.querySelector(".stock-btn");
+
+        if(
+            data &&
+            data.price!==undefined &&
+            data.price!==null
+        ){
+
+            const currentPrice=
+            Number(data.price);
+
+            if(
+                Number.isFinite(currentPrice)
+            ){
+
+                priceValue.textContent=
+                Math.round(currentPrice);
+
+            }
+            else{
+
+                priceValue.textContent="Not set";
+
+            }
+
+        }
+        else{
+
+            priceValue.textContent="Not set";
+
+        }
+
+        let productSizes=
+        normalizeSizes(
+            data ? data.sizes : null,
+            product.id
+        );
+
+        let sizePrices=
+        normalizeSizePrices(
+            data ? data.sizePrices : null
+        );
+
+        if(
+            Object.keys(sizePrices).length===0 &&
+            data &&
+            data.price!==undefined &&
+            data.price!==null
+        ){
+
+            sizePrices=
+            makeLegacySizePrices(
+                productSizes,
+                data.price
+            );
+
+        }
+
+        renderSizeList(
+            sizeList,
+            productSizes
+        );
+
+        renderSizePriceList(
+            sizePriceList,
+            productSizes,
+            sizePrices
+        );
+
+        sizeAddButton.addEventListener(
+            "click",
+            function(){
+
+                const value=
+                sizeInput.value.trim();
+
+                if(!value){
+
+                    alert(
+                        "Pehle size likhein. Example: 750 GM"
+                    );
+
+                    return;
+
+                }
+
+                const duplicate=
+                productSizes.some(
+                    function(size){
+
+                        return(
+                            size.toLowerCase()===
+                            value.toLowerCase()
+                        );
+
+                    }
+                );
+
+                if(duplicate){
+
+                    alert(
+                        "Ye size already added hai."
+                    );
+
+                    return;
+
+                }
+
+                productSizes.push(value);
+
+                if(sizePrices[value]===undefined){
+                    sizePrices[value]="";
+                }
+
+                sizeInput.value="";
+
+                renderSizeList(
+                    sizeList,
+                    productSizes
+                );
+
+                renderSizePriceList(
+                    sizePriceList,
+                    productSizes,
+                    sizePrices
+                );
+
+            }
+        );
+
+        sizeInput.addEventListener(
+            "keydown",
+            function(event){
+
+                if(event.key==="Enter"){
+
+                    event.preventDefault();
+
+                    sizeAddButton.click();
+
+                }
+
+            }
+        );
+
+        sizeSaveButton.addEventListener(
+            "click",
+            async function(){
+
+                if(!productSizes.length){
+
+                    alert(
+                        "Kam se kam ek size hona chahiye."
+                    );
+
+                    return;
+
+                }
+
+                const inputs=
+                sizePriceList.querySelectorAll(
+                    ".size-price-input"
+                );
+
+                const newSizePrices={};
+
+                let invalid=false;
+
+                inputs.forEach(function(input){
+
+                    const size=input.dataset.size;
+
+                    const value=
+                    Number(input.value);
+
+                    if(
+                        !Number.isFinite(value) ||
+                        value<0
+                    ){
+
+                        invalid=true;
+                        return;
+
+                    }
+
+                    newSizePrices[size]=
+                    Math.round(value);
+
+                });
+
+                if(
+                    invalid ||
+                    Object.keys(newSizePrices).length!==
+                    productSizes.length
+                ){
+
+                    alert(
+                        "Har size ke saamne valid price likhein."
+                    );
+
+                    return;
+
+                }
+
+                sizeSaveButton.disabled=true;
+                sizeSaveButton.textContent="⏳ Saving...";
+
+                try{
+
+                    await setDoc(
+                        doc(
+                            db,
+                            "products",
+                            product.id
+                        ),
+                        {
+                            name:product.name,
+                            sizes:productSizes,
+                            sizePrices:newSizePrices,
+
+                            price:
+                            newSizePrices["1 KG"]!==undefined
+                            ?
+                            newSizePrices["1 KG"]
+                            :
+                            (
+                                data &&
+                                data.price!==undefined
+                                ?
+                                Number(data.price)
+                                :
+                                0
+                            )
+                        },
+                        {merge:true}
+                    );
+
+                    sizePrices=newSizePrices;
+
+                    renderSizePriceList(
+                        sizePriceList,
+                        productSizes,
+                        sizePrices
+                    );
+
+                    if(
+                        newSizePrices["1 KG"]!==undefined
+                    ){
+
+                        priceValue.textContent=
+                        Math.round(
+                            newSizePrices["1 KG"]
+                        );
+
+                    }
+
+                    alert(
+                        "✅ "+
+                        product.name+
+                        " ke sizes aur prices successfully save ho gaye."
+                    );
+
+                }
+
+                catch(error){
+
+                    console.error(
+                        "Size/price update error:",
+                        error
+                    );
+
+                    alert(
+                        "❌ Sizes/prices save nahi hue. Firebase Firestore Rules check karein."
+                    );
+
+                }
+
+                sizeSaveButton.disabled=false;
+                sizeSaveButton.textContent=
+                "💾 Save Sizes & Prices";
+
+            }
+        );
+
+        priceSaveButton.addEventListener(
+            "click",
+            async function(){
+
+                const newPrice=
+                Number(priceInput.value);
+
+                if(
+                    !Number.isFinite(newPrice) ||
+                    newPrice<0
+                ){
+
+                    alert(
+                        "Please valid price likhein."
+                    );
+
+                    return;
+
+                }
+
+                priceSaveButton.disabled=true;
+                priceSaveButton.textContent="⏳ Saving...";
+
+                try{
+
+                    await setDoc(
+                        doc(
+                            db,
+                            "products",
+                            product.id
+                        ),
+                        {
+                            name:product.name,
+                            price:newPrice,
+                            sizePrices:{
+                                ...(sizePrices || {}),
+                                "1 KG":newPrice
+                            }
+                        },
+                        {merge:true}
+                    );
+
+                    sizePrices={
+                        ...(sizePrices || {}),
+                        "1 KG":Math.round(newPrice)
+                    };
+
+                    renderSizePriceList(
+                        sizePriceList,
+                        productSizes,
+                        sizePrices
+                    );
+
+                    priceValue.textContent=
+                    Math.round(newPrice);
+
+                    priceInput.value="";
+
+                    alert(
+                        "✅ Price successfully update ho gaya."
+                    );
+
+                }
+
+                catch(error){
+
+                    console.error(
+                        "Price update error:",
+                        error
+                    );
+
+                    alert(
+                        "❌ Price update nahi hua. Firebase Firestore Rules check karein."
+                    );
+
+                }
+
+                priceSaveButton.disabled=false;
+                priceSaveButton.textContent=
+                "💾 Save 1 KG Price";
+
+            }
+        );
+
+        stockButton.addEventListener(
+            "click",
+            async function(){
+
+                await toggleStock(
+                    product,
+                    !stock
+                );
+
+            }
+        );
+
+        list.appendChild(row);
+
+    }
+
+    document.getElementById(
+        "totalProducts"
+    ).textContent=products.length;
+
+    document.getElementById(
+        "inStockProducts"
+    ).textContent=inStock;
+
+    document.getElementById(
+        "outStockProducts"
+    ).textContent=outStock;
+
+}
+
+
+/* =====================================================
+   TOGGLE STOCK
+===================================================== */
+
+async function toggleStock(product,newStock){
+
+    try{
+
+        await setDoc(
+            doc(
+                db,
+                "products",
+                product.id
+            ),
+            {
+                name:product.name,
+                inStock:newStock
+            },
+            {merge:true}
+        );
+
+        await loadProducts();
+
+        alert(
+            newStock
+            ?
+            "✅ "+product.name+" In Stock ho gaya."
+            :
+            "❌ "+product.name+" Out of Stock ho gaya."
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Stock update error:",
+            error
+        );
+
+        alert(
+            "❌ Stock update nahi hua. Firebase Firestore Rules check karein."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD ORDERS
+===================================================== */
+
+async function loadOrders(){
+
+    const ordersList=
+    document.getElementById("ordersList");
+
+    ordersList.innerHTML=`
+
+        <div class="no-orders">
+            ⏳ Orders loading...
+        </div>
+
+    `;
+
+    try{
+
+        const snapshot=
+        await getDocs(
+            collection(
+                db,
+                "orders"
+            )
+        );
+
+        if(snapshot.empty){
+
+            ordersList.innerHTML=`
+
+                <div class="no-orders">
+                    Abhi koi Firebase order nahi mila.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+        ordersList.innerHTML="";
+
+        let visibleOrders=0;
+
+        snapshot.forEach(function(order){
+
+            const data=order.data();
+
+            if(data.adminDeleted===true){
+                return;
+            }
+
+            visibleOrders++;
+
+            const div=document.createElement("div");
+
+            div.className="order-item";
+
+            let orderDate="Date unavailable";
+
+            if(
+                data.createdAt &&
+                typeof data.createdAt.toDate==="function"
+            ){
+
+                orderDate=
+                data.createdAt
+                .toDate()
+                .toLocaleString("en-IN");
+
+            }
+
+            const currentStatus=
+            ORDER_STATUSES.includes(data.status)
+            ?
+            data.status
+            :
+            "New";
+
+            let itemsHTML="";
+
+            if(
+                Array.isArray(data.items) &&
+                data.items.length
+            ){
+
+                data.items.forEach(function(item){
+
+                    const itemName=
+                    item.name || "Product";
+
+                    const itemSize=
+                    item.size || "-";
+
+                    const quantity=
+                    Number(item.quantity)||1;
+
+                    const price=
+                    Number(item.price)||0;
+
+                    const itemTotal=
+                    price*quantity;
+
+                    itemsHTML+=`
+
+                        <div class="order-product">
+
+                            <strong>
+                                ${escapeHTML(itemName)}
+                            </strong>
+
+                            <br>
+
+                            Size:
+                            ${escapeHTML(itemSize)}
+
+                            |
+
+                            Qty:
+                            ${quantity}
+
+                            |
+
+                            ₹${Math.round(itemTotal)}
+
+                        </div>
+
+                    `;
+
+                });
+
+            }
+            else{
+
+                itemsHTML=`
+
+                    <div class="order-product">
+                        Order items available nahi hain.
+                    </div>
+
+                `;
+
+            }
+
+            /* =================================================
+               RETURN DATA
+            ================================================= */
+
+            const returnStatus=
+            data.returnStatus || "";
+
+            let returnHTML="";
+
+            if(returnStatus){
+
+                let returnClass="return-pending";
+
+                if(returnStatus==="Approved"){
+                    returnClass="return-approved";
+                }
+
+                if(returnStatus==="Rejected"){
+                    returnClass="return-rejected";
+                }
+
+                if(returnStatus==="Returned"){
+                    returnClass="return-completed";
+                }
+
+                let returnDate="";
+
+                if(
+                    data.returnRequestedAt &&
+                    typeof data.returnRequestedAt.toDate==="function"
+                ){
+
+                    returnDate=
+                    data.returnRequestedAt
+                    .toDate()
+                    .toLocaleString("en-IN");
+
+                }
+
+                returnHTML=`
+
+                    <div class="return-section">
+
+                        <div class="return-title">
+                            🔄 Product Return Request
+                        </div>
+
+                        <div class="return-info">
+
+                            <strong>
+                                Return Status:
+                            </strong>
+
+                            <span class="return-status ${returnClass}">
+                                ${escapeHTML(returnStatus)}
+                            </span>
+
+                            ${
+                                data.returnReason
+                                ?
+                                `
+                                <div class="return-reason">
+                                    <strong>
+                                        Customer Reason:
+                                    </strong>
+                                    <br>
+                                    ${escapeHTML(data.returnReason)}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            ${
+                                returnDate
+                                ?
+                                `
+                                <div class="return-request-time">
+                                    Return Request:
+                                    ${escapeHTML(returnDate)}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                        ${
+                            returnStatus==="Pending"
+                            ?
+                            `
+                            <div class="return-actions">
+
+                                <button
+                                    type="button"
+                                    class="return-accept-btn"
+                                >
+                                    ✅ Accept Return
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="return-reject-btn"
+                                >
+                                    ❌ Reject Return
+                                </button>
+
+                            </div>
+
+                            <div class="return-message"></div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+            div.innerHTML=`
+
+                <div class="order-header">
+
+                    <div class="order-id">
+
+                        🧾 Order ID:
+                        ${escapeHTML(order.id)}
+
+                    </div>
+
+                    <div class="order-date">
+
+                        ${escapeHTML(orderDate)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="customer-box">
+
+                    <strong>
+                        👤 Customer Details
+                    </strong>
+
+                    <br>
+
+                    Name:
+                    ${escapeHTML(
+                        data.customerName ||
+                        data.name ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    Mobile:
+                    ${escapeHTML(
+                        data.customerPhone ||
+                        data.phone ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    Address:
+                    ${escapeHTML(
+                        data.customerAddress ||
+                        data.address ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    City:
+                    ${escapeHTML(
+                        data.customerCity ||
+                        data.city ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    PIN:
+                    ${escapeHTML(
+                        data.customerPin ||
+                        data.pin ||
+                        "-"
+                    )}
+
+                    <br>
+
+                    Payment:
+                    ${escapeHTML(
+                        data.paymentMethod ||
+                        "Cash on Delivery"
+                    )}
+
+                </div>
+
+
+                <div class="order-products">
+
+                    <strong>
+                        🛒 Order Items
+                    </strong>
+
+                    <br><br>
+
+                    ${itemsHTML}
+
+                </div>
+
+
+                <div class="order-total">
+
+                    Total:
+                    ₹${Math.round(
+                        Number(data.total)||0
+                    )}
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        📌 Order Status:
+                    </span>
+
+                    <select class="status-select">
+
+                        ${ORDER_STATUSES.map(
+                            function(status){
+
+                                return`
+
+                                    <option
+                                        value="${status}"
+                                        ${
+                                            status===
+                                            currentStatus
+                                            ?
+                                            "selected"
+                                            :
+                                            ""
+                                        }
+                                    >
+                                        ${status}
+                                    </option>
+
+                                `;
+
+                            }
+                        ).join("")}
+
+                    </select>
+
+                    <button
+                        type="button"
+                        class="status-save-btn"
+                    >
+                        💾 Save Status
+                    </button>
+
+                    <span
+                        class="status-message"
+                    ></span>
+
+                </div>
+
+
+                ${returnHTML}
+
+
+                <div>
+
+                    <button
+                        type="button"
+                        class="delete-order-btn"
+                    >
+                        🗑️ Delete Order From Admin Panel
+                    </button>
+
+                    <span
+                        class="delete-message"
+                    ></span>
+
+                </div>
+
+            `;
+
+
+            /* =================================================
+               STATUS ELEMENTS
+            ================================================= */
+
+            const statusSelect=
+            div.querySelector(".status-select");
+
+            const statusSaveButton=
+            div.querySelector(".status-save-btn");
+
+            const statusMessage=
+            div.querySelector(".status-message");
+
+
+            statusSaveButton.addEventListener(
+                "click",
+                async function(){
+
+                    const newStatus=
+                    statusSelect.value;
+
+                    statusSaveButton.disabled=true;
+                    statusSaveButton.textContent=
+                    "⏳ Saving...";
+
+                    statusMessage.textContent="";
+
+                    try{
+
+                        await setDoc(
+                            doc(
+                                db,
+                                "orders",
+                                order.id
+                            ),
+                            {
+                                status:newStatus,
+                                ...(newStatus === "Delivered" && !data.deliveredAt ? {deliveredAt:new Date()} : {}),
+                                updatedAt:new Date()
+                            },
+                            {
+                                merge:true
+                            }
+                        );
+
+                        statusMessage.textContent=
+                        "✅ Status saved";
+
+                        statusMessage.style.color=
+                        "#16752b";
+
+                        setTimeout(
+                            function(){
+                                statusMessage.textContent="";
+                            },
+                            2500
+                        );
+
+                    }
+
+                    catch(error){
+
+                        console.error(
+                            "Order status error:",
+                            error
+                        );
+
+                        statusMessage.textContent=
+                        "❌ Save nahi hua";
+
+                        statusMessage.style.color=
+                        "#a00000";
+
+                        alert(
+                            "Order status update nahi hua. Firebase Firestore Rules check karein."
+                        );
+
+                    }
+
+                    statusSaveButton.disabled=false;
+
+                    statusSaveButton.textContent=
+                    "💾 Save Status";
+
+                }
+            );
+
+
+            /* =================================================
+               RETURN BUTTONS
+            ================================================= */
+
+            const acceptReturnButton=
+            div.querySelector(
+                ".return-accept-btn"
+            );
+
+            const rejectReturnButton=
+            div.querySelector(
+                ".return-reject-btn"
+            );
+
+            const returnMessage=
+            div.querySelector(
+                ".return-message"
+            );
+
+
+            if(acceptReturnButton){
+
+                acceptReturnButton.addEventListener(
+                    "click",
+                    async function(){
+
+                        const ok=
+                        confirm(
+                            "Kya aap customer ka return ACCEPT karna chahte hain?"
+                        );
+
+                        if(!ok){
+                            return;
+                        }
+
+                        acceptReturnButton.disabled=true;
+                        rejectReturnButton.disabled=true;
+
+                        acceptReturnButton.textContent=
+                        "⏳ Saving...";
+
+                        try{
+
+                            await setDoc(
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+                                {
+                                    returnStatus:"Approved",
+                                    returnApprovedAt:new Date()
+                                },
+                                {
+                                    merge:true
+                                }
+                            );
+
+                            returnMessage.textContent=
+                            "✅ Return accepted";
+
+                            returnMessage.style.color=
+                            "#16752b";
+
+                            setTimeout(
+                                function(){
+                                    loadOrders();
+                                    loadReturnRequests();
+                                },
+                                700
+                            );
+
+                        }
+
+                        catch(error){
+
+                            console.error(
+                                "Return accept error:",
+                                error
+                            );
+
+                            returnMessage.textContent=
+                            "❌ Return accept nahi hua";
+
+                            returnMessage.style.color=
+                            "#a00000";
+
+                            acceptReturnButton.disabled=false;
+                            rejectReturnButton.disabled=false;
+
+                            acceptReturnButton.textContent=
+                            "✅ Accept Return";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if(rejectReturnButton){
+
+                rejectReturnButton.addEventListener(
+                    "click",
+                    async function(){
+
+                        const reason=
+                        prompt(
+                            "Return reject karne ka reason likhein:"
+                        );
+
+                        if(reason===null){
+                            return;
+                        }
+
+                        rejectReturnButton.disabled=true;
+                        acceptReturnButton.disabled=true;
+
+                        rejectReturnButton.textContent=
+                        "⏳ Saving...";
+
+                        try{
+
+                            await setDoc(
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+                                {
+                                    returnStatus:"Rejected",
+                                    returnRejectedAt:new Date(),
+                                    returnRejectReason:
+                                    reason.trim()
+                                },
+                                {
+                                    merge:true
+                                }
+                            );
+
+                            returnMessage.textContent=
+                            "✅ Return rejected";
+
+                            returnMessage.style.color=
+                            "#a00000";
+
+                            setTimeout(
+                                function(){
+                                    loadOrders();
+                                    loadReturnRequests();
+                                },
+                                700
+                            );
+
+                        }
+
+                        catch(error){
+
+                            console.error(
+                                "Return reject error:",
+                                error
+                            );
+
+                            returnMessage.textContent=
+                            "❌ Return reject nahi hua";
+
+                            returnMessage.style.color=
+                            "#a00000";
+
+                            rejectReturnButton.disabled=false;
+                            acceptReturnButton.disabled=false;
+
+                            rejectReturnButton.textContent=
+                            "❌ Reject Return";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               DELETE ORDER
+            ================================================= */
+
+            const deleteOrderButton=
+            div.querySelector(
+                ".delete-order-btn"
+            );
+
+            const deleteMessage=
+            div.querySelector(
+                ".delete-message"
+            );
+
+
+            deleteOrderButton.addEventListener(
+                "click",
+                async function(){
+
+                    const customerName=
+                    data.customerName ||
+                    data.name ||
+                    "Customer";
+
+                    const confirmDelete=
+                    confirm(
+
+                        "⚠️ Kya aap is order ko Admin Panel se hide karna chahte hain?\n\n"+
+                        "Order ID: "+
+                        order.id+
+                        "\n"+
+                        "Customer: "+
+                        customerName+
+                        "\n\n"+
+                        "Order Admin Panel se remove ho jayega."
+
+                    );
+
+                    if(!confirmDelete){
+                        return;
+                    }
+
+                    deleteOrderButton.disabled=true;
+
+                    deleteOrderButton.textContent=
+                    "⏳ Deleting...";
+
+                    deleteMessage.textContent="";
+
+                    try{
+
+                        await setDoc(
+                            doc(
+                                db,
+                                "orders",
+                                order.id
+                            ),
+                            {
+                                adminDeleted:true,
+                                adminDeletedAt:new Date()
+                            },
+                            {
+                                merge:true
+                            }
+                        );
+
+                        deleteMessage.textContent=
+                        "✅ Order deleted";
+
+                        deleteMessage.style.color=
+                        "#16752b";
+
+                        div.remove();
+
+                    }
+
+                    catch(error){
+
+                        console.error(
+                            "Order delete error:",
+                            error
+                        );
+
+                        deleteMessage.textContent=
+                        "❌ Delete nahi hua";
+
+                        deleteMessage.style.color=
+                        "#a00000";
+
+                        alert(
+                            "❌ Delete nahi hua.\n\nFirebase Firestore Rules check karein."
+                        );
+
+                        deleteOrderButton.disabled=false;
+
+                        deleteOrderButton.textContent=
+                        "🗑️ Delete Order From Admin Panel";
+
+                    }
+
+                }
+            );
+
+
+            ordersList.appendChild(div);
+
+        });
+
+
+        if(visibleOrders===0){
+
+            ordersList.innerHTML=`
+
+                <div class="no-orders">
+                    Abhi koi active order nahi hai.
+                </div>
+
+            `;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Orders error:",
+            error
+        );
+
+        ordersList.innerHTML=`
+
+            <div class="no-orders">
+
+                ❌ Orders load nahi ho pa rahe.
+
+                <br><br>
+
+                Firebase Firestore Rules check karein.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD RETURN REQUESTS
+===================================================== */
+
+async function loadReturnRequests(){
+
+    const list=
+    document.getElementById(
+        "returnRequestsList"
+    );
+
+    const count=
+    document.getElementById(
+        "returnRequestsCount"
+    );
+
+    list.innerHTML=`
+
+        <div class="return-request-list-empty">
+            ⏳ Return requests loading...
+        </div>
+
+    `;
+
+    try{
+
+        const snapshot=
+        await getDocs(
+            collection(
+                db,
+                "orders"
+            )
+        );
+
+        list.innerHTML="";
+
+        let pendingCount=0;
+        let totalReturns=0;
+
+        snapshot.forEach(function(order){
+
+            const data=order.data();
+
+            if(data.adminDeleted===true){
+                return;
+            }
+
+            if(!data.returnStatus){
+                return;
+            }
+
+            totalReturns++;
+
+            if(data.returnStatus==="Pending"){
+                pendingCount++;
+            }
+
+            const div=
+            document.createElement("div");
+
+            div.className="order-item";
+
+            let orderDate=
+            "Date unavailable";
+
+            if(
+                data.createdAt &&
+                typeof data.createdAt.toDate==="function"
+            ){
+
+                orderDate=
+                data.createdAt
+                .toDate()
+                .toLocaleString("en-IN");
+
+            }
+
+            let requestDate="";
+
+            if(
+                data.returnRequestedAt &&
+                typeof data.returnRequestedAt.toDate==="function"
+            ){
+
+                requestDate=
+                data.returnRequestedAt
+                .toDate()
+                .toLocaleString("en-IN");
+
+            }
+
+            let statusClass=
+            "return-pending";
+
+            if(data.returnStatus==="Approved"){
+                statusClass="return-approved";
+            }
+
+            if(data.returnStatus==="Rejected"){
+                statusClass="return-rejected";
+            }
+
+            if(data.returnStatus==="Returned"){
+                statusClass="return-completed";
+            }
+
+            let itemsHTML="";
+
+            if(
+                Array.isArray(data.items) &&
+                data.items.length
+            ){
+
+                data.items.forEach(function(item){
+
+                    itemsHTML+=`
+
+                        <div class="order-product">
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.name||
+                                    "Product"
+                                )}
+                            </strong>
+
+                            <br>
+
+                            Size:
+                            ${escapeHTML(
+                                item.size||"-"
+                            )}
+
+                            |
+
+                            Qty:
+                            ${Number(
+                                item.quantity
+                            )||1}
+
+                        </div>
+
+                    `;
+
+                });
+
+            }
+
+            div.innerHTML=`
+
+                <div class="order-header">
+
+                    <div class="order-id">
+
+                        🧾 Order ID:
+                        ${escapeHTML(order.id)}
+
+                    </div>
+
+                    <div class="order-date">
+
+                        Order:
+                        ${escapeHTML(orderDate)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="customer-box">
+
+                    <strong>
+                        👤 Customer
+                    </strong>
+
+                    <br>
+
+                    Name:
+                    ${escapeHTML(
+                        data.customerName||
+                        data.name||
+                        "-"
+                    )}
+
+                    <br>
+
+                    Mobile:
+                    ${escapeHTML(
+                        data.customerPhone||
+                        data.phone||
+                        "-"
+                    )}
+
+                    <br>
+
+                    City:
+                    ${escapeHTML(
+                        data.customerCity||
+                        data.city||
+                        "-"
+                    )}
+
+                </div>
+
+
+                <div class="order-products">
+
+                    <strong>
+                        🔄 Returned Product(s)
+                    </strong>
+
+                    <br><br>
+
+                    ${itemsHTML}
+
+                </div>
+
+
+                <div class="return-section">
+
+                    <div class="return-title">
+                        🔄 Return Request
+                    </div>
+
+                    <div>
+
+                        Status:
+
+                        <span
+                            class="return-status ${statusClass}"
+                        >
+                            ${escapeHTML(
+                                data.returnStatus
+                            )}
+                        </span>
+
+                    </div>
+
+                    ${
+                        data.returnReason
+                        ?
+                        `
+                        <div class="return-reason">
+
+                            <strong>
+                                Customer Reason:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHTML(
+                                data.returnReason
+                            )}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${
+                        requestDate
+                        ?
+                        `
+                        <div class="return-request-time">
+
+                            Requested:
+                            ${escapeHTML(
+                                requestDate
+                            )}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${
+                        data.returnRejectReason
+                        ?
+                        `
+                        <div class="return-reason">
+
+                            <strong>
+                                Reject Reason:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHTML(
+                                data.returnRejectReason
+                            )}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+
+                    <div class="status-box">
+                        <span class="status-label">📌 Return Status:</span>
+                        <select class="status-select return-status-select">
+                            ${RETURN_STATUSES.map(function(status){
+                                return `<option value="${status}" ${status===data.returnStatus ? "selected" : ""}>${status}</option>`;
+                            }).join("")}
+                        </select>
+                        <button type="button" class="status-save-btn return-status-save-btn">💾 Save Return Status</button>
+                        <span class="status-message return-status-message"></span>
+                    </div>
+
+                    ${data.returnStatus==="Pending" ? `
+                    <div class="return-actions">
+                        <button type="button" class="return-accept-btn">✅ Accept Return</button>
+                        <button type="button" class="return-reject-btn">❌ Reject Return</button>
+                    </div>
+                    <div class="return-message"></div>
+                    ` : ""}
+
+                </div>
+
+            `;
+
+
+            const acceptBtn=
+            div.querySelector(
+                ".return-accept-btn"
+            );
+
+            const rejectBtn=
+            div.querySelector(
+                ".return-reject-btn"
+            );
+
+            const message=
+            div.querySelector(
+                ".return-message"
+            );
+
+            const returnStatusSelect=div.querySelector(".return-status-select");
+            const returnStatusSaveButton=div.querySelector(".return-status-save-btn");
+            const returnStatusMessage=div.querySelector(".return-status-message");
+
+            if(returnStatusSelect && returnStatusSaveButton){
+                returnStatusSaveButton.addEventListener("click",async function(){
+                    const newStatus=returnStatusSelect.value;
+                    returnStatusSaveButton.disabled=true;
+                    returnStatusSaveButton.textContent="⏳ Saving...";
+                    returnStatusMessage.textContent="";
+                    try{
+                        await setDoc(doc(db,"orders",order.id),{
+                            returnStatus:newStatus,
+                            returnStatusUpdatedAt:new Date()
+                        },{merge:true});
+                        returnStatusMessage.textContent="✅ Return status saved";
+                        returnStatusMessage.style.color="#16752b";
+                        setTimeout(function(){ loadOrders(); loadReturnRequests(); },500);
+                    }catch(error){
+                        console.error(error);
+                        returnStatusMessage.textContent="❌ Save nahi hua";
+                        returnStatusMessage.style.color="#a00000";
+                        alert("Return status update nahi hua. Firebase Firestore Rules check karein.");
+                    }finally{
+                        returnStatusSaveButton.disabled=false;
+                        returnStatusSaveButton.textContent="💾 Save Return Status";
+                    }
+                });
+            }
+
+
+            if(acceptBtn){
+
+                acceptBtn.addEventListener(
+                    "click",
+                    async function(){
+
+                        if(
+                            !confirm(
+                                "Customer ka return Accept karna hai?"
+                            )
+                        ){
+                            return;
+                        }
+
+                        acceptBtn.disabled=true;
+                        rejectBtn.disabled=true;
+
+                        acceptBtn.textContent=
+                        "⏳ Saving...";
+
+                        try{
+
+                            await setDoc(
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+                                {
+                                    returnStatus:"Approved",
+                                    returnApprovedAt:new Date()
+                                },
+                                {
+                                    merge:true
+                                }
+                            );
+
+                            message.textContent=
+                            "✅ Return Accepted";
+
+                            message.style.color=
+                            "#16752b";
+
+                            loadOrders();
+                            loadReturnRequests();
+
+                        }
+
+                        catch(error){
+
+                            console.error(error);
+
+                            message.textContent=
+                            "❌ Return accept nahi hua";
+
+                            message.style.color=
+                            "#a00000";
+
+                            acceptBtn.disabled=false;
+                            rejectBtn.disabled=false;
+
+                            acceptBtn.textContent=
+                            "✅ Accept Return";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if(rejectBtn){
+
+                rejectBtn.addEventListener(
+                    "click",
+                    async function(){
+
+                        const reason=
+                        prompt(
+                            "Return reject karne ka reason likhein:"
+                        );
+
+                        if(reason===null){
+                            return;
+                        }
+
+                        acceptBtn.disabled=true;
+                        rejectBtn.disabled=true;
+
+                        rejectBtn.textContent=
+                        "⏳ Saving...";
+
+                        try{
+
+                            await setDoc(
+                                doc(
+                                    db,
+                                    "orders",
+                                    order.id
+                                ),
+                                {
+                                    returnStatus:"Rejected",
+                                    returnRejectedAt:new Date(),
+                                    returnRejectReason:
+                                    reason.trim()
+                                },
+                                {
+                                    merge:true
+                                }
+                            );
+
+                            message.textContent=
+                            "❌ Return Rejected";
+
+                            message.style.color=
+                            "#a00000";
+
+                            loadOrders();
+                            loadReturnRequests();
+
+                        }
+
+                        catch(error){
+
+                            console.error(error);
+
+                            message.textContent=
+                            "❌ Return reject nahi hua";
+
+                            message.style.color=
+                            "#a00000";
+
+                            acceptBtn.disabled=false;
+                            rejectBtn.disabled=false;
+
+                            rejectBtn.textContent=
+                            "❌ Reject Return";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            list.appendChild(div);
+
+        });
+
+
+        count.textContent=
+        pendingCount;
+
+
+        if(totalReturns===0){
+
+            list.innerHTML=`
+
+                <div class="return-request-list-empty">
+
+                    ✅ Abhi koi return request nahi hai.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Return requests error:",
+            error
+        );
+
+        list.innerHTML=`
+
+            <div class="return-request-list-empty">
+
+                ❌ Return requests load nahi ho pa rahi hain.
+
+                <br><br>
+
+                Firebase Firestore Rules check karein.
+
+            </div>
+
+        `;
+
+        count.textContent="0";
+
+    }
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    const div=
+    document.createElement("div");
+
+    div.textContent=
+    String(value??"");
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   REFRESH PRODUCTS
+===================================================== */
+
+document
+.getElementById("refreshProductsButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+
+        button.textContent=
+        "⏳ Refreshing...";
+
+        try{
+
+            await loadProducts();
+
+        }
+
+        finally{
+
+            button.disabled=false;
+
+            button.textContent=
+            "🔄 Refresh Products";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REFRESH ORDERS
+===================================================== */
+
+document
+.getElementById("refreshOrdersButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+
+        button.textContent=
+        "⏳ Refreshing...";
+
+        try{
+
+            await loadOrders();
+
+        }
+
+        finally{
+
+            button.disabled=false;
+
+            button.textContent=
+            "🔄 Refresh Orders";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REFRESH RETURNS
+===================================================== */
+
+document
+.getElementById("refreshReturnsButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        const button=this;
+
+        button.disabled=true;
+
+        button.textContent=
+        "⏳ Refreshing...";
+
+        try{
+
+            await loadReturnRequests();
+
+        }
+
+        finally{
+
+            button.disabled=false;
+
+            button.textContent=
+            "🔄 Refresh Return Requests";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOAD CUSTOMER REVIEWS
+===================================================== */
+async function loadReviews(){
+    const list=document.getElementById("reviewsList");
+    if(!list) return;
+    list.innerHTML='<div class="return-request-list-empty">⏳ Reviews loading...</div>';
+    try{
+        const snapshot=await getDocs(collection(db,"reviews"));
+        list.innerHTML="";
+        let total=0;
+        snapshot.forEach(function(reviewDoc){
+            const data=reviewDoc.data();
+            if(data.adminDeleted===true) return;
+            total++;
+
+            const card=document.createElement("div");
+            card.className="review-card";
+            const rating=Math.max(1,Math.min(5,Number(data.rating)||1));
+            const stars="★".repeat(rating)+"☆".repeat(5-rating);
+            let date="";
+            if(data.createdAt && typeof data.createdAt.toDate==="function"){
+                date=data.createdAt.toDate().toLocaleString("en-IN");
+            }
+            const image=data.imageUrl||data.productImage||"";
+            const isPublic=data.public!==false && data.hidden!==true;
+
+            card.innerHTML=`
+                ${image ? `<img src="${escapeHTML(image)}" alt="Product" style="width:70px;height:70px;object-fit:cover;border-radius:8px;margin-bottom:8px;">` : ""}
+                <div class="review-product">${escapeHTML(data.productName||data.product||"Product")}</div>
+                <div class="review-stars">${stars}</div>
+                <div class="review-meta">
+                    👤 ${escapeHTML(data.customerName||"Customer")}<br>
+                    📱 ${escapeHTML(data.customerPhone||data.phone||"-")}<br>
+                    🧾 Order ID: ${escapeHTML(data.orderId||"-")}
+                    ${date ? `<br>🕒 ${escapeHTML(date)}` : ""}
+                </div>
+                <div class="review-text">${escapeHTML(data.text||data.reviewText||data.comment||"")}</div>
+                <div class="review-actions">
+                    <button class="review-public-btn ${isPublic ? "" : "review-hidden-btn"}" type="button">
+                        ${isPublic ? "👁️ Public" : "🙈 Hidden"}
+                    </button>
+                    <button class="review-delete-btn" type="button">🗑️ Delete Review</button>
+                </div>
+            `;
+
+            const publicButton=card.querySelector(".review-public-btn");
+            publicButton.addEventListener("click",async function(){
+                const newPublic=!isPublic;
+                publicButton.disabled=true;
+                publicButton.textContent="⏳ Saving...";
+                try{
+                    await setDoc(
+                        doc(db,"reviews",reviewDoc.id),
+                        {public:newPublic,hidden:!newPublic,updatedAt:new Date()},
+                        {merge:true}
+                    );
+                    await loadReviews();
+                }catch(error){
+                    console.error(error);
+                    publicButton.disabled=false;
+                    publicButton.textContent=isPublic ? "👁️ Public" : "🙈 Hidden";
+                    alert("Review visibility update nahi hui. Firebase Firestore Rules check karein.");
+                }
+            });
+
+            card.querySelector(".review-delete-btn").addEventListener("click",async function(){
+                if(!confirm("Kya aap ye customer review delete karna chahte hain?")) return;
+                try{
+                    await setDoc(
+                        doc(db,"reviews",reviewDoc.id),
+                        {adminDeleted:true,deletedAt:new Date()},
+                        {merge:true}
+                    );
+                    card.remove();
+                    if(!list.querySelector(".review-card")){
+                        list.innerHTML='<div class="return-request-list-empty">⭐ Abhi koi customer review nahi hai.</div>';
+                    }
+                }catch(error){
+                    console.error(error);
+                    alert("Review delete nahi hua. Firebase Firestore Rules check karein.");
+                }
+            });
+            list.appendChild(card);
+        });
+        if(!total){
+            list.innerHTML='<div class="return-request-list-empty">⭐ Abhi koi customer review nahi hai.</div>';
+        }
+    }catch(error){
+        console.error("Reviews error:",error);
+        list.innerHTML='<div class="return-request-list-empty">❌ Reviews load nahi ho pa rahe hain. Firebase Firestore Rules check karein.</div>';
+    }
+}
+
+document.getElementById("refreshReviewsButton")?.addEventListener("click",async function(){
+    const button=this;
+    button.disabled=true;
+    button.textContent="⏳ Refreshing...";
+    try{await loadReviews();}
+    finally{
+        button.disabled=false;
+        button.textContent="🔄 Refresh Reviews";
+    }
+});
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutButton")
+.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            await signOut(auth);
+
+            window.location.href=
+            "admin.html";
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            alert(
+                "Logout nahi ho paya."
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+function getErrorMessage(code){
+
+    if(
+        code===
+        "auth/invalid-credential"
+    ){
+
+        return
+        "Password galat hai ya admin account nahi mila.";
+
+    }
+
+    if(
+        code===
+        "auth/user-not-found"
+    ){
+
+        return
+        "Admin account nahi mila.";
+
+    }
+
+    if(
+        code===
+        "auth/wrong-password"
+    ){
+
+        return
+        "Password galat hai.";
+
+    }
+
+    if(
+        code===
+        "auth/invalid-email"
+    ){
+
+        return
+        "Admin email galat hai.";
+
+    }
+
+    if(
+        code===
+        "auth/too-many-requests"
+    ){
+
+        return
+        "Bahut baar try hua. Thodi der baad try karein.";
+
+    }
+
+    if(
+        code===
+        "auth/network-request-failed"
+    ){
+
+        return
+        "Internet connection check karein.";
+
+    }
+
+    return
+    "Login nahi hua. Dobara try karein.";
+
+}
+
+
+console.log(
+    "✅ Sweety Masala Admin Panel loaded."
+);
+
+</script>
+
+</body>
+</html>

@@ -85,7 +85,7 @@ header h1{margin-bottom:5px}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {getFirestore,collection,addDoc,serverTimestamp,doc,getDoc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getAuth,signInAnonymously,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
@@ -169,6 +169,38 @@ orderTotal.textContent=Math.round(total);
 function clearMessages(){errorMessage.style.display="none";loadingMessage.style.display="none"}
 function showError(message){clearMessages();errorMessage.textContent="❌ "+message;errorMessage.style.display="block"}
 
+async function ensureAuthUser(){
+if(auth.currentUser)return auth.currentUser;
+
+return await new Promise((resolve,reject)=>{
+let finished=false;
+
+const unsubscribe=onAuthStateChanged(auth,async user=>{
+if(finished)return;
+
+if(user){
+finished=true;
+unsubscribe();
+resolve(user);
+return;
+}
+
+try{
+const credential=await signInAnonymously(auth);
+if(finished)return;
+finished=true;
+unsubscribe();
+resolve(credential.user);
+}catch(error){
+if(finished)return;
+finished=true;
+unsubscribe();
+reject(error);
+}
+});
+});
+}
+
 async function placeOrder(){
 clearMessages();
 const name=$("customerName").value.trim(),phone=$("customerPhone").value.trim(),address=$("customerAddress").value.trim(),city=$("customerCity").value.trim(),pin=$("customerPin").value.trim();
@@ -184,8 +216,9 @@ placeOrderBtn.disabled=true;placeOrderBtn.textContent="⏳ Checking...";
 loadingMessage.textContent="⏳ Latest price aur stock check ho raha hai...";loadingMessage.style.display="block";
 
 try{
-const userCredential=await signInAnonymously(auth);
-const customerUid=userCredential.user.uid;
+const customerUser=await ensureAuthUser();
+const customerUid=customerUser.uid;
+
 const verifiedItems=[];
 for(const item of cart)verifiedItems.push(await getLatestProduct(item));
 
@@ -208,8 +241,17 @@ message+="\nTOTAL: ₹"+total;
 loadingMessage.textContent="⏳ Order save ho raha hai...";
 
 const orderRef=await addDoc(collection(db,"orders"),{
-customerName:name,customerPhone:phone,customerAddress:address,customerCity:city,customerPin:pin,
-paymentMethod:"Cash on Delivery",items:verifiedItems,total:total,status:"New",uid:customerUid,createdAt:serverTimestamp()
+customerName:name,
+customerPhone:phone,
+customerAddress:address,
+customerCity:city,
+customerPin:pin,
+paymentMethod:"Cash on Delivery",
+items:verifiedItems,
+total:total,
+status:"New",
+uid:customerUid,
+createdAt:serverTimestamp()
 });
 
 createdOrderId.textContent=orderRef.id;

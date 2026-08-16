@@ -149,7 +149,7 @@ Order place karne ke baad yahan aapka order automatically open ho jayega.
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getFirestore, doc, onSnapshot, addDoc, collection, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCl15UMUZUhnfAAHWjtyR52APgLTuVd7a0",
@@ -164,20 +164,6 @@ measurementId:"G-NQ82YZCKG3"
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 const auth=getAuth(app);
-
-/* =====================================================
-   FIREBASE AUTHENTICATION HELPER
-   - Existing logged-in customer/admin user ko preserve karta hai.
-   - Sirf tab Anonymous Auth use karta hai jab koi user logged in nahi hai.
-   ===================================================== */
-async function ensureAuthenticated(){
-    if(auth.currentUser){
-        return auth.currentUser;
-    }
-
-    const credential=await signInAnonymously(auth);
-    return credential.user;
-}
 
 const directTrackInfo=document.getElementById("directTrackInfo");
 const errorMessage=document.getElementById("errorMessage");
@@ -481,109 +467,120 @@ async function startOrderListener(orderId){
     stopOrderListener();
     clearMessages();
     orderResult.style.display="none";
-
     orderId=String(orderId||"").trim();
+
     if(!orderId){
         showError("Order ID available nahi hai.");
         return;
     }
 
     try{
-        /* Firestore listener lagane se pehle authentication ensure karo. */
-        await ensureAuthenticated();
-    }catch(authError){
-        console.error("TRACK AUTH ERROR:",authError);
-        showError("Firebase Authentication nahi ho pa rahi.");
-        return;
+        await ensureAuthUser();
+        showLoading("Aapka order realtime load ho raha hai...");
+
+        const orderRef=doc(db,"orders",orderId);
+
+        unsubscribeOrder=onSnapshot(orderRef,orderSnap=>{
+            if(!orderSnap.exists()){
+                stopOrderListener();
+                showError("Order nahi mila.");
+                return;
+            }
+
+            const data=orderSnap.data();
+            renderOrder(orderId,data);
+
+            if(directTrackInfo){
+                directTrackInfo.innerHTML="✅ Aapka order automatically load ho gaya hai. Status realtime update hoga.";
+            }
+        },error=>{
+            console.error("TRACK ORDER ERROR:",error);
+            stopOrderListener();
+
+            if(error && error.code==="permission-denied"){
+                showError("Order access denied hua. Ye order kisi doosre Firebase Auth UID se linked hai. Naye order ke liye same browser/account se Track Order kholein.");
+            }else{
+                showError("Order load nahi hua. Firebase Authentication/Firestore Rules check karein.");
+            }
+        });
+
+    }catch(error){
+        console.error("TRACK AUTH ERROR:",error);
+        showError("Firebase Authentication start nahi ho pa raha. Anonymous sign-in ON hai ya nahi check karein.");
+    }
+}
+
+async function ensureAuthUser(){
+    if(auth.currentUser){
+        return auth.currentUser;
     }
 
-    showLoading("Aapka order realtime load ho raha hai...");
-    const orderRef=doc(db,"orders",orderId);
-    unsubscribeOrder=onSnapshot(orderRef,orderSnap=>{
-        if(!orderSnap.exists()){
-            stopOrderListener();
-            showError("Order nahi mila.");
-            return;
-        }
-        const data=orderSnap.data();
-        renderOrder(orderId,data);
-        if(directTrackInfo) directTrackInfo.innerHTML="✅ Aapka order automatically load ho gaya hai. Status realtime update hoga.";
-    },error=>{
-        console.error("TRACK ORDER ERROR:",error);
-        stopOrderListener();
-        if(error?.code==="permission-denied"){
-            showError("Order access denied hua. Login/Auth UID aur Firestore Rules check karein.");
-        }else{
-            showError("Order load nahi hua. Firebase Authentication/Firestore Rules check karein.");
-        }
+    return await new Promise((resolve,reject)=>{
+        let settled=false;
+
+        const unsubscribe=onAuthStateChanged(auth,async user=>{
+            if(settled) return;
+
+            if(user){
+                settled=true;
+                unsubscribe();
+                resolve(user);
+                return;
+            }
+
+            try{
+                const credential=await signInAnonymously(auth);
+                if(settled) return;
+                settled=true;
+                unsubscribe();
+                resolve(credential.user);
+            }catch(error){
+                if(settled) return;
+                settled=true;
+                unsubscribe();
+                reject(error);
+            }
+        });
     });
 }
 
 async function findMyLatestOrder(){
     try{
         showLoading("🔐 Aapke account ko securely connect kiya ja raha hai...");
-
-        /* Existing Firebase user ko use karo.
-           Sirf signed-out customer ke liye Anonymous Auth. */
-        const user=await ensureAuthenticated();
+        const user=await ensureAuthUser();
         const uid=user.uid;
-
         const q=query(collection(db,"orders"),where("uid","==",uid));
         const snap=await getDocs(q);
-
         if(snap.empty){
-            /* Backward compatibility: old orders saved before UID system. */
+            // Backward compatibility: old orders saved before UID system.
             let oldId="";
             try{ oldId=String(localStorage.getItem("sweetyLastOrderId")||"").trim(); }catch(e){}
-
             if(oldId){
-                await startOrderListener(oldId);
+                startOrderListener(oldId);
                 return;
             }
-
             clearMessages();
             orderResult.style.display="none";
             if(directTrackInfo) directTrackInfo.innerHTML="ℹ️ Is browser mein abhi koi order nahi mila.<br><br>Pehle order place karein. Uske baad Track Your Order kholte hi aapka order automatically dikhega.";
             return;
         }
-
         const orders=snap.docs.map(d=>({id:d.id,data:d.data()}));
-
         orders.sort((a,b)=>{
             const ta=timestampDate(a.data.createdAt)?.getTime()||0;
             const tb=timestampDate(b.data.createdAt)?.getTime()||0;
             return tb-ta;
         });
-
         const latest=orders[0];
-
         try{ localStorage.setItem("sweetyLastOrderId",latest.id); }catch(e){}
-
-        await startOrderListener(latest.id);
-
+        startOrderListener(latest.id);
     }catch(error){
         console.error("FIND MY ORDER ERROR:",error);
-
+        // If anonymous auth is unavailable, use the saved ID fallback.
         let oldId="";
         try{ oldId=String(localStorage.getItem("sweetyLastOrderId")||"").trim(); }catch(e){}
-
-        if(oldId){
-            try{
-                await ensureAuthenticated();
-                await startOrderListener(oldId);
-                return;
-            }catch(fallbackError){
-                console.error("ORDER FALLBACK ERROR:",fallbackError);
-            }
-        }
-
-        if(error?.code==="auth/operation-not-allowed"){
-            showError("Anonymous Authentication Firebase mein ON nahi hai.");
-            if(directTrackInfo) directTrackInfo.innerHTML="❌ Firebase Console → Authentication → Sign-in method → Anonymous ko ON karein.";
-        }else{
-            showError("Aapka order automatically nahi mil pa raha. Firebase Authentication aur Firestore Rules check karein.");
-            if(directTrackInfo) directTrackInfo.innerHTML="❌ Customer authentication nahi ho pa rahi. Firebase Authentication → Anonymous sign-in ON hona chahiye.";
-        }
+        if(oldId){ startOrderListener(oldId); return; }
+        showError("Aapka order automatically nahi mil pa raha. Firebase Authentication mein Anonymous sign-in enable karein.");
+        if(directTrackInfo) directTrackInfo.innerHTML="❌ Automatic order tracking ke liye Firebase Authentication → Anonymous sign-in ON karna zaroori hai.";
     }
 }
 
@@ -607,17 +604,9 @@ submitReturnButton.addEventListener("click",async function(){
     const reason=returnReason.value.trim(); if(!reason){ returnMessage.textContent="❌ Return ka reason likhein."; returnMessage.style.color="#a00000"; return; }
     submitReturnButton.disabled=true; submitReturnButton.textContent="⏳ Submitting...";
     try{
-        const user=await ensureAuthenticated();
-
-        await setDoc(doc(db,"orders",currentOrderId),{
-            returnStatus:"Pending",
-            returnReason:reason,
-            returnRequestedAt:new Date(),
-            returnRequestedBy:user.uid
-        },{merge:true});
-
+        const user=await ensureAuthUser();
+        await setDoc(doc(db,"orders",currentOrderId),{returnStatus:"Pending",returnReason:reason,returnRequestedAt:new Date(),returnRequestedBy:user.uid},{merge:true});
         currentOrderData.returnStatus="Pending";
-        currentOrderData.returnRequestedBy=user.uid;
         currentOrderData.returnReason=reason;
         renderReturnStatus(currentOrderData);
     }catch(error){ console.error("Return request error:",error); returnMessage.textContent="❌ Return request submit nahi hui. Firebase Firestore Rules check karein."; returnMessage.style.color="#a00000"; submitReturnButton.disabled=false; submitReturnButton.textContent="🔄 Submit Return Request"; }
@@ -635,16 +624,8 @@ const urlParams=new URLSearchParams(window.location.search);
 const urlOrderId=urlParams.get("orderId");
 
 if(urlOrderId){
-    (async function(){
-        try{
-            await ensureAuthenticated();
-            try{ localStorage.setItem("sweetyLastOrderId",urlOrderId); }catch(e){}
-            await startOrderListener(urlOrderId);
-        }catch(error){
-            console.error("DIRECT ORDER AUTH ERROR:",error);
-            showError("Order load nahi hua. Firebase Authentication check karein.");
-        }
-    })();
+    try{ localStorage.setItem("sweetyLastOrderId",urlOrderId); }catch(e){}
+    startOrderListener(urlOrderId);
 }else{
     findMyLatestOrder();
 }
